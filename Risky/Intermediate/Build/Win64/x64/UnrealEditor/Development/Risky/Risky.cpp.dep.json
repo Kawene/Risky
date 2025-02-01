@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\source\\risky\\risky.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\intermediate\\build\\win64\\x64\\riskyeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\risky\\definitions.risky.h",
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\source\\risky\\risky.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
