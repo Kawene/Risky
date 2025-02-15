@@ -263,10 +263,6 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClInclude Include="..\..\Source\Risky\Risky.h"/>
-    <ClCompile Include="..\..\Source\Risky\RiskyCharacter.cpp">
-      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-    <ClInclude Include="..\..\Source\Risky\RiskyCharacter.h"/>
     <ClCompile Include="..\..\Source\Risky\RiskyGameMode.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -275,9 +271,21 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClInclude Include="..\..\Source\Risky\RiskyPlayerController.h"/>
+    <ClCompile Include="..\..\Source\Risky\Private\AiCharacter.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Risky\Private\BaseCharacter.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Risky\Private\PlayerCharacter.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Risky\Private\Region.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClInclude Include="..\..\Source\Risky\Public\AiCharacter.h"/>
+    <ClInclude Include="..\..\Source\Risky\Public\BaseCharacter.h"/>
+    <ClInclude Include="..\..\Source\Risky\Public\PlayerCharacter.h"/>
     <ClInclude Include="..\..\Source\Risky\Public\Region.h"/>
   </ItemGroup>
   <PropertyGroup>

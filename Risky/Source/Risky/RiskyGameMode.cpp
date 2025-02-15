@@ -2,7 +2,6 @@
 
 #include "RiskyGameMode.h"
 #include "RiskyPlayerController.h"
-#include "RiskyCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ARiskyGameMode::ARiskyGameMode()

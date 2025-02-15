@@ -1,18 +1,19 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "RiskyCharacter.generated.h"
+#include "BaseCharacter.h"
+#include "PlayerCharacter.generated.h"
+
 
 UCLASS(Blueprintable)
-class ARiskyCharacter : public ACharacter
+class APlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 
 public:
-	ARiskyCharacter();
+	APlayerCharacter();
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
@@ -31,4 +32,3 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 };
-

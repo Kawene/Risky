@@ -1,0 +1,25 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\source\\risky\\private\\aicharacter.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\intermediate\\build\\win64\\x64\\riskyeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\risky\\definitions.risky.h",
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\source\\risky\\public\\aicharacter.h",
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\source\\risky\\public\\basecharacter.h",
+            "k:\\epic\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\gameframework\\character.h",
+            "k:\\epic\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\gameframework\\charactermovementreplication.h",
+            "k:\\epic\\ue_5.4\\engine\\source\\runtime\\experimental\\iris\\core\\public\\iris\\serialization\\irisobjectreferencepackagemap.h",
+            "k:\\epic\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\iriscore\\uht\\irisobjectreferencepackagemap.generated.h",
+            "k:\\epic\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\charactermovementreplication.generated.h",
+            "k:\\epic\\ue_5.4\\engine\\source\\runtime\\engine\\classes\\gameframework\\rootmotionsource.h",
+            "k:\\epic\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\rootmotionsource.generated.h",
+            "k:\\epic\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\character.generated.h",
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\intermediate\\build\\win64\\unrealeditor\\inc\\risky\\uht\\basecharacter.generated.h",
+            "c:\\users\\kevin\\documents\\unreal projects\\risky\\risky\\intermediate\\build\\win64\\unrealeditor\\inc\\risky\\uht\\aicharacter.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

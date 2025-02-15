@@ -1,10 +1,10 @@
-"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Source\Risky\RiskyCharacter.cpp"
+"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\UnrealEditor\Inc\Risky\UHT\PlayerCharacter.gen.cpp"
 /FI"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\RiskyEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.h"
 /FI"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\UnrealEditor\Development\Risky\Definitions.Risky.h"
 /Yu"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\RiskyEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.h"
 /Fp"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\RiskyEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.h.pch"
-/Fo"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\UnrealEditor\Development\Risky\RiskyCharacter.cpp.obj"
-/sourceDependencies "C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\UnrealEditor\Development\Risky\RiskyCharacter.cpp.dep.json"
+/Fo"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\UnrealEditor\Development\Risky\PlayerCharacter.gen.cpp.obj"
+/sourceDependencies "C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\UnrealEditor\Development\Risky\PlayerCharacter.gen.cpp.dep.json"
 @"C:\Users\Kevin\Documents\Unreal Projects\Risky\Risky\Intermediate\Build\Win64\x64\UnrealEditor\Development\Risky\Risky.Shared.rsp"
 /Zc:inline
 /nologo

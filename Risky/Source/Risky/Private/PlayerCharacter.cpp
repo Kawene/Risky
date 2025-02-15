@@ -1,6 +1,7 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "RiskyCharacter.h"
+
+#include "PlayerCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
@@ -11,7 +12,7 @@
 #include "Materials/Material.h"
 #include "Engine/World.h"
 
-ARiskyCharacter::ARiskyCharacter()
+APlayerCharacter::APlayerCharacter()
 {
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -46,7 +47,7 @@ ARiskyCharacter::ARiskyCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
-void ARiskyCharacter::Tick(float DeltaSeconds)
+void APlayerCharacter::Tick(float DeltaSeconds)
 {
-    Super::Tick(DeltaSeconds);
+	Super::Tick(DeltaSeconds);
 }

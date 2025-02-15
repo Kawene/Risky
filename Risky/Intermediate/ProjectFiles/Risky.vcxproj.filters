@@ -42,12 +42,6 @@
     <ClInclude Include="..\..\Source\Risky\Risky.h">
       <Filter>Source\Risky</Filter>
     </ClInclude>
-    <ClCompile Include="..\..\Source\Risky\RiskyCharacter.cpp">
-      <Filter>Source\Risky</Filter>
-    </ClCompile>
-    <ClInclude Include="..\..\Source\Risky\RiskyCharacter.h">
-      <Filter>Source\Risky</Filter>
-    </ClInclude>
     <ClCompile Include="..\..\Source\Risky\RiskyGameMode.cpp">
       <Filter>Source\Risky</Filter>
     </ClCompile>
@@ -63,12 +57,30 @@
     <Filter Include="Source\Risky\Private">
       <UniqueIdentifier>{F8D8E08D-3505-31EB-9183-C55410B1A02B}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\Risky\Private\AiCharacter.cpp">
+      <Filter>Source\Risky\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Risky\Private\BaseCharacter.cpp">
+      <Filter>Source\Risky\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Risky\Private\PlayerCharacter.cpp">
+      <Filter>Source\Risky\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Risky\Private\Region.cpp">
       <Filter>Source\Risky\Private</Filter>
     </ClCompile>
     <Filter Include="Source\Risky\Public">
       <UniqueIdentifier>{7559B899-F467-3FE0-88BD-E1A589616F14}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\Risky\Public\AiCharacter.h">
+      <Filter>Source\Risky\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Risky\Public\BaseCharacter.h">
+      <Filter>Source\Risky\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Risky\Public\PlayerCharacter.h">
+      <Filter>Source\Risky\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Risky\Public\Region.h">
       <Filter>Source\Risky\Public</Filter>
     </ClInclude>

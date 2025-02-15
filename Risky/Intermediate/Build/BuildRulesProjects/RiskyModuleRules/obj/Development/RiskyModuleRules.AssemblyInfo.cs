@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RiskyModuleRules")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Development")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61d40a881f1cb28b5f1a6a79c65840b737a60e55")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c97ff29cb89c8646e2e1036a763b46fbe4efa62")]
 [assembly: System.Reflection.AssemblyProductAttribute("RiskyModuleRules")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RiskyModuleRules")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
