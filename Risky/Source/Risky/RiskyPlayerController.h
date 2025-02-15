@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
+#include "InputactionValue.h"
 #include "RiskyPlayerController.generated.h"
 
 /** Forward declaration to improve compiling times */
@@ -20,49 +21,34 @@ class ARiskyPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	ARiskyPlayerController();
 
-	/** Time Threshold to know if it was a short press */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	float ShortPressThreshold;
-
-	/** FX Class that we will spawn when clicking */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UNiagaraSystem* FXCursor;
-
-	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
 	
-	/** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	UInputAction* SetDestinationClickAction;
+	UInputAction* MovementInput;
 
-	/** Jump Input Action */
+	/** Jump Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	UInputAction* SetDestinationTouchAction;
+	UInputAction* SetDestinationTouchAction;*/
 
 protected:
-	/** True if the controlled character should navigate to the mouse cursor. */
-	uint32 bMoveToMouseCursor : 1;
 
 	virtual void SetupInputComponent() override;
 	
 	// To add mapping context
 	virtual void BeginPlay();
 
-	/** Input handlers for SetDestination action. */
-	void OnInputStarted();
-	void OnSetDestinationTriggered();
-	void OnSetDestinationReleased();
-	void OnTouchTriggered();
-	void OnTouchReleased();
+	UPROPERTY(EditAnywhere)
+	float speed = 1.0f;
 
-private:
-	FVector CachedDestination;
+	void Move(const FInputActionValue& Value);
 
-	bool bIsTouch; // Is it a touch device
-	float FollowTime; // For how long it has been pressed
 };
 
 
