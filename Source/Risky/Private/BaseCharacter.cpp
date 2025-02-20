@@ -32,6 +32,11 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
+void ABaseCharacter::FinishedCurrentPhase()
+{
+	TurnManager->ProceedToNextPhase();
+}
+
 void ABaseCharacter::StartDeploymentPhase()
 {
 }

@@ -74,7 +74,7 @@ void ATurnManager::ProceedToNextPhase()
 void ATurnManager::EndTurn()
 {
 	CurrentCharracterIndex = (CurrentCharracterIndex + 1) % Characters.Num();
-	//StartTurn();
+	StartTurn();
 }
 
 

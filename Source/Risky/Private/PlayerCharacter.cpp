@@ -11,6 +11,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "TurnManager.h"
+#include "MainUI.h"
+#include "Risky/RiskyPlayerController.h"
+#include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
@@ -40,6 +44,27 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (IsLocallyControlled() && PlayerHUDClass)
+	{
+		ARiskyPlayerController* controller = GetController<ARiskyPlayerController>();
+		check(controller);
+		PlayerHUD = CreateWidget<UMainUI>(controller, PlayerHUDClass);
+		check(PlayerHUD);
+		PlayerHUD->AddToPlayerScreen();
+		PlayerHUD->Player = this;
+	}
+}
+
+void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (PlayerHUD)
+	{
+		PlayerHUD->RemoveFromParent();
+		PlayerHUD = nullptr;
+	}
+
+	Super::EndPlay(EndPlayReason);
 }
 
 void APlayerCharacter::Tick(float DeltaSeconds)
@@ -50,17 +75,17 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 void APlayerCharacter::StartDeploymentPhase()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Start Deploy!!"));
-	TurnManager->ProceedToNextPhase();
+	PlayerHUD->InteractText->SetText(FText::FromString("Attack"));
 }
 
 void APlayerCharacter::StartAttackPhase()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Start Attack YAYTYT!!"));
-	TurnManager->ProceedToNextPhase();
+	PlayerHUD->InteractText->SetText(FText::FromString("Fortification"));
 }
 
 void APlayerCharacter::StartFortificationPhase()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Start Sleep bebe!!"));
-	TurnManager->ProceedToNextPhase();
+	PlayerHUD->InteractText->SetText(FText::FromString("End Turn"));
 }
