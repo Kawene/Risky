@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
+
+class ATurnManager;
+
 UCLASS()
 class RISKY_API ABaseCharacter : public ACharacter
 {
@@ -19,6 +22,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	ATurnManager* TurnManager;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -26,4 +31,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	virtual void StartDeploymentPhase();
+
+	virtual void StartAttackPhase();
+
+	virtual void StartFortificationPhase();
+
+	void TurnManagerRef(ATurnManager* tManager);
 };

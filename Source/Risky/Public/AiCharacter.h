@@ -13,5 +13,15 @@ UCLASS()
 class RISKY_API AAiCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+
+	AAiCharacter();
+
+	void StartDeploymentPhase() override;
+
+	void StartAttackPhase() override;
+
+	void StartFortificationPhase() override;
 	
 };

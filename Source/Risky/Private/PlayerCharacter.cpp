@@ -10,24 +10,14 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
+#include "TurnManager.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
 APlayerCharacter::APlayerCharacter()
 {
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-
-	// Don't rotate character to camera direction
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
-
-	// Configure character movement
-	/*
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
-	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
-	GetCharacterMovement()->bConstrainToPlane = true;
-	GetCharacterMovement()->bSnapToPlaneAtStart = true;*/
 
 	// Create a camera boom...
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -47,7 +37,30 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void APlayerCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+}
+
+void APlayerCharacter::StartDeploymentPhase()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Start Deploy!!"));
+	TurnManager->ProceedToNextPhase();
+}
+
+void APlayerCharacter::StartAttackPhase()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Start Attack YAYTYT!!"));
+	TurnManager->ProceedToNextPhase();
+}
+
+void APlayerCharacter::StartFortificationPhase()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Start Sleep bebe!!"));
+	TurnManager->ProceedToNextPhase();
 }

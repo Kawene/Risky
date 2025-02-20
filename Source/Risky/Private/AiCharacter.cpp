@@ -3,3 +3,18 @@
 
 #include "AiCharacter.h"
 
+AAiCharacter::AAiCharacter()
+{
+}
+
+void AAiCharacter::StartDeploymentPhase()
+{
+}
+
+void AAiCharacter::StartAttackPhase()
+{
+}
+
+void AAiCharacter::StartFortificationPhase()
+{
+}
