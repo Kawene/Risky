@@ -17,6 +17,7 @@
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "Region.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -88,4 +89,18 @@ void APlayerCharacter::StartFortificationPhase()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Start Sleep bebe!!"));
 	PlayerHUD->InteractText->SetText(FText::FromString("End Turn"));
+}
+
+void APlayerCharacter::SelectRegion(ARegion* regionSelected)
+{
+	if (regionSelected->GetRegionOwner() == this)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Selected Own region"));
+		OwnedSelectedRegion = regionSelected;
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Enemy detected"));
+		EnemySelectedRegion = regionSelected;
+	}
 }

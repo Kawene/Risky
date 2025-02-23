@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Region.generated.h"
+class UTextRenderComponent;
+class ABaseCharacter;
 
 UCLASS()
 class RISKY_API ARegion : public AActor
@@ -16,7 +18,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadWrite)
-	ACharacter* RegionOwner;
+	ABaseCharacter* RegionOwner;
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 UnitsInRegion;
@@ -24,7 +26,19 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TArray<ARegion*> BorderingRegions;
 
+	UFUNCTION()
+	void OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed);
+
 public:	
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* RegionMesh;
+
+	UPROPERTY(EditAnywhere)
+	UTextRenderComponent* RegionText;
+
+	UPROPERTY(EditInstanceOnly)
+	int OwnerIdStart;
 
 	ARegion();
 
@@ -35,13 +49,13 @@ public:
 	int32 GetUnits();
 
 	UFUNCTION(BlueprintCallable)
-	const ACharacter* GetRegionOwner();
+	const ABaseCharacter* GetRegionOwner();
 
 	UFUNCTION(BlueprintCallable)
 	const TArray<ARegion*>& GetBorderingRegions();
 
 	UFUNCTION(BlueprintCallable)
-	void ChangeOwnerShip(ACharacter* newOwner, int32 unitsAmount);
+	void ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount);
 
 	UFUNCTION(BlueprintCallable)
 	void DeployUnits(int32 unitsAmount);

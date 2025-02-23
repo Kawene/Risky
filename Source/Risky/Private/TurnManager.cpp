@@ -13,36 +13,14 @@ ATurnManager::ATurnManager()
 	CurrentPhase = EGamePhase::DeploymentPhase;
 }
 
-void ATurnManager::BeginPlay()
+void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 {
-	Super::BeginPlay();
+	Characters = (*allPlayers);
 
-
-	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ATurnManager::GatherCharacters, 0.5f, false);
-}
-
-void ATurnManager::GatherCharacters()
-{
-	TArray<AActor*> temp = TArray<AActor*>();
-
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABaseCharacter::StaticClass(), temp);
-
-	for (AActor* act : temp)
+	for (ABaseCharacter* character : Characters)
 	{
-		auto baseCharacter = StaticCast<ABaseCharacter*>(act);
-		baseCharacter->TurnManagerRef(this);
-		Characters.Push(StaticCast<ABaseCharacter*>(act));
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Found One"));
+		character->TurnManagerRef(this);
 	}
-
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Im alive"));
-}
-
-void ATurnManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ATurnManager::StartTurn()
@@ -76,5 +54,3 @@ void ATurnManager::EndTurn()
 	CurrentCharracterIndex = (CurrentCharracterIndex + 1) % Characters.Num();
 	StartTurn();
 }
-
-

@@ -23,6 +23,8 @@ class RISKY_API ATurnManager : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ATurnManager();
+	
+	void Initialize(TArray<ABaseCharacter*>* allPlayers);
 
 	UFUNCTION(BlueprintCallable)
 	void StartTurn();
@@ -33,10 +35,6 @@ public:
 	UFUNCTION()
 	void EndTurn();
 
-	virtual void Tick(float DeltaTime) override;
-
-
-
 private:	
 
 	UPROPERTY()
@@ -46,11 +44,5 @@ private:
 
 	UPROPERTY()
 	EGamePhase CurrentPhase;
-
-	void GatherCharacters();
-
-
-protected:
-	virtual void BeginPlay() override;
 
 };

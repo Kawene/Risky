@@ -29,6 +29,9 @@ public:
 
 	void StartFortificationPhase() override;
 
+	UFUNCTION()
+	void SelectRegion(ARegion* regionSelected);
+
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
@@ -48,5 +51,11 @@ private:
 
 	UPROPERTY()
 	class UMainUI* PlayerHUD;
+
+	UPROPERTY()
+	class ARegion* OwnedSelectedRegion;
+
+	UPROPERTY()
+	class ARegion* EnemySelectedRegion;
 
 };
