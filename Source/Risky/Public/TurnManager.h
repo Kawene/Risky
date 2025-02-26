@@ -4,16 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GamePhase.h"
 #include "TurnManager.generated.h"
 
 class ABaseCharacter;
-
-UENUM(BlueprintType)
-enum class EGamePhase : uint8 {
-	DeploymentPhase, 
-	AttackPhase,
-	FortificationPhase
-};
 
 UCLASS()
 class RISKY_API ATurnManager : public AActor

@@ -5,11 +5,40 @@
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "PlayerCharacter.h"
+#include "DeploymentUI.h"
+#include "AttackUI.h"
+#include "FortificationUI.h"
+#include "Risky/RiskyPlayerController.h"
 
 void UMainUI::NativeConstruct()
 {
 	Super::NativeConstruct();
 	InteractButton->OnClicked.AddDynamic(this, &UMainUI::OnButtonClick);
+}
+
+void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* controller)
+{
+	Player = player;
+	AddToPlayerScreen();
+	SetVisibility(ESlateVisibility::Hidden);
+
+	DeploymentDialog = CreateWidget<UDeploymentUI>(controller, DeploymentHUDClass);
+	DeploymentDialog->Player = player;
+	DeploymentDialog->AddToPlayerScreen();
+	DeploymentDialog->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UMainUI::ShowDeployUi()
+{
+	DeploymentDialog->ShowPopup(3);
+}
+
+void UMainUI::ShowAttackUi()
+{
+}
+
+void UMainUI::ShowFortificationUi()
+{
 }
 
 void UMainUI::OnButtonClick()

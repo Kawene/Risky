@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "BaseCharacter.h"
+#include "GamePhase.h"
 #include "PlayerCharacter.generated.h"
-
 
 UCLASS(Blueprintable)
 class APlayerCharacter : public ABaseCharacter
@@ -36,6 +36,10 @@ public:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	void DeployUnitsToSelectedRegion(int32 unitsToDeploy);
+
+	void FinishedCurrentPhase() override;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -57,5 +61,8 @@ private:
 
 	UPROPERTY()
 	class ARegion* EnemySelectedRegion;
+
+	UPROPERTY()
+	EGamePhase CurrentPhase;
 
 };

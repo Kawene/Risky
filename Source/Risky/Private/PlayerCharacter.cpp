@@ -18,6 +18,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Region.h"
+#include "Components/Button.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -40,6 +41,8 @@ APlayerCharacter::APlayerCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	CurrentPhase = EGamePhase::NotCurrentTurn;
 }
 
 void APlayerCharacter::BeginPlay()
@@ -51,9 +54,8 @@ void APlayerCharacter::BeginPlay()
 		ARiskyPlayerController* controller = GetController<ARiskyPlayerController>();
 		check(controller);
 		PlayerHUD = CreateWidget<UMainUI>(controller, PlayerHUDClass);
+		PlayerHUD->InitializeUI(this, controller);
 		check(PlayerHUD);
-		PlayerHUD->AddToPlayerScreen();
-		PlayerHUD->Player = this;
 	}
 }
 
@@ -68,6 +70,21 @@ void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
+void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
+{
+	OwnedSelectedRegion->DeployUnits(unitsToDeploy);
+}
+
+void APlayerCharacter::FinishedCurrentPhase()
+{
+	Super::FinishedCurrentPhase();
+
+	if (CurrentPhase == EGamePhase::FortificationPhase)
+	{
+		PlayerHUD->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
 void APlayerCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -75,19 +92,20 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 
 void APlayerCharacter::StartDeploymentPhase()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Start Deploy!!"));
+	CurrentPhase = EGamePhase::DeploymentPhase;
 	PlayerHUD->InteractText->SetText(FText::FromString("Attack"));
+	PlayerHUD->SetVisibility(ESlateVisibility::Visible);
 }
 
 void APlayerCharacter::StartAttackPhase()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Start Attack YAYTYT!!"));
+	CurrentPhase = EGamePhase::AttackPhase;
 	PlayerHUD->InteractText->SetText(FText::FromString("Fortification"));
 }
 
 void APlayerCharacter::StartFortificationPhase()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Start Sleep bebe!!"));
+	CurrentPhase = EGamePhase::FortificationPhase;
 	PlayerHUD->InteractText->SetText(FText::FromString("End Turn"));
 }
 
@@ -97,6 +115,24 @@ void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Selected Own region"));
 		OwnedSelectedRegion = regionSelected;
+
+		switch (CurrentPhase)
+		{
+		case EGamePhase::NotCurrentTurn:
+			break;
+		case EGamePhase::DeploymentPhase:
+			PlayerHUD->ShowDeployUi();
+			break;
+		case EGamePhase::AttackPhase:
+			PlayerHUD->ShowAttackUi();
+			break;
+		case EGamePhase::FortificationPhase:
+			PlayerHUD->ShowFortificationUi();
+			break;
+		default:
+			break;
+		}
+
 	}
 	else
 	{
