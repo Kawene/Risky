@@ -5,7 +5,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "Components/TextRenderComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "PlayerCharacter.h"
+#include "Character/PlayerCharacter.h"
 
 // Sets default values
 ARegion::ARegion()

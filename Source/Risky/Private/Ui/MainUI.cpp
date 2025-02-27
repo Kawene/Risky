@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MainUI.h"
+#include "Ui/MainUI.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "PlayerCharacter.h"
-#include "DeploymentUI.h"
-#include "AttackUI.h"
-#include "FortificationUI.h"
+#include "Character/PlayerCharacter.h"
+#include "Ui/DeploymentUI.h"
+#include "Ui/AttackUI.h"
+#include "Ui/FortificationUI.h"
 #include "Risky/RiskyPlayerController.h"
 
 void UMainUI::NativeConstruct()

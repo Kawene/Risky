@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "LevelSetup.h"
-#include "BaseCharacter.h"
-#include "AiCharacter.h"
+#include "Manager/LevelSetup.h"
+#include "Character/BaseCharacter.h"
+#include "Character/AiCharacter.h"
 #include "Region.h"
-#include "TurnManager.h"
+#include "Manager/TurnManager.h"
 #include "Kismet/GameplayStatics.h"
 
 ALevelSetup::ALevelSetup()

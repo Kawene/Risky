@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AiCharacter.h"
+#include "Character/AiCharacter.h"
 
 AAiCharacter::AAiCharacter()
 {

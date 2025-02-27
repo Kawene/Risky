@@ -21,6 +21,8 @@ class RISKY_API UDeploymentUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* DeployButtonText;
 
+
+
 	UFUNCTION()
 	void DeployUnits();
 

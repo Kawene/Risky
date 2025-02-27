@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TurnManager.h"
+#include "Manager/TurnManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
-#include "BaseCharacter.h"
+#include "Character/BaseCharacter.h"
 
 ATurnManager::ATurnManager()
 {

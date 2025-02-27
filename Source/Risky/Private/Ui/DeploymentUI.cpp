@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "DeploymentUI.h"
+#include "Ui/DeploymentUI.h"
 #include "Components/TextBlock.h"	
 #include "Components/Slider.h"	
 #include "Components/Button.h"	
-#include "PlayerCharacter.h"
+#include "Character/PlayerCharacter.h"
 
 
 void UDeploymentUI::NativeConstruct()
