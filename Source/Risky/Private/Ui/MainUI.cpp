@@ -22,15 +22,17 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	AddToPlayerScreen();
 	SetVisibility(ESlateVisibility::Hidden);
 
+	Player->ChangeGamePhase.BindUObject(this, &UMainUI::OnGamePhaseChange);
+
 	DeploymentDialog = CreateWidget<UDeploymentUI>(controller, DeploymentHUDClass);
 	DeploymentDialog->Player = player;
 	DeploymentDialog->AddToPlayerScreen();
 	DeploymentDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UMainUI::ShowDeployUi()
+void UMainUI::ShowDeployUi(int32 maxUnit)
 {
-	DeploymentDialog->ShowPopup(3);
+	DeploymentDialog->ShowPopup(maxUnit);
 }
 
 void UMainUI::ShowAttackUi()
@@ -44,4 +46,24 @@ void UMainUI::ShowFortificationUi()
 void UMainUI::OnButtonClick()
 {
 	Player->FinishedCurrentPhase();
+}
+
+void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
+{
+	switch (gamePhase)
+	{
+	case EGamePhase::DeploymentPhase:	
+		InteractText->SetText(FText::FromString("Attack"));
+		SetVisibility(ESlateVisibility::Visible);
+		break;
+	case EGamePhase::AttackPhase:
+		InteractText->SetText(FText::FromString("Fortification"));
+		break;
+	case EGamePhase::FortificationPhase:
+		InteractText->SetText(FText::FromString("End Turn"));
+		break;
+	case EGamePhase::NotCurrentTurn:
+		SetVisibility(ESlateVisibility::Hidden);
+		break;
+	}
 }

@@ -7,7 +7,7 @@ AAiCharacter::AAiCharacter()
 {
 }
 
-void AAiCharacter::StartDeploymentPhase()
+void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 {
 }
 

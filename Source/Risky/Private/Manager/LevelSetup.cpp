@@ -31,16 +31,16 @@ void ALevelSetup::InitializeLevel()
 		allPlayers.Add(ai);
 	}
 
-	auto turnManager = GetWorld()->SpawnActor<ATurnManager>(ATurnManager::StaticClass());
-	turnManager->Initialize(&allPlayers);
-
 	TArray<AActor*> allRegions;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARegion::StaticClass(), allRegions);
 
-	for (auto actor : allRegions)
+	for (AActor* actor : allRegions)
 	{
 		ARegion* region = StaticCast<ARegion*>(actor);
 		region->ChangeOwnerShip(allPlayers[region->OwnerIdStart], 0);
 	}
+
+	auto turnManager = GetWorld()->SpawnActor<ATurnManager>(ATurnManager::StaticClass());
+	turnManager->Initialize(&allPlayers);
 
 }

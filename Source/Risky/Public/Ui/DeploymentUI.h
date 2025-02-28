@@ -21,10 +21,19 @@ class RISKY_API UDeploymentUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* DeployButtonText;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* CloseButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* CloseButtonText;
+
 
 
 	UFUNCTION()
 	void DeployUnits();
+
+	UFUNCTION()
+	void ClosePopup();
 
 protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

@@ -7,6 +7,8 @@
 #include "GamePhase.h"
 #include "PlayerCharacter.generated.h"
 
+DECLARE_DELEGATE_OneParam(FChangeGamePhase, EGamePhase);
+
 UCLASS(Blueprintable)
 class APlayerCharacter : public ABaseCharacter
 {
@@ -15,15 +17,12 @@ class APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 
-	// Called every frame.
-	virtual void Tick(float DeltaSeconds) override;
-
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	void StartDeploymentPhase() override;
+	void StartDeploymentPhase(int32 unitsToDeploy) override;
 
 	void StartAttackPhase() override;
 
@@ -39,6 +38,8 @@ public:
 	void DeployUnitsToSelectedRegion(int32 unitsToDeploy);
 
 	void FinishedCurrentPhase() override;
+
+	FChangeGamePhase ChangeGamePhase;
 
 private:
 	/** Top down camera */

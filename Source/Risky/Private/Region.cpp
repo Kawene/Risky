@@ -19,11 +19,6 @@ ARegion::ARegion()
 	RegionText->SetupAttachment(RegionMesh);
 }
 
-// Called when the game starts or when spawned
-void ARegion::BeginPlay()
-{
-	Super::BeginPlay();
-}
 
 void ARegion::OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed)
 {
@@ -31,12 +26,6 @@ void ARegion::OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey Butto
 	player->SelectRegion(this);
 }
 
-// Called every frame
-void ARegion::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 
 int32 ARegion::GetUnits()
 {
@@ -68,7 +57,14 @@ void ARegion::DecreaseUnitCount(int32 unitsRemoved)
 
 void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 {
+	if (RegionOwner)
+	{
+		RegionOwner->RegionsOwned.Remove(this);
+	}
+
+	newOwner->RegionsOwned.Add(this);
 	RegionOwner = newOwner;
+
 	UnitsInRegion = unitsAmount;
 	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 }

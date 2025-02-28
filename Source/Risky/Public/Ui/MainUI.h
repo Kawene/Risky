@@ -1,9 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "GamePhase.h"
 #include "MainUI.generated.h"
 
 class ARiskyPlayerController;
@@ -27,7 +26,7 @@ public:
 
 	APlayerCharacter* Player;
 
-	void ShowDeployUi();
+	void ShowDeployUi(int32 maxUnit);
 
 	void ShowAttackUi();
 
@@ -36,6 +35,9 @@ public:
 private:
 	UFUNCTION()
 	void OnButtonClick();
+
+	UFUNCTION()
+	void OnGamePhaseChange(EGamePhase gamePhase);
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UDeploymentUI> DeploymentHUDClass;

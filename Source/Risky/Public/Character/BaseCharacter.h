@@ -14,10 +14,6 @@ class RISKY_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
-	ABaseCharacter();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -25,19 +21,18 @@ protected:
 	ATurnManager* TurnManager;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 	virtual void FinishedCurrentPhase();
 
-	virtual void StartDeploymentPhase();
+	virtual void StartDeploymentPhase(int32 unitsToDeploy);
 
 	virtual void StartAttackPhase();
 
 	virtual void StartFortificationPhase();
 
 	void TurnManagerRef(ATurnManager* tManager);
+
+	TArray<class ARegion*> RegionsOwned;
+
+	int32 CurrentUnitsToDeploy;
+
 };

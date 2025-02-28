@@ -14,8 +14,6 @@ class RISKY_API ARegion : public AActor
 	GENERATED_BODY()
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadWrite)
 	ABaseCharacter* RegionOwner;
@@ -41,9 +39,6 @@ public:
 	int OwnerIdStart;
 
 	ARegion();
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetUnits();

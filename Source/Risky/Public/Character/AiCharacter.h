@@ -18,7 +18,7 @@ public:
 
 	AAiCharacter();
 
-	void StartDeploymentPhase() override;
+	void StartDeploymentPhase(int32 unitsToDeploy) override;
 
 	void StartAttackPhase() override;
 

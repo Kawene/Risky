@@ -26,7 +26,12 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 void ATurnManager::StartTurn()
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
-	Characters[CurrentCharracterIndex]->StartDeploymentPhase();
+	Characters[CurrentCharracterIndex]->
+		StartDeploymentPhase(
+			GetsNumberOfUnitsToDeploy(
+				Characters[CurrentCharracterIndex]
+			)
+		);
 }
 
 void ATurnManager::ProceedToNextPhase()
@@ -53,4 +58,9 @@ void ATurnManager::EndTurn()
 {
 	CurrentCharracterIndex = (CurrentCharracterIndex + 1) % Characters.Num();
 	StartTurn();
+}
+
+int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
+{
+	return character->RegionsOwned.Num();
 }

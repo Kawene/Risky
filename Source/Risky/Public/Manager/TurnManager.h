@@ -26,9 +26,6 @@ public:
 	UFUNCTION()
 	void ProceedToNextPhase();
 
-	UFUNCTION()
-	void EndTurn();
-
 private:	
 
 	UPROPERTY()
@@ -38,5 +35,11 @@ private:
 
 	UPROPERTY()
 	EGamePhase CurrentPhase;
+
+	UFUNCTION()
+	void EndTurn();
+
+	UFUNCTION()
+	int32 GetsNumberOfUnitsToDeploy(ABaseCharacter* character);
 
 };

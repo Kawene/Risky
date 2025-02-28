@@ -2,23 +2,17 @@
 
 
 #include "Character/PlayerCharacter.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Camera/CameraComponent.h"
-#include "Components/DecalComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
+
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Materials/Material.h"
+
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+
+#include "Risky/RiskyPlayerController.h"
 #include "Manager/TurnManager.h"
 #include "Ui/MainUI.h"
-#include "Risky/RiskyPlayerController.h"
-#include "Blueprint/UserWidget.h"
-#include "Components/TextBlock.h"
-#include "Kismet/GameplayStatics.h"
-#include "Engine/World.h"
 #include "Region.h"
-#include "Components/Button.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -72,7 +66,15 @@ void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 {
-	OwnedSelectedRegion->DeployUnits(unitsToDeploy);
+	if (CurrentUnitsToDeploy >= unitsToDeploy)
+	{
+		CurrentUnitsToDeploy -= unitsToDeploy;
+		OwnedSelectedRegion->DeployUnits(unitsToDeploy);
+		if (CurrentUnitsToDeploy == 0)
+		{
+			FinishedCurrentPhase();
+		}
+	}
 }
 
 void APlayerCharacter::FinishedCurrentPhase()
@@ -81,32 +83,28 @@ void APlayerCharacter::FinishedCurrentPhase()
 
 	if (CurrentPhase == EGamePhase::FortificationPhase)
 	{
-		PlayerHUD->SetVisibility(ESlateVisibility::Hidden);
+		CurrentPhase = EGamePhase::NotCurrentTurn;
+		ChangeGamePhase.Execute(CurrentPhase);
 	}
 }
 
-void APlayerCharacter::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-}
-
-void APlayerCharacter::StartDeploymentPhase()
+void APlayerCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
-	PlayerHUD->InteractText->SetText(FText::FromString("Attack"));
-	PlayerHUD->SetVisibility(ESlateVisibility::Visible);
+	CurrentUnitsToDeploy = unitsToDeploy;
+	ChangeGamePhase.Execute(CurrentPhase);
 }
 
 void APlayerCharacter::StartAttackPhase()
 {
 	CurrentPhase = EGamePhase::AttackPhase;
-	PlayerHUD->InteractText->SetText(FText::FromString("Fortification"));
+	ChangeGamePhase.Execute(CurrentPhase);
 }
 
 void APlayerCharacter::StartFortificationPhase()
 {
 	CurrentPhase = EGamePhase::FortificationPhase;
-	PlayerHUD->InteractText->SetText(FText::FromString("End Turn"));
+	ChangeGamePhase.Execute(CurrentPhase);
 }
 
 void APlayerCharacter::SelectRegion(ARegion* regionSelected)
@@ -121,7 +119,7 @@ void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 		case EGamePhase::NotCurrentTurn:
 			break;
 		case EGamePhase::DeploymentPhase:
-			PlayerHUD->ShowDeployUi();
+			PlayerHUD->ShowDeployUi(CurrentUnitsToDeploy);
 			break;
 		case EGamePhase::AttackPhase:
 			PlayerHUD->ShowAttackUi();

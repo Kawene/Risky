@@ -12,11 +12,17 @@ void UDeploymentUI::NativeConstruct()
 {
 	Super::NativeConstruct();
 	DeployButton->OnClicked.AddDynamic(this, &UDeploymentUI::DeployUnits);
+	CloseButton->OnClicked.AddDynamic(this, &UDeploymentUI::ClosePopup);
 }
 
 void UDeploymentUI::DeployUnits()
 {
 	Player->DeployUnitsToSelectedRegion(SliderUnits->Value);
+	ClosePopup();
+}
+
+void UDeploymentUI::ClosePopup()
+{
 	SetVisibility(ESlateVisibility::Collapsed);
 }
 
