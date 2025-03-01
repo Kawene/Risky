@@ -5,9 +5,8 @@
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Character/PlayerCharacter.h"
-#include "Ui/DeploymentUI.h"
+#include "Ui/UnitsDialogUI.h"
 #include "Ui/AttackUI.h"
-#include "Ui/FortificationUI.h"
 #include "Risky/RiskyPlayerController.h"
 
 void UMainUI::NativeConstruct()
@@ -24,10 +23,10 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 
 	Player->ChangeGamePhase.BindUObject(this, &UMainUI::OnGamePhaseChange);
 
-	DeploymentDialog = CreateWidget<UDeploymentUI>(controller, DeploymentHUDClass);
-	DeploymentDialog->Player = player;
-	DeploymentDialog->AddToPlayerScreen();
-	DeploymentDialog->SetVisibility(ESlateVisibility::Hidden);
+	UnitsDialog = CreateWidget<UUnitsDialogUI>(controller, UnitsHUDClass);
+	UnitsDialog->Player = player;
+	UnitsDialog->AddToPlayerScreen();
+	UnitsDialog->SetVisibility(ESlateVisibility::Hidden);
 
 	AttackDialog = CreateWidget<UAttackUI>(controller, AttackHUDClass);
 	AttackDialog->Player = player;
@@ -35,18 +34,14 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	AttackDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UMainUI::ShowDeployUi(int32 maxUnit)
+void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
 {
-	DeploymentDialog->ShowPopup(maxUnit);
+	UnitsDialog->ShowPopup(maxUnit, textButton);
 }
 
 void UMainUI::ShowAttackUi(ARegion* region)
 {
 	AttackDialog->ShowPopup(region);
-}
-
-void UMainUI::ShowFortificationUi()
-{
 }
 
 void UMainUI::OnButtonClick()

@@ -69,7 +69,7 @@ void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 	if (CurrentUnitsToDeploy >= unitsToDeploy)
 	{
 		CurrentUnitsToDeploy -= unitsToDeploy;
-		OwnedSelectedRegion->DeployUnits(unitsToDeploy);
+		FirstSelectedRegion->DeployUnits(unitsToDeploy);
 		if (CurrentUnitsToDeploy == 0)
 		{
 			FinishedCurrentPhase();
@@ -79,92 +79,117 @@ void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 
 void APlayerCharacter::AttackSelectedRegion(int32 attackerAmount)
 {
-	if (OwnedSelectedRegion && EnemySelectedRegion)
+	if (FirstSelectedRegion && SecondSelectedRegion)
 	{
-		bool regionCaptured = Super::CombatRegion(OwnedSelectedRegion, EnemySelectedRegion, attackerAmount);
+		bool regionCaptured = Super::CombatRegion(FirstSelectedRegion, SecondSelectedRegion, attackerAmount);
 		AttackStep.Execute(regionCaptured);
 	}
 }
 
 void APlayerCharacter::FinishedCurrentPhase()
 {
-	Super::FinishedCurrentPhase();
-
 	if (CurrentPhase == EGamePhase::FortificationPhase)
 	{
 		CurrentPhase = EGamePhase::NotCurrentTurn;
 		ChangeGamePhase.Execute(CurrentPhase);
 	}
+	Super::FinishedCurrentPhase();
 }
 
 void APlayerCharacter::TransferAmount(int32 amount)
 {
-	TransferUnits(OwnedSelectedRegion, EnemySelectedRegion, amount);
-	EnemySelectedRegion = nullptr;
+	TransferUnits(FirstSelectedRegion, SecondSelectedRegion, amount);
+	SecondSelectedRegion = nullptr;
+}
+
+void APlayerCharacter::DialogAction(int32 units)
+{
+	switch (CurrentPhase)
+	{
+	case EGamePhase::DeploymentPhase:
+		DeployUnitsToSelectedRegion(units);
+		break;
+	case EGamePhase::AttackPhase:
+		break;
+	case EGamePhase::FortificationPhase:
+		TransferUnits(FirstSelectedRegion, SecondSelectedRegion, units);
+		break;
+	}
 }
 
 void APlayerCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
 	CurrentUnitsToDeploy = unitsToDeploy;
+	FirstSelectedRegion = nullptr;
+	SecondSelectedRegion = nullptr;
 	ChangeGamePhase.Execute(CurrentPhase);
 }
 
 void APlayerCharacter::StartAttackPhase()
 {
 	CurrentPhase = EGamePhase::AttackPhase;
+	FirstSelectedRegion = nullptr;
+	SecondSelectedRegion = nullptr;
 	ChangeGamePhase.Execute(CurrentPhase);
 }
 
 void APlayerCharacter::StartFortificationPhase()
 {
 	CurrentPhase = EGamePhase::FortificationPhase;
+	FirstSelectedRegion = nullptr;
+	SecondSelectedRegion = nullptr;
 	ChangeGamePhase.Execute(CurrentPhase);
 }
 
 void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 {
-	if (regionSelected->GetRegionOwner() == this)
+	switch (CurrentPhase)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Selected Own region"));
-		OwnedSelectedRegion = regionSelected;
-
-		switch (CurrentPhase)
+	case EGamePhase::DeploymentPhase:
+		if (regionSelected->GetRegionOwner() == this)
 		{
-		case EGamePhase::NotCurrentTurn:
-			break;
-		case EGamePhase::DeploymentPhase:
-			PlayerHUD->ShowDeployUi(CurrentUnitsToDeploy);
-			break;
-		case EGamePhase::AttackPhase:
-			if (OwnedSelectedRegion->CanAttackThisRegion(EnemySelectedRegion))
-			{
-				PlayerHUD->ShowAttackUi(OwnedSelectedRegion);
-			}
-			break;
-		case EGamePhase::FortificationPhase:
-			PlayerHUD->ShowFortificationUi();
-			break;
-		default:
-			break;
+			FirstSelectedRegion = regionSelected;
+			PlayerHUD->ShowUnitsUi(CurrentUnitsToDeploy, FText::FromString("Deploy"));
 		}
-
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Enemy detected"));
-		EnemySelectedRegion = regionSelected;
-
-		switch (CurrentPhase)
+		break;
+	case EGamePhase::AttackPhase:
+		if (regionSelected->GetRegionOwner() == this)
 		{
-		case EGamePhase::AttackPhase:
-			if (OwnedSelectedRegion && OwnedSelectedRegion->CanAttackThisRegion(EnemySelectedRegion))
-			{
-				PlayerHUD->ShowAttackUi(OwnedSelectedRegion);
-			}
-			break;
-		default:
-			break;
+			FirstSelectedRegion = regionSelected;
 		}
+		else
+		{
+			SecondSelectedRegion = regionSelected;
+		}
+		if (FirstSelectedRegion && FirstSelectedRegion->CanAttackThisRegion(SecondSelectedRegion))
+		{
+			PlayerHUD->ShowAttackUi(FirstSelectedRegion);
+		}
+		break;
+	case EGamePhase::FortificationPhase:
+	    if(FirstSelectedRegion == regionSelected)
+		{
+			FirstSelectedRegion = nullptr;
+		}
+		else if (SecondSelectedRegion == regionSelected)
+		{
+			SecondSelectedRegion = nullptr;
+		}
+		else if (!FirstSelectedRegion)
+		{
+			FirstSelectedRegion = regionSelected;
+		}
+		else
+		{
+			SecondSelectedRegion = regionSelected;
+			if (FirstSelectedRegion->CanFortifyThisRegion(SecondSelectedRegion))
+			{
+				PlayerHUD->ShowUnitsUi(FirstSelectedRegion->GetUnits() - 1, FText::FromString("Fortify"));
+			}
+		}
+		break;
+	case EGamePhase::NotCurrentTurn:
+		break;
 	}
 }

@@ -44,6 +44,8 @@ public:
 
 	void TransferAmount(int32 amount);
 
+	void DialogAction(int32 units);
+
 	FChangeGamePhase ChangeGamePhase;
 
 	FAttackStep AttackStep;
@@ -65,10 +67,10 @@ private:
 	class UMainUI* PlayerHUD;
 
 	UPROPERTY()
-	class ARegion* OwnedSelectedRegion;
+	class ARegion* FirstSelectedRegion;
 
 	UPROPERTY()
-	class ARegion* EnemySelectedRegion;
+	class ARegion* SecondSelectedRegion;
 
 	UPROPERTY()
 	EGamePhase CurrentPhase;

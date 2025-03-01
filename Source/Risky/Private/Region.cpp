@@ -24,6 +24,11 @@ void ARegion::OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey Butto
 	player->SelectRegion(this);
 }
 
+bool ARegion::IsConnected(ARegion* otherRegion)
+{
+	return BorderingRegions.Contains(otherRegion);
+}
+
 
 int32 ARegion::GetUnits()
 {
@@ -53,17 +58,25 @@ void ARegion::DecreaseUnitCount(int32 unitsRemoved)
 	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 }
 
-bool ARegion::CanThisAttack()
+bool ARegion::HasEnoughUnits()
 {
 	return UnitsInRegion > 1;
 }
 
 bool ARegion::CanAttackThisRegion(ARegion* defendingRegion)
 {
-	return CanThisAttack()
+	return HasEnoughUnits()
 		&& defendingRegion != nullptr
-		&& BorderingRegions.Contains(defendingRegion)
-		&& defendingRegion->GetRegionOwner() != GetRegionOwner();
+		&& defendingRegion->GetRegionOwner() != GetRegionOwner()
+		&& BorderingRegions.Contains(defendingRegion);
+}
+
+bool ARegion::CanFortifyThisRegion(ARegion* otherRegion)
+{
+	return HasEnoughUnits()
+		&& otherRegion != nullptr
+		&& otherRegion->GetRegionOwner() == GetRegionOwner()
+		&& IsConnected(otherRegion);
 }
 
 void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)

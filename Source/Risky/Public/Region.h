@@ -27,6 +27,8 @@ protected:
 	UFUNCTION()
 	void OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed);
 
+	bool IsConnected(ARegion* otherRegion);
+
 public:	
 
 	UPROPERTY(EditAnywhere)
@@ -58,7 +60,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DecreaseUnitCount(int32 unitsRemoved);
 
-	bool CanThisAttack();
+	bool HasEnoughUnits();
 
 	bool CanAttackThisRegion(ARegion* defendingRegion);
+
+	bool CanFortifyThisRegion(ARegion* otherRegion);
 };

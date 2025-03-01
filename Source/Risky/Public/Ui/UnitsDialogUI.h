@@ -1,11 +1,16 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "DeploymentUI.generated.h"
+#include "UnitsDialogUI.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class RISKY_API UDeploymentUI : public UUserWidget
+class RISKY_API UUnitsDialogUI : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -16,10 +21,10 @@ class RISKY_API UDeploymentUI : public UUserWidget
 	class UTextBlock* SliderText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* DeployButton;
+	class UButton* ActionButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* DeployButtonText;
+	class UTextBlock* ActionButtonText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* CloseButton;
@@ -30,7 +35,7 @@ class RISKY_API UDeploymentUI : public UUserWidget
 
 
 	UFUNCTION()
-	void DeployUnits();
+	void ButtonAction();
 
 	UFUNCTION()
 	void ClosePopup();
@@ -39,10 +44,11 @@ protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 public:
-	
-	void ShowPopup(int32 MaxValue);
+
+	void ShowPopup(int32 MaxValue, FText textButton);
 
 	virtual void  NativeConstruct();
 
 	class APlayerCharacter* Player;
+	
 };

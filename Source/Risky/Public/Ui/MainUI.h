@@ -26,11 +26,9 @@ public:
 
 	APlayerCharacter* Player;
 
-	void ShowDeployUi(int32 maxUnit);
+	void ShowUnitsUi(int32 maxUnit, FText textButton);
 
 	void ShowAttackUi(class ARegion* region);
-
-	void ShowFortificationUi();
 
 private:
 	UFUNCTION()
@@ -40,20 +38,14 @@ private:
 	void OnGamePhaseChange(EGamePhase gamePhase);
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UDeploymentUI> DeploymentHUDClass;
+	TSubclassOf<class UUnitsDialogUI> UnitsHUDClass;
 
 	UPROPERTY()
-	class UDeploymentUI* DeploymentDialog;
+	class UUnitsDialogUI* UnitsDialog;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UAttackUI> AttackHUDClass;
 
 	UPROPERTY()
 	class UAttackUI* AttackDialog;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UFortificationUI> FortificationHUDClass;
-
-	UPROPERTY()
-	class UFortificationUI* FortificationDialog;
 };
