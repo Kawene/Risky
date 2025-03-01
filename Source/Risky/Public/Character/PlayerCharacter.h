@@ -8,6 +8,7 @@
 #include "PlayerCharacter.generated.h"
 
 DECLARE_DELEGATE_OneParam(FChangeGamePhase, EGamePhase);
+DECLARE_DELEGATE_OneParam(FAttackStep, bool);
 
 UCLASS(Blueprintable)
 class APlayerCharacter : public ABaseCharacter
@@ -37,9 +38,15 @@ public:
 
 	void DeployUnitsToSelectedRegion(int32 unitsToDeploy);
 
+	void AttackSelectedRegion(int32 attackerAmount);
+
 	void FinishedCurrentPhase() override;
 
+	void TransferAmount(int32 amount);
+
 	FChangeGamePhase ChangeGamePhase;
+
+	FAttackStep AttackStep;
 
 private:
 	/** Top down camera */

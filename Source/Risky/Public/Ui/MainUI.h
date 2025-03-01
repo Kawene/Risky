@@ -28,7 +28,7 @@ public:
 
 	void ShowDeployUi(int32 maxUnit);
 
-	void ShowAttackUi();
+	void ShowAttackUi(class ARegion* region);
 
 	void ShowFortificationUi();
 

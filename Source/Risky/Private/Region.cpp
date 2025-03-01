@@ -7,14 +7,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "Character/PlayerCharacter.h"
 
-// Sets default values
 ARegion::ARegion()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 	RegionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RegionMesh"));
 	RegionMesh->SetupAttachment(RootComponent);
 	RegionMesh->OnClicked.AddDynamic(this, &ARegion::OnSelectedRegion);
+
 	RegionText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("RegionText"));
 	RegionText->SetupAttachment(RegionMesh);
 }
@@ -32,7 +30,7 @@ int32 ARegion::GetUnits()
 	return UnitsInRegion;
 }
 
-const ABaseCharacter* ARegion::GetRegionOwner()
+ABaseCharacter* ARegion::GetRegionOwner()
 {
 	return RegionOwner;
 }
@@ -55,6 +53,19 @@ void ARegion::DecreaseUnitCount(int32 unitsRemoved)
 	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 }
 
+bool ARegion::CanThisAttack()
+{
+	return UnitsInRegion > 1;
+}
+
+bool ARegion::CanAttackThisRegion(ARegion* defendingRegion)
+{
+	return CanThisAttack()
+		&& defendingRegion != nullptr
+		&& BorderingRegions.Contains(defendingRegion)
+		&& defendingRegion->GetRegionOwner() != GetRegionOwner();
+}
+
 void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 {
 	if (RegionOwner)
@@ -66,6 +77,7 @@ void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 	RegionOwner = newOwner;
 
 	UnitsInRegion = unitsAmount;
+	RegionText->SetTextRenderColor(newOwner->ColorIdentity);
 	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 }
 

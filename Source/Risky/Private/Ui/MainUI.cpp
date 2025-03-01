@@ -28,6 +28,11 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	DeploymentDialog->Player = player;
 	DeploymentDialog->AddToPlayerScreen();
 	DeploymentDialog->SetVisibility(ESlateVisibility::Hidden);
+
+	AttackDialog = CreateWidget<UAttackUI>(controller, AttackHUDClass);
+	AttackDialog->Player = player;
+	AttackDialog->AddToPlayerScreen();
+	AttackDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UMainUI::ShowDeployUi(int32 maxUnit)
@@ -35,8 +40,9 @@ void UMainUI::ShowDeployUi(int32 maxUnit)
 	DeploymentDialog->ShowPopup(maxUnit);
 }
 
-void UMainUI::ShowAttackUi()
+void UMainUI::ShowAttackUi(ARegion* region)
 {
+	AttackDialog->ShowPopup(region);
 }
 
 void UMainUI::ShowFortificationUi()

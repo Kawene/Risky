@@ -17,7 +17,7 @@ void UDeploymentUI::NativeConstruct()
 
 void UDeploymentUI::DeployUnits()
 {
-	Player->DeployUnitsToSelectedRegion(SliderUnits->Value);
+	Player->DeployUnitsToSelectedRegion(SliderUnits->GetValue());
 	ClosePopup();
 }
 
@@ -28,7 +28,7 @@ void UDeploymentUI::ClosePopup()
 
 void UDeploymentUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
-	SliderText->SetText(FText::AsNumber(SliderUnits->Value));
+	SliderText->SetText(FText::AsNumber(SliderUnits->GetValue()));
 }
 
 void UDeploymentUI::ShowPopup(int32 MaxValue)

@@ -44,7 +44,7 @@ public:
 	int32 GetUnits();
 
 	UFUNCTION(BlueprintCallable)
-	const ABaseCharacter* GetRegionOwner();
+	ABaseCharacter* GetRegionOwner();
 
 	UFUNCTION(BlueprintCallable)
 	const TArray<ARegion*>& GetBorderingRegions();
@@ -57,4 +57,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DecreaseUnitCount(int32 unitsRemoved);
+
+	bool CanThisAttack();
+
+	bool CanAttackThisRegion(ARegion* defendingRegion);
 };

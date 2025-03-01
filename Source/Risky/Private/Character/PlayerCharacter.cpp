@@ -77,6 +77,15 @@ void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 	}
 }
 
+void APlayerCharacter::AttackSelectedRegion(int32 attackerAmount)
+{
+	if (OwnedSelectedRegion && EnemySelectedRegion)
+	{
+		bool regionCaptured = Super::CombatRegion(OwnedSelectedRegion, EnemySelectedRegion, attackerAmount);
+		AttackStep.Execute(regionCaptured);
+	}
+}
+
 void APlayerCharacter::FinishedCurrentPhase()
 {
 	Super::FinishedCurrentPhase();
@@ -86,6 +95,12 @@ void APlayerCharacter::FinishedCurrentPhase()
 		CurrentPhase = EGamePhase::NotCurrentTurn;
 		ChangeGamePhase.Execute(CurrentPhase);
 	}
+}
+
+void APlayerCharacter::TransferAmount(int32 amount)
+{
+	TransferUnits(OwnedSelectedRegion, EnemySelectedRegion, amount);
+	EnemySelectedRegion = nullptr;
 }
 
 void APlayerCharacter::StartDeploymentPhase(int32 unitsToDeploy)
@@ -122,7 +137,10 @@ void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 			PlayerHUD->ShowDeployUi(CurrentUnitsToDeploy);
 			break;
 		case EGamePhase::AttackPhase:
-			PlayerHUD->ShowAttackUi();
+			if (OwnedSelectedRegion->CanAttackThisRegion(EnemySelectedRegion))
+			{
+				PlayerHUD->ShowAttackUi(OwnedSelectedRegion);
+			}
 			break;
 		case EGamePhase::FortificationPhase:
 			PlayerHUD->ShowFortificationUi();
@@ -136,5 +154,17 @@ void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Enemy detected"));
 		EnemySelectedRegion = regionSelected;
+
+		switch (CurrentPhase)
+		{
+		case EGamePhase::AttackPhase:
+			if (OwnedSelectedRegion && OwnedSelectedRegion->CanAttackThisRegion(EnemySelectedRegion))
+			{
+				PlayerHUD->ShowAttackUi(OwnedSelectedRegion);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }

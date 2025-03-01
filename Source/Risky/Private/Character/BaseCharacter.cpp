@@ -3,11 +3,51 @@
 
 #include "Character/BaseCharacter.h"
 #include "Manager/TurnManager.h"
+#include "Region.h"
+#include "Math/UnrealMathUtility.h"
 
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+bool ABaseCharacter::CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
+{
+	CombatRoll(ownRegion, enemyRegion, attackingUnits);
+
+	if (enemyRegion->GetUnits() == 0)
+	{
+		enemyRegion->ChangeOwnerShip(ownRegion->GetRegionOwner(), 0);
+		return true;
+	}
+	return false;
+}
+
+void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
+{
+	TArray<int32> attackingDice;
+	attackingDice.Init(FMath::RandRange(1, 6), attackingUnits);
+	attackingDice.Sort();
+
+	TArray<int32> defendingDice;
+	int32 defenders = FMath::Min(2, enemyRegion->GetUnits());
+	defendingDice.Init(FMath::RandRange(1, 6), defenders);
+	defendingDice.Sort();
+
+	int32 maxIteration = FMath::Min(defenders, attackingUnits) - 1;
+	for (int32 i = maxIteration ; i >= 0; --i)
+	{
+		FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[i], defendingDice[i] });
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, Message);
+		if (attackingDice[i] > defendingDice[i])
+		{
+			enemyRegion->DecreaseUnitCount(1);
+		}
+		else {
+			ownRegion->DecreaseUnitCount(1);
+		}
+	}
 }
 
 void ABaseCharacter::FinishedCurrentPhase()
@@ -25,6 +65,15 @@ void ABaseCharacter::StartAttackPhase()
 
 void ABaseCharacter::StartFortificationPhase()
 {
+}
+
+void ABaseCharacter::TransferUnits(ARegion* originRegion, ARegion* destinationRegion, int32 units)
+{
+	if (originRegion->GetRegionOwner() == destinationRegion->GetRegionOwner())
+	{
+		originRegion->DecreaseUnitCount(units);
+		destinationRegion->DeployUnits(units);
+	}
 }
 
 void ABaseCharacter::TurnManagerRef(ATurnManager* tManager)

@@ -8,6 +8,7 @@
 
 
 class ATurnManager;
+class ARegion;
 
 UCLASS()
 class RISKY_API ABaseCharacter : public ACharacter
@@ -20,6 +21,10 @@ protected:
 
 	ATurnManager* TurnManager;
 
+	bool CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits);
+
+	void CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits);
+
 public:	
 	virtual void FinishedCurrentPhase();
 
@@ -29,10 +34,15 @@ public:
 
 	virtual void StartFortificationPhase();
 
+	void TransferUnits(ARegion* originRegion, ARegion* destinationRegion, int32 units);
+
 	void TurnManagerRef(ATurnManager* tManager);
 
-	TArray<class ARegion*> RegionsOwned;
+	TArray<ARegion*> RegionsOwned;
 
 	int32 CurrentUnitsToDeploy;
+
+	UPROPERTY(EditAnywhere)
+	FColor ColorIdentity;
 
 };

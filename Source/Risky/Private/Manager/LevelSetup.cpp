@@ -28,6 +28,7 @@ void ALevelSetup::InitializeLevel()
 	for (size_t i = 0; i < NumberOfAI; ++i)
 	{
 		auto ai = GetWorld()->SpawnActor<AAiCharacter>(AAiCharacter::StaticClass());
+		ai->ColorIdentity = FColor::MakeRandomColor();
 		allPlayers.Add(ai);
 	}
 
@@ -37,7 +38,7 @@ void ALevelSetup::InitializeLevel()
 	for (AActor* actor : allRegions)
 	{
 		ARegion* region = StaticCast<ARegion*>(actor);
-		region->ChangeOwnerShip(allPlayers[region->OwnerIdStart], 0);
+		region->ChangeOwnerShip(allPlayers[region->OwnerIdStart], 1);
 	}
 
 	auto turnManager = GetWorld()->SpawnActor<ATurnManager>(ATurnManager::StaticClass());
