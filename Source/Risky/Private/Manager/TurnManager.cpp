@@ -54,6 +54,15 @@ void ATurnManager::ProceedToNextPhase()
 	}
 }
 
+void ATurnManager::CharacterDied(ABaseCharacter* corpse)
+{
+	Characters.Remove(corpse);
+	if (Characters.Num() == 1)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, "GG well played");
+	}
+}
+
 void ATurnManager::EndTurn()
 {
 	CurrentCharracterIndex = (CurrentCharracterIndex + 1) % Characters.Num();

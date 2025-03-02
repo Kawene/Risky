@@ -26,6 +26,8 @@ public:
 	UFUNCTION()
 	void ProceedToNextPhase();
 
+	void CharacterDied(ABaseCharacter* corpse);
+
 private:	
 
 	UPROPERTY()

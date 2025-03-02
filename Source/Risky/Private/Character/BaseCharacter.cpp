@@ -39,7 +39,7 @@ void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 
 	for (int32 i = maxIteration ; i >= 0; --i)
 	{
 		FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[i], defendingDice[i] });
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, Message);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, Message);
 		if (attackingDice[i] > defendingDice[i])
 		{
 			enemyRegion->DecreaseUnitCount(1);
@@ -79,5 +79,14 @@ void ABaseCharacter::TransferUnits(ARegion* originRegion, ARegion* destinationRe
 void ABaseCharacter::TurnManagerRef(ATurnManager* tManager)
 {
 	TurnManager = tManager;
+}
+
+void ABaseCharacter::IsCharacterDead()
+{
+	if (RegionsOwned.IsEmpty())
+	{
+		TurnManager->CharacterDied(this);
+		Destroy();
+	}
 }
 

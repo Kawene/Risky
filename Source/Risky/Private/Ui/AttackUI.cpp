@@ -8,6 +8,7 @@
 #include "Character/PlayerCharacter.h"
 #include "Components/CanvasPanel.h"
 #include "Components/TextBlock.h"
+#include "Math/UnrealMathUtility.h"
 #include "Region.h"
 
 
@@ -29,13 +30,14 @@ void UAttackUI::Attack()
 void UAttackUI::ClosePopup()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+	TranferSection->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UAttackUI::UpdateUI(bool regionCaptured)
 {
 	if (regionCaptured)
 	{
-		if (CurrentAttacking() == AttackingRegion->GetUnits() - 1)
+		if (CurrentAttacking() < 4 && CurrentAttacking() == AttackingRegion->GetUnits() - 1)
 		{
 			Player->TransferAmount(AttackingRegion->GetUnits() - 1);
 			ClosePopup();
@@ -43,7 +45,7 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 		}
 		CloseButton->SetIsEnabled(false);
 		TranferSection->SetVisibility(ESlateVisibility::Visible);
-		SliderUnits->SetMinValue(CurrentAttacking());
+		SliderUnits->SetMinValue(FMath::Min(3, CurrentAttacking()));
 		SliderUnits->SetMaxValue(AttackingRegion->GetUnits() - 1);
 		SliderUnits->SetValue(SliderUnits->MaxValue);
 		return;
@@ -54,22 +56,11 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 	{
 		ClosePopup();
 	}
+	else if (UnitsToAttack->GetSelectedOption() == "Blitz") {
+		Attack();
+	}
 	else {
-		UnitsToAttack->ClearOptions();
-		UnitsToAttack->AddOption(FString("Blitz"));
-		UnitsToAttack->SetSelectedOption(FString("Blitz"));
-
-		if (remainingUnits > 2)
-		{
-			UnitsToAttack->AddOption(FString("3"));
-			UnitsToAttack->AddOption(FString("2"));
-		}
-		else if (remainingUnits == 2 )
-		{
-			UnitsToAttack->AddOption(FString("2"));
-		}
-
-		UnitsToAttack->AddOption(FString("1"));
+		UpdateComboBoxOptions();
 	}
 }
 
@@ -93,6 +84,27 @@ void UAttackUI::TransferUnits()
 	Player->TransferAmount(SliderUnits->GetValue());
 }
 
+void UAttackUI::UpdateComboBoxOptions()
+{
+	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
+
+	UnitsToAttack->ClearOptions();
+	UnitsToAttack->AddOption(FString("Blitz"));
+	UnitsToAttack->SetSelectedOption(FString("Blitz"));
+
+	if (remainingUnits > 2)
+	{
+		UnitsToAttack->AddOption(FString("3"));
+		UnitsToAttack->AddOption(FString("2"));
+	}
+	else if (remainingUnits == 2)
+	{
+		UnitsToAttack->AddOption(FString("2"));
+	}
+
+	UnitsToAttack->AddOption(FString("1"));
+}
+
 void UAttackUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	SliderText->SetText(FText::AsNumber(SliderUnits->GetValue()));
@@ -102,6 +114,6 @@ void UAttackUI::ShowPopup(ARegion* attackingRegion)
 {
 	AttackingRegion = attackingRegion;
 	CloseButton->SetIsEnabled(true);
-	UpdateUI(false);
+	UpdateComboBoxOptions();
 	SetVisibility(ESlateVisibility::Visible);
 }

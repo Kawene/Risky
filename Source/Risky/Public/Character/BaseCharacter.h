@@ -38,6 +38,8 @@ public:
 
 	void TurnManagerRef(ATurnManager* tManager);
 
+	void IsCharacterDead();
+
 	TArray<ARegion*> RegionsOwned;
 
 	int32 CurrentUnitsToDeploy;

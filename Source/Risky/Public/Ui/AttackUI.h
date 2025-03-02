@@ -59,6 +59,8 @@ class RISKY_API UAttackUI : public UUserWidget
 	UFUNCTION()
 	void TransferUnits();
 
+	void UpdateComboBoxOptions();
+
 protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 

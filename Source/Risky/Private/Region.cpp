@@ -84,6 +84,7 @@ void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 	if (RegionOwner)
 	{
 		RegionOwner->RegionsOwned.Remove(this);
+		RegionOwner->IsCharacterDead();
 	}
 
 	newOwner->RegionsOwned.Add(this);

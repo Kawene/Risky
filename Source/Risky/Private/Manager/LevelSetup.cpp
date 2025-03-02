@@ -7,6 +7,7 @@
 #include "Region.h"
 #include "Manager/TurnManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Math/UnrealMathUtility.h"
 
 ALevelSetup::ALevelSetup()
 {
@@ -28,7 +29,7 @@ void ALevelSetup::InitializeLevel()
 	for (size_t i = 0; i < NumberOfAI; ++i)
 	{
 		auto ai = GetWorld()->SpawnActor<AAiCharacter>(AAiCharacter::StaticClass());
-		ai->ColorIdentity = FColor::MakeRandomColor();
+		ai->ColorIdentity = GetNextPseudoRandomColor(FColor::MakeRandomColor());
 		allPlayers.Add(ai);
 	}
 
@@ -44,4 +45,31 @@ void ALevelSetup::InitializeLevel()
 	auto turnManager = GetWorld()->SpawnActor<ATurnManager>(ATurnManager::StaticClass());
 	turnManager->Initialize(&allPlayers);
 
+}
+
+FColor ALevelSetup::GetNextPseudoRandomColor(FColor current)
+{
+	int32 keep = FMath::RandRange(0, 2);
+	int32 red = FMath::RandRange(0, 255);
+	int32 green = FMath::RandRange(0, 255);
+	int32 blue = FMath::RandRange(0, 255);
+	FColor c = FColor(red, green, blue);
+	uint8* colorToChange;
+	switch (keep)
+	{
+	case 0:
+		colorToChange = &c.R;
+		break;
+	case 1:
+		colorToChange = &c.G;
+		break;
+	default:
+		colorToChange = &c.B;
+		break;
+	}
+
+	float fixedComp = *colorToChange + 0.5f;
+	*colorToChange = static_cast<uint8>(fixedComp - FMath::FloorToFloat(fixedComp) * 255.0f);
+
+	return c;
 }
