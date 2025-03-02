@@ -4,6 +4,7 @@
 #include "Region.h"
 #include "Math/UnrealMathUtility.h"
 #include "Components/TextRenderComponent.h"
+#include "Components/PrimitiveComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Character/PlayerCharacter.h"
 
@@ -91,7 +92,10 @@ void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 	RegionOwner = newOwner;
 
 	UnitsInRegion = unitsAmount;
-	RegionText->SetTextRenderColor(newOwner->ColorIdentity);
+
+	auto newMaterial = RegionMesh->CreateAndSetMaterialInstanceDynamicFromMaterial(0, RegionMesh->GetMaterial(0));
+	FVector newColor = FVector(newOwner->ColorIdentity.R / 255.0f, newOwner->ColorIdentity.G / 255.0f, newOwner->ColorIdentity.B / 255.0f);
+	newMaterial->SetVectorParameterValue(FName("color"), newColor);
 	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 }
 

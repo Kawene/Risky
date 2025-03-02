@@ -50,6 +50,9 @@ public:
 
 	FAttackStep AttackStep;
 
+	UPROPERTY(EditAnywhere)
+	UMaterialInstance* SelectedMaterial;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
