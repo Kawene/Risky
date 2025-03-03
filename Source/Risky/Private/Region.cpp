@@ -27,7 +27,32 @@ void ARegion::OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey Butto
 
 bool ARegion::IsConnected(ARegion* otherRegion)
 {
-	return BorderingRegions.Contains(otherRegion);
+	TArray<ARegion*> alreadyVisited;
+	return Looping(otherRegion, &alreadyVisited);
+}
+
+bool ARegion::Looping(ARegion* regionToLookFor, TArray<ARegion*>* alreadyVisited)
+{
+	if (alreadyVisited->Contains(this) || regionToLookFor->GetRegionOwner() != RegionOwner)
+	{
+		return false;
+	}
+
+	if (regionToLookFor == this)
+	{
+		return true;
+	}
+
+	alreadyVisited->Add(this);
+
+	for (auto region : BorderingRegions)
+	{
+		if (region->Looping(regionToLookFor, alreadyVisited))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -79,6 +104,21 @@ bool ARegion::CanFortifyThisRegion(ARegion* otherRegion)
 		&& otherRegion->GetRegionOwner() == GetRegionOwner()
 		&& IsConnected(otherRegion);
 }
+
+void ARegion::ToggleSelection(bool turnOff)
+{
+	RegionMesh->MarkRenderStateDirty();
+	if (RegionMesh->CustomDepthStencilValue == 2 || turnOff)
+	{
+		RegionMesh->CustomDepthStencilValue = 0;
+	}
+	else
+	{
+		RegionMesh->CustomDepthStencilValue = 2;
+	}
+}
+
+
 
 void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 {

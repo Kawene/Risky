@@ -29,6 +29,8 @@ protected:
 
 	bool IsConnected(ARegion* otherRegion);
 
+	bool Looping(ARegion* otherRegion, TArray<ARegion*>* alreadyVisited);
+
 public:	
 
 	UPROPERTY(EditAnywhere)
@@ -65,4 +67,6 @@ public:
 	bool CanAttackThisRegion(ARegion* defendingRegion);
 
 	bool CanFortifyThisRegion(ARegion* otherRegion);
+
+	void ToggleSelection(bool turnOff = false);
 };
