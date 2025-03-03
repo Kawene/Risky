@@ -24,6 +24,10 @@ void UUnitsDialogUI::ButtonAction()
 void UUnitsDialogUI::ClosePopup()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+	if (ParentWidget)
+	{
+		ParentWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void UUnitsDialogUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

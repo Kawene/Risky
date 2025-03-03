@@ -14,6 +14,20 @@
 #include "Ui/MainUI.h"
 #include "Region.h"
 
+void SelectRegion(ARegion** regionToModify, ARegion* regionSelected) {
+	*regionToModify = regionSelected;
+	(*regionToModify)->ToggleSelection();
+}
+
+
+void DeselectRegion(ARegion** region) {
+	if (*region)
+	{
+		(*region)->ToggleSelection();
+		(*region) = nullptr;
+	}
+}
+
 APlayerCharacter::APlayerCharacter()
 {
 	// Set size for player capsule
@@ -70,8 +84,7 @@ void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 	{
 		CurrentUnitsToDeploy -= unitsToDeploy;
 		FirstSelectedRegion->DeployUnits(unitsToDeploy);
-		FirstSelectedRegion->ToggleSelection();
-		FirstSelectedRegion = nullptr;
+		DeselectRegion(&FirstSelectedRegion);
 		if (CurrentUnitsToDeploy == 0)
 		{
 			FinishedCurrentPhase();
@@ -84,10 +97,10 @@ void APlayerCharacter::AttackSelectedRegion(int32 attackerAmount)
 	if (FirstSelectedRegion && SecondSelectedRegion)
 	{
 		bool regionCaptured = Super::CombatRegion(FirstSelectedRegion, SecondSelectedRegion, attackerAmount);
-		if (FirstSelectedRegion->GetUnits() == 1)
+		if (!FirstSelectedRegion->HasEnoughUnits())
 		{
-			FirstSelectedRegion->ToggleSelection();
-			SecondSelectedRegion->ToggleSelection();
+			DeselectRegion(&FirstSelectedRegion);
+			DeselectRegion(&SecondSelectedRegion);
 		}
 		AttackStep.Execute(regionCaptured);
 	}
@@ -101,17 +114,9 @@ void APlayerCharacter::FinishedCurrentPhase()
 		ChangeGamePhase.Execute(CurrentPhase);
 	}
 	 
-	if (FirstSelectedRegion)
-	{
-		FirstSelectedRegion->ToggleSelection(true);
-		FirstSelectedRegion = nullptr;
-	}
+	DeselectRegion(&FirstSelectedRegion);
 
-	if (SecondSelectedRegion)
-	{
-		SecondSelectedRegion->ToggleSelection(true);
-		SecondSelectedRegion = nullptr;
-	}
+	DeselectRegion(&SecondSelectedRegion);
 
 	Super::FinishedCurrentPhase();
 }
@@ -119,10 +124,8 @@ void APlayerCharacter::FinishedCurrentPhase()
 void APlayerCharacter::TransferAmount(int32 amount)
 {
 	TransferUnits(FirstSelectedRegion, SecondSelectedRegion, amount);
-	FirstSelectedRegion->ToggleSelection();
-	SecondSelectedRegion->ToggleSelection();
-	FirstSelectedRegion = nullptr;
-	SecondSelectedRegion = nullptr;
+	DeselectRegion(&FirstSelectedRegion);
+	DeselectRegion(&SecondSelectedRegion);
 }
 
 void APlayerCharacter::DialogAction(int32 units)
@@ -133,6 +136,7 @@ void APlayerCharacter::DialogAction(int32 units)
 		DeployUnitsToSelectedRegion(units);
 		break;
 	case EGamePhase::AttackPhase:
+		TransferAmount(units);
 		break;
 	case EGamePhase::FortificationPhase:
 		TransferAmount(units);
@@ -140,19 +144,17 @@ void APlayerCharacter::DialogAction(int32 units)
 	}
 }
 
-void APlayerCharacter::SelectRegion(ARegion* regionSelected)
+void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 {
 	switch (CurrentPhase)
 	{
 	case EGamePhase::DeploymentPhase:
 		if (regionSelected->GetRegionOwner() == this)
 		{
-			if (FirstSelectedRegion)
-			{
-				FirstSelectedRegion->ToggleSelection();
-			}
-			FirstSelectedRegion = regionSelected;
-			FirstSelectedRegion->ToggleSelection();
+			DeselectRegion(&FirstSelectedRegion);
+
+			SelectRegion(&FirstSelectedRegion, regionSelected);
+
 			PlayerHUD->ShowUnitsUi(CurrentUnitsToDeploy, FText::FromString("Deploy"));
 		}
 		break;
@@ -161,33 +163,25 @@ void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 		{
 			if (FirstSelectedRegion == regionSelected)
 			{
-				FirstSelectedRegion->ToggleSelection();
-				FirstSelectedRegion = nullptr;
+				DeselectRegion(&FirstSelectedRegion);
 				return;
 			}
 
-			if (FirstSelectedRegion)
-			{
-				FirstSelectedRegion->ToggleSelection();
-			}
-			FirstSelectedRegion = regionSelected;
-			FirstSelectedRegion->ToggleSelection();
+			DeselectRegion(&FirstSelectedRegion);
+
+			SelectRegion(&FirstSelectedRegion, regionSelected);
 		}
 		else
 		{
 			if (SecondSelectedRegion == regionSelected)
 			{
-				SecondSelectedRegion->ToggleSelection();
-				SecondSelectedRegion = nullptr;
+				DeselectRegion(&SecondSelectedRegion);
 				return;
 			}
 
-			if (SecondSelectedRegion)
-			{
-				SecondSelectedRegion->ToggleSelection();
-			}
-			SecondSelectedRegion = regionSelected;
-			SecondSelectedRegion->ToggleSelection();
+			DeselectRegion(&SecondSelectedRegion);
+
+			SelectRegion(&SecondSelectedRegion, regionSelected);
 		}
 		if (FirstSelectedRegion && FirstSelectedRegion->CanAttackThisRegion(SecondSelectedRegion))
 		{
@@ -202,27 +196,22 @@ void APlayerCharacter::SelectRegion(ARegion* regionSelected)
 
 	    if(FirstSelectedRegion == regionSelected)
 		{
-			FirstSelectedRegion->ToggleSelection();
-			FirstSelectedRegion = nullptr;
+			DeselectRegion(&FirstSelectedRegion);
 		}
 		else if (SecondSelectedRegion == regionSelected)
 		{
-			SecondSelectedRegion->ToggleSelection();
-			SecondSelectedRegion = nullptr;
+			DeselectRegion(&SecondSelectedRegion);
 		}
 		else if (!FirstSelectedRegion)
 		{
-			FirstSelectedRegion = regionSelected;
-			FirstSelectedRegion->ToggleSelection();
+			SelectRegion(&FirstSelectedRegion, regionSelected);
 		}
 		else
 		{
-			if (SecondSelectedRegion)
-			{
-				SecondSelectedRegion->ToggleSelection();
-			}
-			SecondSelectedRegion = regionSelected;
-			SecondSelectedRegion->ToggleSelection();
+			DeselectRegion(&SecondSelectedRegion);
+
+			SelectRegion(&SecondSelectedRegion, regionSelected);
+
 			if (FirstSelectedRegion->CanFortifyThisRegion(SecondSelectedRegion))
 			{
 				PlayerHUD->ShowUnitsUi(FirstSelectedRegion->GetUnits() - 1, FText::FromString("Fortify"));

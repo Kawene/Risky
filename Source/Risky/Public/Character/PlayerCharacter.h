@@ -30,13 +30,11 @@ public:
 	void StartFortificationPhase() override;
 
 	UFUNCTION()
-	void SelectRegion(ARegion* regionSelected);
+	void OnClickRegion(ARegion* regionSelected);
 
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-	void DeployUnitsToSelectedRegion(int32 unitsToDeploy);
 
 	void AttackSelectedRegion(int32 attackerAmount);
 
@@ -49,9 +47,6 @@ public:
 	FChangeGamePhase ChangeGamePhase;
 
 	FAttackStep AttackStep;
-
-	UPROPERTY(EditAnywhere)
-	UMaterialInstance* SelectedMaterial;
 
 private:
 	/** Top down camera */
@@ -77,5 +72,7 @@ private:
 
 	UPROPERTY()
 	EGamePhase CurrentPhase;
+
+	void DeployUnitsToSelectedRegion(int32 unitsToDeploy);
 
 };

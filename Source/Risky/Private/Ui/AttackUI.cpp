@@ -9,6 +9,7 @@
 #include "Components/CanvasPanel.h"
 #include "Components/TextBlock.h"
 #include "Math/UnrealMathUtility.h"
+#include "UI/UnitsDialogUI.h"
 #include "Region.h"
 
 
@@ -17,9 +18,13 @@ void UAttackUI::NativeConstruct()
 	Super::NativeConstruct();
 	AttackButton->OnClicked.AddDynamic(this, &UAttackUI::Attack);
 	CloseButton->OnClicked.AddDynamic(this, &UAttackUI::ClosePopup);
-	TransferButton->OnClicked.AddDynamic(this, &UAttackUI::TransferUnits);
 	Player->AttackStep.BindUObject(this, &UAttackUI::UpdateUI);
-	TranferSection->SetVisibility(ESlateVisibility::Collapsed);
+
+	TransferSection->CloseButton->SetVisibility(ESlateVisibility::Collapsed);
+	TransferSection->CloseButtonText->SetVisibility(ESlateVisibility::Collapsed);
+	TransferSection->SetVisibility(ESlateVisibility::Collapsed);
+	TransferSection->Player = Player;
+	TransferSection->ParentWidget = this;
 }
 
 void UAttackUI::Attack()
@@ -30,7 +35,6 @@ void UAttackUI::Attack()
 void UAttackUI::ClosePopup()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
-	TranferSection->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UAttackUI::UpdateUI(bool regionCaptured)
@@ -44,10 +48,8 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 			return;
 		}
 		CloseButton->SetIsEnabled(false);
-		TranferSection->SetVisibility(ESlateVisibility::Visible);
-		SliderUnits->SetMinValue(FMath::Min(3, CurrentAttacking()));
-		SliderUnits->SetMaxValue(AttackingRegion->GetUnits() - 1);
-		SliderUnits->SetValue(SliderUnits->MaxValue);
+		TransferSection->ShowPopup(AttackingRegion->GetUnits() - 1, FText::FromString("Transfer"));
+		TransferSection->SliderUnits->SetMinValue(FMath::Min(3, CurrentAttacking()));
 		return;
 	}
 
@@ -78,15 +80,11 @@ int32 UAttackUI::CurrentAttacking()
 	return attacker;
 }
 
-void UAttackUI::TransferUnits()
-{
-	ClosePopup();
-	Player->TransferAmount(SliderUnits->GetValue());
-}
-
 void UAttackUI::UpdateComboBoxOptions()
 {
 	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
+
+	FString itemSelected = UnitsToAttack->GetSelectedOption();
 
 	UnitsToAttack->ClearOptions();
 	UnitsToAttack->AddOption(FString("Blitz"));
@@ -103,11 +101,8 @@ void UAttackUI::UpdateComboBoxOptions()
 	}
 
 	UnitsToAttack->AddOption(FString("1"));
-}
 
-void UAttackUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-	SliderText->SetText(FText::AsNumber(SliderUnits->GetValue()));
+	UnitsToAttack->SetSelectedOption(itemSelected);
 }
 
 void UAttackUI::ShowPopup(ARegion* attackingRegion)

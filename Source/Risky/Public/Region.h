@@ -13,13 +13,11 @@ class RISKY_API ARegion : public AActor
 {
 	GENERATED_BODY()
 
-protected:
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* RegionMesh;
 
-	UPROPERTY(BlueprintReadWrite)
-	ABaseCharacter* RegionOwner;
-
-	UPROPERTY(BlueprintReadWrite)
-	int32 UnitsInRegion;
+	UPROPERTY(EditAnywhere)
+	UTextRenderComponent* RegionText;
 
 	UPROPERTY(EditAnywhere)
 	TArray<ARegion*> BorderingRegions;
@@ -31,18 +29,20 @@ protected:
 
 	bool Looping(ARegion* otherRegion, TArray<ARegion*>* alreadyVisited);
 
+protected:
+	
+	UPROPERTY(BlueprintReadWrite)
+	ABaseCharacter* RegionOwner;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 UnitsInRegion;
+
 public:	
 
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* RegionMesh;
-
-	UPROPERTY(EditAnywhere)
-	UTextRenderComponent* RegionText;
+	ARegion();
 
 	UPROPERTY(EditInstanceOnly)
 	int OwnerIdStart;
-
-	ARegion();
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetUnits();

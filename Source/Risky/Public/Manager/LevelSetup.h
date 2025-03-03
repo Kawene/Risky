@@ -18,8 +18,6 @@ class RISKY_API ALevelSetup : public AActor
 
 	void InitializeLevel();
 
-	FColor GetNextPseudoRandomColor(FColor current);
-
 public:
 	ALevelSetup();
 

@@ -28,19 +28,7 @@ class RISKY_API UAttackUI : public UUserWidget
 	class UTextBlock* CloseButtonText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UCanvasPanel* TranferSection;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class USlider* SliderUnits;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* SliderText;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* TransferButton;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* TransferButtonText;
+	class UUnitsDialogUI* TransferSection;
 
 	UPROPERTY()
 	class ARegion* AttackingRegion;
@@ -56,13 +44,7 @@ class RISKY_API UAttackUI : public UUserWidget
 
 	int32 CurrentAttacking();
 
-	UFUNCTION()
-	void TransferUnits();
-
 	void UpdateComboBoxOptions();
-
-protected:
-	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 public:
 

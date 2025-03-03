@@ -18,19 +18,20 @@ public:
 
 	void InitializeUI(APlayerCharacter* player, ARiskyPlayerController* controller);
 
+	void ShowUnitsUi(int32 maxUnit, FText textButton);
+
+	void ShowAttackUi(class ARegion* region);
+
+private:
+
+	APlayerCharacter* Player;
+
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* InteractButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* InteractText;
 
-	APlayerCharacter* Player;
-
-	void ShowUnitsUi(int32 maxUnit, FText textButton);
-
-	void ShowAttackUi(class ARegion* region);
-
-private:
 	UFUNCTION()
 	void OnButtonClick();
 

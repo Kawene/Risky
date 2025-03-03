@@ -22,7 +22,7 @@ ARegion::ARegion()
 void ARegion::OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed)
 {
 	APlayerCharacter* player = StaticCast<APlayerCharacter*>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	player->SelectRegion(this);
+	player->OnClickRegion(this);
 }
 
 bool ARegion::IsConnected(ARegion* otherRegion)
@@ -132,11 +132,11 @@ void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)
 	RegionOwner = newOwner;
 
 	UnitsInRegion = unitsAmount;
+	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 
 	auto newMaterial = RegionMesh->CreateAndSetMaterialInstanceDynamicFromMaterial(0, RegionMesh->GetMaterial(0));
 	FVector newColor = FVector(newOwner->ColorIdentity.R / 255.0f, newOwner->ColorIdentity.G / 255.0f, newOwner->ColorIdentity.B / 255.0f);
 	newMaterial->SetVectorParameterValue(FName("color"), newColor);
-	RegionText->SetText(FText::AsNumber(UnitsInRegion));
 }
 
 

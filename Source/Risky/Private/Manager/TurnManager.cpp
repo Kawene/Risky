@@ -9,7 +9,6 @@
 ATurnManager::ATurnManager()
 {
 	CurrentCharracterIndex = 0;
-	PrimaryActorTick.bCanEverTick = true;
 	CurrentPhase = EGamePhase::DeploymentPhase;
 }
 

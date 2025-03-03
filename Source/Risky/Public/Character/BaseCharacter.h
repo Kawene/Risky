@@ -25,6 +25,8 @@ protected:
 
 	void CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits);
 
+	int32 CurrentUnitsToDeploy;
+
 public:	
 	virtual void FinishedCurrentPhase();
 
@@ -41,8 +43,6 @@ public:
 	void IsCharacterDead();
 
 	TArray<ARegion*> RegionsOwned;
-
-	int32 CurrentUnitsToDeploy;
 
 	UPROPERTY(EditAnywhere)
 	FColor ColorIdentity;
