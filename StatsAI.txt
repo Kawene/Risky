@@ -1,0 +1,146 @@
+Stats for AI numberAiCharacter_2Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_0
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_1
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_2
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_0
+Time Deploy = 0.0
+Time Attack = 6695.0
+Time Fortification = 2369.0
+Time Total = 9064.0
+
+
+Stats for AI numberAiCharacter_1
+Time Deploy = 0.0
+Time Attack = 4.0
+Time Fortification = 0.0
+Time Total = 4.0
+
+
+Stats for AI numberAiCharacter_2
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_0
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_1
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_2
+Time Deploy = 0.0
+Time Attack = 0.0
+Time Fortification = 0.0
+Time Total = 0.0
+
+
+Stats for AI numberAiCharacter_0
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_1
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_2
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_0
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_1
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_2
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_0
+Time Deployment = 0.007813
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.007813
+
+
+Stats for AI numberAiCharacter_1
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_2
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_0
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
+Stats for AI numberAiCharacter_1
+Time Deployment = 0.000000
+Time Attack = 0.000000
+Time Fortification = 0.000000
+Time Total = 0.000000
+
+
