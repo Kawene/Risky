@@ -28,6 +28,8 @@ public:
 
 	void CharacterDied(ABaseCharacter* corpse);
 
+	double TotalAiTimes;
+
 private:	
 
 	UPROPERTY()
@@ -43,5 +45,7 @@ private:
 
 	UFUNCTION()
 	int32 GetsNumberOfUnitsToDeploy(ABaseCharacter* character);
+
+	void WriteTotalTime();
 
 };

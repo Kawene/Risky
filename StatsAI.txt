@@ -1,146 +1,66 @@
-Stats for AI numberAiCharacter_2Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
+Stats for:AiCharacter_0
+Time Deployment =	 0.007200
+Time Attack =		 0.027500
+Time Fortification =	 0.001700
+Time Total =		 0.036400
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.006600
+Time Attack =		 0.017600
+Time Fortification =	 0.000500
+Time Total =		 0.024700
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.007900
+Time Attack =		 0.017400
+Time Fortification =	 0.001600
+Time Total =		 0.026900
+
+Total times for the aI this turn =	 0.088000
 
 
-Stats for AI numberAiCharacter_0
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.007900
+Time Attack =		 0.024000
+Time Fortification =	 0.000200
+Time Total =		 0.032100
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.008900
+Time Attack =		 0.025500
+Time Fortification =	 0.000000
+Time Total =		 0.034400
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.003600
+Time Attack =		 0.023800
+Time Fortification =	 0.000100
+Time Total =		 0.027500
+
+Total times for the aI this turn =	 0.094000
 
 
-Stats for AI numberAiCharacter_1
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
 
+Stats for:AiCharacter_0
+Time Deployment =	 0.007500
+Time Attack =		 0.027700
+Time Fortification =	 0.001500
+Time Total =		 0.036700
 
-Stats for AI numberAiCharacter_2
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
+Stats for:AiCharacter_1
+Time Deployment =	 0.007600
+Time Attack =		 0.015700
+Time Fortification =	 0.000100
+Time Total =		 0.023400
 
+Stats for:AiCharacter_2
+Time Deployment =	 0.006400
+Time Attack =		 0.011800
+Time Fortification =	 0.000100
+Time Total =		 0.018300
 
-Stats for AI numberAiCharacter_0
-Time Deploy = 0.0
-Time Attack = 6695.0
-Time Fortification = 2369.0
-Time Total = 9064.0
+Total times for the aI this turn =	 0.078400
 
-
-Stats for AI numberAiCharacter_1
-Time Deploy = 0.0
-Time Attack = 4.0
-Time Fortification = 0.0
-Time Total = 4.0
-
-
-Stats for AI numberAiCharacter_2
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
-
-
-Stats for AI numberAiCharacter_0
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
-
-
-Stats for AI numberAiCharacter_1
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
-
-
-Stats for AI numberAiCharacter_2
-Time Deploy = 0.0
-Time Attack = 0.0
-Time Fortification = 0.0
-Time Total = 0.0
-
-
-Stats for AI numberAiCharacter_0
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_1
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_2
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_0
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_1
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_2
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_0
-Time Deployment = 0.007813
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.007813
-
-
-Stats for AI numberAiCharacter_1
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_2
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_0
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
-
-
-Stats for AI numberAiCharacter_1
-Time Deployment = 0.000000
-Time Attack = 0.000000
-Time Fortification = 0.000000
-Time Total = 0.000000
 
 

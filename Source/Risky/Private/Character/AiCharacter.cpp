@@ -2,9 +2,10 @@
 
 
 #include "Character/AiCharacter.h"
+#include "Character/AiStats.h"
+#include "Manager/TurnManager.h"
 #include "Region.h"
 #include "Math/UnrealMathUtility.h"
-#include "Character/AiStats.h"
 #include "Misc/FileHelper.h"
 #include "HAL/PlatformFileManager.h"
 #include "HAL/FileManager.h"
@@ -25,8 +26,8 @@ void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 {
 	tick();
 	GetRegionWithBorderingEnemy()->DeployUnits(3);
-	FinishedCurrentPhase();
 	Statistic->TimeDeployment = tock();
+	FinishedCurrentPhase();
 }
 
 void AAiCharacter::StartAttackPhase()
@@ -107,15 +108,17 @@ ARegion* AAiCharacter::GetRegionWithBorderingEnemy()
 void AAiCharacter::WriteStatsIntoFile()
 {
 	FString message;
-	message += "Stats for AI number" + this->GetFName().ToString() + "\n";
+	message += "Stats for:" + this->GetFName().ToString() + "\n";
 
-	message += FString::Printf(TEXT("Time Deployment = %f\n"), Statistic->TimeDeployment); 
+	message += FString::Printf(TEXT("Time Deployment =\t %f\n"), Statistic->TimeDeployment); 
 
-	message += FString::Printf(TEXT("Time Attack = %f\n"), Statistic->TimeAttack);
+	message += FString::Printf(TEXT("Time Attack =\t\t %f\n"), Statistic->TimeAttack);
 
-	message += FString::Printf(TEXT("Time Fortification = %f\n"), Statistic->TimeFortification);
+	message += FString::Printf(TEXT("Time Fortification =\t %f\n"), Statistic->TimeFortification);
 
-	message += FString::Printf(TEXT("Time Total = %f\n\n\n"), (Statistic->TimeDeployment + Statistic->TimeAttack + Statistic->TimeFortification));
+	double totalTime = Statistic->TimeDeployment + Statistic->TimeAttack + Statistic->TimeFortification;
+
+	message += FString::Printf(TEXT("Time Total =\t\t %f\n\n"), totalTime);
 
 	FString filePath = FPaths::ProjectDir() + TEXT("StatsAI.txt");
 
@@ -126,15 +129,17 @@ void AAiCharacter::WriteStatsIntoFile()
 		&IFileManager::Get(),
 		FILEWRITE_Append
 	);
+
+	TurnManager->TotalAiTimes += totalTime;
 }
 
 void AAiCharacter::tick()
 {
-	TickTime = FPlatformTime::Seconds();
+	TickTime = FPlatformTime::Cycles();  // Capture cycles at the start
 }
 
 double AAiCharacter::tock()
 {
-	TockTime = FPlatformTime::Seconds();
-	return (TockTime - TickTime) * 1000.f;
+	TockTime = FPlatformTime::Cycles();  // Capture cycles at the end
+	return (TockTime - TickTime) * FPlatformTime::GetSecondsPerCycle() * 1000.0f; // Return time in ms
 }

@@ -65,10 +65,33 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 void ATurnManager::EndTurn()
 {
 	CurrentCharracterIndex = (CurrentCharracterIndex + 1) % Characters.Num();
+	if (CurrentCharracterIndex == 0 && TotalAiTimes != 0)
+	{
+		WriteTotalTime();
+	}
 	StartTurn();
 }
 
 int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
 {
 	return character->RegionsOwned.Num() * 3;
+}
+
+void ATurnManager::WriteTotalTime()
+{
+	FString message;
+
+	message += FString::Printf(TEXT("Total times for the aI this turn =\t %f\n\n\n\n"), TotalAiTimes);
+
+	FString filePath = FPaths::ProjectDir() + TEXT("StatsAI.txt");
+
+	FFileHelper::SaveStringToFile(
+		message,
+		*filePath,
+		FFileHelper::EEncodingOptions::AutoDetect,
+		&IFileManager::Get(),
+		FILEWRITE_Append
+	);
+
+	TotalAiTimes = 0;
 }
