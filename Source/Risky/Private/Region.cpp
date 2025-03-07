@@ -10,12 +10,15 @@
 
 ARegion::ARegion()
 {
-	RegionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RegionMesh"));
-	RegionMesh->SetupAttachment(RootComponent);
-	RegionMesh->OnClicked.AddDynamic(this, &ARegion::OnSelectedRegion);
+	RegionSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RegionSceneComponent"));
+	RegionSceneComponent->SetupAttachment(RootComponent);
 
 	RegionText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("RegionText"));
-	RegionText->SetupAttachment(RegionMesh);
+	RegionText->SetupAttachment(RegionSceneComponent);
+
+	RegionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RegionMesh"));
+	RegionMesh->SetupAttachment(RegionSceneComponent);
+	RegionMesh->OnClicked.AddDynamic(this, &ARegion::OnSelectedRegion);
 }
 
 

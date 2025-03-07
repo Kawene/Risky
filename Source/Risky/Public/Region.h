@@ -20,6 +20,9 @@ class RISKY_API ARegion : public AActor
 	UTextRenderComponent* RegionText;
 
 	UPROPERTY(EditAnywhere)
+	USceneComponent* RegionSceneComponent;
+
+	UPROPERTY(EditAnywhere)
 	TArray<ARegion*> BorderingRegions;
 
 	UFUNCTION()
