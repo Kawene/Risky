@@ -110,7 +110,22 @@ bool ARegion::CanFortifyThisRegion(ARegion* otherRegion)
 
 void ARegion::ToggleSelection(bool turnOff)
 {
-	RegionMesh->MarkRenderStateDirty();
+	FVector currentScale = GetActorScale3D();
+	FVector newScale;
+	if (IsSelected || turnOff)
+	{
+		newScale = currentScale / 1.3;
+		IsSelected = false;
+	}
+	else
+	{
+		newScale = currentScale * 1.3;
+		IsSelected = true;
+	}
+
+	SetActorScale3D(newScale);
+	
+	/*RegionMesh->MarkRenderStateDirty();
 	if (RegionMesh->CustomDepthStencilValue == 2 || turnOff)
 	{
 		RegionMesh->CustomDepthStencilValue = 0;
@@ -118,7 +133,7 @@ void ARegion::ToggleSelection(bool turnOff)
 	else
 	{
 		RegionMesh->CustomDepthStencilValue = 2;
-	}
+	}*/
 }
 
 

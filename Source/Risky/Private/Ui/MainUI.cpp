@@ -54,10 +54,9 @@ void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
 	switch (gamePhase)
 	{
 	case EGamePhase::DeploymentPhase:	
-		InteractText->SetText(FText::FromString("Attack"));
-		SetVisibility(ESlateVisibility::Visible);
 		break;
 	case EGamePhase::AttackPhase:
+		SetVisibility(ESlateVisibility::Visible);
 		InteractText->SetText(FText::FromString("Fortification"));
 		break;
 	case EGamePhase::FortificationPhase:

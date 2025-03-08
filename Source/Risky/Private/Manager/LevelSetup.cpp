@@ -8,6 +8,7 @@
 #include "Manager/TurnManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Math/UnrealMathUtility.h"
+#include "Algo/RandomShuffle.h"
 
 FColor GetRandomColor()
 {
@@ -48,10 +49,23 @@ void ALevelSetup::InitializeLevel()
 	TArray<AActor*> allRegions;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARegion::StaticClass(), allRegions);
 
-	for (AActor* actor : allRegions)
+	if (RandomSpawn)
 	{
-		ARegion* region = StaticCast<ARegion*>(actor);
-		region->ChangeOwnerShip(allPlayers[region->OwnerIdStart], 1);
+		Algo::RandomShuffle(allRegions);
+
+		for (size_t i = 0; i < allRegions.Num(); ++i)
+		{
+			ARegion* region = StaticCast<ARegion*>(allRegions[i]);
+			region->ChangeOwnerShip(allPlayers[i % allPlayers.Num()], 100);
+		}
+	}
+	else 
+	{
+		for (AActor* actor : allRegions)
+		{
+			ARegion* region = StaticCast<ARegion*>(actor);
+			region->ChangeOwnerShip(allPlayers[region->OwnerIdStart], 1);
+		}
 	}
 
 	auto turnManager = GetWorld()->SpawnActor<ATurnManager>(ATurnManager::StaticClass());

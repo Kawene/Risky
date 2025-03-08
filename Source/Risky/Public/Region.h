@@ -25,6 +25,8 @@ class RISKY_API ARegion : public AActor
 	UPROPERTY(EditAnywhere)
 	TArray<ARegion*> BorderingRegions;
 
+	bool IsSelected;
+
 	UFUNCTION()
 	void OnSelectedRegion(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed);
 

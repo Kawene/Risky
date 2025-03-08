@@ -37,7 +37,7 @@ APlayerCharacter::APlayerCharacter()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 2500.f;
+	CameraBoom->TargetArmLength = 10000.f;
 	CameraBoom->SetRelativeRotation(FRotator(-90.f, 0.f, 0.f));
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
@@ -146,6 +146,11 @@ void APlayerCharacter::DialogAction(int32 units)
 
 void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 {
+	if (IsUiOpen)
+	{
+		return;
+	}
+
 	switch (CurrentPhase)
 	{
 	case EGamePhase::DeploymentPhase:

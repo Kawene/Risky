@@ -16,6 +16,9 @@ class RISKY_API ALevelSetup : public AActor
 	UPROPERTY(EditAnywhere)
 	int NumberOfAI;
 
+	UPROPERTY(EditAnywhere)
+	bool RandomSpawn;
+
 	void InitializeLevel();
 
 public:

@@ -55,10 +55,23 @@ void ATurnManager::ProceedToNextPhase()
 
 void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 {
+	int32 index = 0;
+	for (; index < Characters.Num(); index++)
+	{
+		if (Characters[index] == corpse)
+		{
+			break;
+		}
+	}
+
 	Characters.Remove(corpse);
 	if (Characters.Num() == 1)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, "GG well played");
+	}
+	if (index < CurrentCharracterIndex)
+	{
+		--CurrentCharracterIndex;
 	}
 }
 
