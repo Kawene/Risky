@@ -9,6 +9,7 @@
 #include "Misc/FileHelper.h"
 #include "HAL/PlatformFileManager.h"
 #include "HAL/FileManager.h"
+#include "Containers/Map.h"
 
 
 int64 unixTimeNow()
@@ -25,7 +26,19 @@ AAiCharacter::AAiCharacter()
 void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 {
 	tick();
-	GetRegionWithBorderingEnemy()->DeployUnits(3);
+
+	InitMap();
+
+	FilterSafeRegion();
+
+	PrioritizeCloseRegions();
+
+	PrioritizePopulatedRegions();
+
+	//FilterRegionWithNoPoints(PrioritizedRegions);
+
+	DeployUnits(unitsToDeploy);
+
 	Statistic->TimeDeployment = tock();
 	FinishedCurrentPhase();
 }
@@ -33,21 +46,48 @@ void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 void AAiCharacter::StartAttackPhase()
 {
 	tick();
-	for (auto ownRegion : RegionsOwned)
+
+	InitMap();
+
+	FilterSafeRegion();
+
+	bool shouldAttack = true;
+	int32 index = 0;
+
+	while (shouldAttack && index < PrioritizedRegions.Num())
 	{
-		for (auto neighbours : ownRegion->GetBorderingRegions())
+		auto test = GetRegionsMostUnits();
+
+		auto topPair = GetRegionsMostUnits()[index];
+
+		ARegion* region = topPair.Key;
+		if (region->GetUnits() < 4)
 		{
-			while (ownRegion->CanAttackThisRegion(neighbours))
-			{
-				if (CombatRegion(ownRegion, neighbours, ownRegion->GetUnits() - 1))
-				{
-					neighbours->ChangeOwnerShip(this, ownRegion->GetUnits() - 1);
-					Statistic->TimeAttack = tock();
-					FinishedCurrentPhase();
-					return;
-				}
-			}
+			shouldAttack = false;
+			break;
 		}
+
+		InitAttackMap(region);
+
+		EvaluateRegionForAttacking(region);
+
+		auto sortedPair = GetTopResults(PrioritizedRegionsToAttack);
+
+		if (!sortedPair.IsEmpty() && sortedPair[0].Value > 2)
+		{
+			if (AttackValuableRegion(region, sortedPair[0].Key))
+			{
+				index = 0;
+			}
+			else {
+				++index;
+			}
+
+		}
+		else {
+			++index;
+		}
+		
 	}
 
 	Statistic->TimeAttack = tock();
@@ -57,7 +97,7 @@ void AAiCharacter::StartAttackPhase()
 void AAiCharacter::StartFortificationPhase()
 {
 	tick();
-	bool noEnemy;
+	/*bool noEnemy;
 	for (auto ownRegion : RegionsOwned)
 	{
 		if (ownRegion->GetUnits() < 2)
@@ -83,7 +123,7 @@ void AAiCharacter::StartFortificationPhase()
 			FinishedCurrentPhase();
 			return;
 		}
-	}
+	}*/
 	Statistic->TimeFortification = tock();
 	WriteStatsIntoFile();
 	FinishedCurrentPhase();
@@ -131,6 +171,230 @@ void AAiCharacter::WriteStatsIntoFile()
 	);
 
 	TurnManager->TotalAiTimes += totalTime;
+}
+
+void AAiCharacter::PrioritizeCloseRegions()
+{
+	for (TPair<ARegion*, double>& pair : PrioritizedRegions)
+	{
+		TSet<ARegion*> visited;
+		CheckCloseRegions(pair, pair.Key, visited, 0);
+	}
+}
+
+void AAiCharacter::PrioritizePopulatedRegions()
+{
+	auto list = GetRegionsMostUnits();
+	const int32 TopCount = FMath::Min(3, list.Num());
+	if (TopCount > 1 && list[0].Key->GetUnits() > list[1].Key->GetUnits())
+	{
+		for (size_t i = 0; i < TopCount; ++i)
+		{
+			PrioritizedRegions[list[i].Key] += 3 - i;
+		}
+	}
+}
+
+void AAiCharacter::CheckCloseRegions(TPair<ARegion*, double>& pair, ARegion* currentRegion, TSet<ARegion*>& visited, int32 iteration)
+{
+	if (iteration > 2)
+	{
+		return;
+	}
+	visited.Add(currentRegion);
+
+	for (ARegion* neighbor : currentRegion->GetBorderingRegions())
+	{
+		if (visited.Contains(neighbor))
+		{
+			continue;
+		}
+
+		if (neighbor->GetRegionOwner() == this)
+		{
+			if (neighbor->GetBorderingRegions().Contains(pair.Key))
+			{
+				pair.Value += 2;
+			}
+			else 
+			{
+				pair.Value += 1;
+			}
+		}
+		CheckCloseRegions(pair, neighbor, visited, iteration + 1);
+	}
+}
+
+void AAiCharacter::FilterSafeRegion()
+{
+	auto hasEnemyNeihbors = ([this](const TPair<ARegion*, double>& pair) -> bool
+		{
+			for (ARegion* neighbor : pair.Key->GetBorderingRegions())
+			{
+				if (neighbor->GetRegionOwner() != this)
+				{
+					return true;
+				}
+			}
+			return false;
+		});
+
+	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasEnemyNeihbors);
+}
+
+TArray<TPair<ARegion*, double>> AAiCharacter::GetTopResults(TMap<ARegion*, double> map)
+{
+
+	TArray<TPair<ARegion*, double>> SortedPairs;
+	for (const TPair<ARegion*, double>& Pair : map)
+	{
+		SortedPairs.Add(Pair);
+	}
+
+	SortedPairs.Sort([](const TPair<ARegion*, double>& A, const TPair<ARegion*, double>& B)
+		{
+			return A.Value > B.Value;
+		});
+
+	return SortedPairs;
+
+}
+
+TArray<TPair<ARegion*, double>> AAiCharacter::GetRegionsMostUnits()
+{
+	TArray<TPair<ARegion*, double>> SortedPairs;
+	for (const TPair<ARegion*, double>& Pair : PrioritizedRegions)
+	{
+		SortedPairs.Add(Pair);
+	}
+
+	SortedPairs.Sort([](const TPair<ARegion*, double>& A, const TPair<ARegion*, double>& B)
+		{
+			return A.Key->GetUnits() > B.Key->GetUnits();
+		});
+
+	return SortedPairs;
+}
+
+void AAiCharacter::InitMap()
+{
+	PrioritizedRegions.Reset();
+	for (ARegion* region : RegionsOwned)
+	{
+		PrioritizedRegions.Add(region, 0);
+	}
+}
+
+void AAiCharacter::InitAttackMap(ARegion* region)
+{
+	PrioritizedRegionsToAttack.Reset();
+	for (ARegion* neighbours : region->GetBorderingRegions())
+	{
+		if (this != neighbours->GetRegionOwner())
+		{
+			PrioritizedRegionsToAttack.Add(neighbours, 0);
+		}
+	}
+}
+
+void AAiCharacter::DeployUnits(int32 unitsToDeploy)
+{
+	auto bestList = GetTopResults(PrioritizedRegions);
+
+	if (unitsToDeploy > 10 && FMath::RandRange(0, 100) > 70)
+	{
+		double diffValue = bestList[0].Value - bestList[1].Value;
+		if (diffValue <= 3)
+		{
+			double total = bestList[0].Value + bestList[1].Value;
+			int32 partForBestRegion = bestList[0].Value * unitsToDeploy / total;
+			int32 partForSecondRegion = unitsToDeploy - partForBestRegion;
+			bestList[0].Key->DeployUnits(partForBestRegion);
+			bestList[1].Key->DeployUnits(partForSecondRegion);
+			return;
+		}
+	}
+
+	bestList[0].Key->DeployUnits(unitsToDeploy);
+}
+
+void AAiCharacter::EvaluateRegionForAttacking(ARegion* region)
+{
+	int32 units = region->GetUnits();
+
+	for (TPair<ARegion*, double> &neighboursPair : PrioritizedRegionsToAttack)
+	{
+		ARegion* neighboursRegion = neighboursPair.Key;
+		int32 neighboursUnits = neighboursRegion->GetUnits();
+		if (neighboursUnits < units)
+		{
+			int32 diff = units - neighboursUnits;
+			neighboursPair.Value += diff;
+		}
+		else
+		{
+			for (TPair<ARegion*, double> &tempPair : PrioritizedRegionsToAttack)
+			{
+				tempPair.Value -= 2;
+			}
+		}
+
+
+		for (ARegion* neighboursOfNeighbours : neighboursRegion->GetBorderingRegions())
+		{
+			neighboursPair.Value -= 0.5;
+			if (this == neighboursOfNeighbours->GetRegionOwner())
+			{
+				neighboursPair.Value += 3;
+			}
+			else if (neighboursOfNeighbours->GetRegionOwner() != neighboursRegion->GetRegionOwner())
+			{
+				neighboursPair.Value += 1;
+			}
+		}
+	}
+}
+
+bool AAiCharacter::AttackValuableRegion(ARegion* ownRegion, ARegion* regionToAttack)
+{
+	bool result = false;
+	while (ownRegion->GetUnits() >= regionToAttack->GetUnits() && !result)
+	{
+		result = CombatRegion(ownRegion, regionToAttack, ownRegion->GetUnits() - 1);
+
+		if (result)
+		{
+			PrioritizedRegions.Add(regionToAttack, 0);
+			if (ownRegion->GetUnits() <= 4)
+			{
+				TransferUnits(ownRegion, regionToAttack, ownRegion->GetUnits() - 1);
+			}
+			else {
+				int32 totalUnitIShouldTransfer = ownRegion->GetUnits() - 1;
+				for (ARegion* neighbours : ownRegion->GetBorderingRegions())
+				{
+					if (neighbours->GetRegionOwner() != this && !regionToAttack->GetBorderingRegions().Contains(neighbours))
+					{
+						totalUnitIShouldTransfer--;
+					}
+				}
+
+				TransferUnits(ownRegion, regionToAttack, FMath::Max(3, totalUnitIShouldTransfer));
+			}
+		}
+	}
+
+	return result;
+}
+
+void AAiCharacter::FilterRegionWithNoPoints(TMap<ARegion*, double> map)
+{
+	auto hasOwnNeihbors = ([this](const TPair<ARegion*, double>& pair) -> bool
+		{
+			return pair.Value > 0;
+		});
+
+	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasOwnNeihbors);
 }
 
 void AAiCharacter::tick()

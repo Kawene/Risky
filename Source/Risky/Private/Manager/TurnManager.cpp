@@ -87,7 +87,7 @@ void ATurnManager::EndTurn()
 
 int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
 {
-	return character->RegionsOwned.Num() * 3;
+	return character->RegionsOwned.Num();
 }
 
 void ATurnManager::WriteTotalTime()

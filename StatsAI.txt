@@ -1,798 +1,648 @@
 Stats for:AiCharacter_0
-Time Deployment =	 0.008800
-Time Attack =		 0.026200
-Time Fortification =	 0.000100
-Time Total =		 0.035100
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008200
-Time Attack =		 0.013500
+Time Deployment =	 0.112600
+Time Attack =		 4277.849000
 Time Fortification =	 0.000000
-Time Total =		 0.021700
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.005600
-Time Attack =		 0.018100
-Time Fortification =	 0.000200
-Time Total =		 0.023900
-
-Total times for the aI this turn =	 0.080700
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008900
-Time Attack =		 0.027100
-Time Fortification =	 0.000400
-Time Total =		 0.036400
+Time Total =		 4277.961600
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.008100
-Time Attack =		 0.022300
-Time Fortification =	 0.000400
-Time Total =		 0.030800
+Time Deployment =	 0.074200
+Time Attack =		 0.165600
+Time Fortification =	 0.000000
+Time Total =		 0.239800
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.008100
-Time Attack =		 0.019800
-Time Fortification =	 0.000400
-Time Total =		 0.028300
+Time Deployment =	 0.064600
+Time Attack =		 0.145000
+Time Fortification =	 0.000100
+Time Total =		 0.209700
 
 Stats for:AiCharacter_3
-Time Deployment =	 0.006700
-Time Attack =		 0.016900
-Time Fortification =	 0.000400
-Time Total =		 0.024000
+Time Deployment =	 0.069500
+Time Attack =		 0.157400
+Time Fortification =	 0.000000
+Time Total =		 0.226900
 
-Total times for the aI this turn =	 0.119500
-
-
+Stats for:AiCharacter_4
+Time Deployment =	 0.059200
+Time Attack =		 0.120100
+Time Fortification =	 0.000000
+Time Total =		 0.179300
 
 Stats for:AiCharacter_0
-Time Deployment =	 0.007900
-Time Attack =		 0.494000
-Time Fortification =	 0.000300
-Time Total =		 0.502200
+Time Deployment =	 0.089800
+Time Attack =		 0.115300
+Time Fortification =	 0.000000
+Time Total =		 0.205100
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.099100
+Time Attack =		 0.131900
+Time Fortification =	 0.000000
+Time Total =		 0.231000
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.011300
-Time Attack =		 0.417000
-Time Fortification =	 0.004600
-Time Total =		 0.432900
+Time Deployment =	 0.050400
+Time Attack =		 0.135200
+Time Fortification =	 0.000100
+Time Total =		 0.185700
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.099500
+Time Attack =		 0.152600
+Time Fortification =	 0.000000
+Time Total =		 0.252100
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.054800
+Time Attack =		 0.111500
+Time Fortification =	 0.000100
+Time Total =		 0.166400
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.056900
+Time Attack =		 6415.656100
+Time Fortification =	 0.000000
+Time Total =		 6415.713000
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.027800
+Time Attack =		 958.713300
+Time Fortification =	 0.000000
+Time Total =		 958.741100
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.004600
-Time Attack =		 0.048400
+Time Deployment =	 0.034700
+Time Attack =		 868.812500
 Time Fortification =	 0.000000
-Time Total =		 0.053000
+Time Total =		 868.847200
 
-Total times for the aI this turn =	 0.988100
+Total times for the aI this turn =	 8243.301300
 
 
 
 Stats for:AiCharacter_0
-Time Deployment =	 0.009000
-Time Attack =		 0.042400
-Time Fortification =	 0.000300
-Time Total =		 0.051700
+Time Deployment =	 0.026600
+Time Attack =		 1686.143900
+Time Fortification =	 0.000000
+Time Total =		 1686.170500
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.008100
-Time Attack =		 0.297700
-Time Fortification =	 0.000200
-Time Total =		 0.306000
+Time Deployment =	 0.031800
+Time Attack =		 777.945100
+Time Fortification =	 0.000000
+Time Total =		 777.976900
 
-Total times for the aI this turn =	 0.357700
+Stats for:AiCharacter_0
+Time Deployment =	 5374.566700
+Time Attack =		 2051.656100
+Time Fortification =	 0.000000
+Time Total =		 7426.222800
+
+Stats for:AiCharacter_0
+Time Deployment =	 20143.024900
+Time Attack =		 2142.560000
+Time Fortification =	 0.000000
+Time Total =		 22285.584900
+
+Stats for:AiCharacter_1
+Time Deployment =	 5110.661100
+Time Attack =		 0.100100
+Time Fortification =	 0.000100
+Time Total =		 5110.761300
+
+Stats for:AiCharacter_0
+Time Deployment =	 10247.043900
+Time Attack =		 0.053700
+Time Fortification =	 0.000000
+Time Total =		 10247.097600
+
+Stats for:AiCharacter_0
+Time Deployment =	 9177.708900
+Time Attack =		 0.087100
+Time Fortification =	 0.000000
+Time Total =		 9177.796000
+
+Stats for:AiCharacter_0
+Time Deployment =	 9550.050700
+Time Attack =		 0.145700
+Time Fortification =	 0.000100
+Time Total =		 9550.196500
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.076700
+Time Attack =		 0.176700
+Time Fortification =	 0.000000
+Time Total =		 0.253400
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.049100
+Time Attack =		 0.078900
+Time Fortification =	 0.000100
+Time Total =		 0.128100
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.062400
+Time Attack =		 0.177000
+Time Fortification =	 0.000000
+Time Total =		 0.239400
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.019300
+Time Attack =		 0.073700
+Time Fortification =	 0.000000
+Time Total =		 0.093000
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.025200
+Time Attack =		 0.023000
+Time Fortification =	 0.000000
+Time Total =		 0.048200
+
+Total times for the aI this turn =	 0.380600
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.026500
+Time Attack =		 0.079900
+Time Fortification =	 0.000000
+Time Total =		 0.106400
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.019800
+Time Attack =		 0.010300
+Time Fortification =	 0.000000
+Time Total =		 0.030100
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.026600
+Time Attack =		 0.013400
+Time Fortification =	 0.000000
+Time Total =		 0.040000
+
+Total times for the aI this turn =	 0.176500
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.023100
+Time Attack =		 0.067400
+Time Fortification =	 0.000000
+Time Total =		 0.090500
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.018100
+Time Attack =		 0.023400
+Time Fortification =	 0.000000
+Time Total =		 0.041500
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.023300
+Time Attack =		 0.046200
+Time Fortification =	 0.000000
+Time Total =		 0.069500
+
+Total times for the aI this turn =	 0.201500
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.029900
+Time Attack =		 0.053300
+Time Fortification =	 0.000000
+Time Total =		 0.083200
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.045300
+Time Attack =		 0.022700
+Time Fortification =	 0.000000
+Time Total =		 0.068000
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.018200
+Time Attack =		 0.039100
+Time Fortification =	 0.000000
+Time Total =		 0.057300
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.011300
+Time Attack =		 0.006300
+Time Fortification =	 0.000000
+Time Total =		 0.017600
+
+Total times for the aI this turn =	 0.142900
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.022500
+Time Attack =		 0.033900
+Time Fortification =	 0.000000
+Time Total =		 0.056400
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.020600
+Time Attack =		 0.041100
+Time Fortification =	 0.000000
+Time Total =		 0.061700
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.013700
+Time Attack =		 0.004600
+Time Fortification =	 0.000100
+Time Total =		 0.018400
+
+Total times for the aI this turn =	 0.136500
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.022200
+Time Attack =		 0.035700
+Time Fortification =	 0.000000
+Time Total =		 0.057900
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.015500
+Time Attack =		 0.001400
+Time Fortification =	 0.000000
+Time Total =		 0.016900
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.014100
+Time Attack =		 0.208700
+Time Fortification =	 0.000000
+Time Total =		 0.222800
+
+Total times for the aI this turn =	 0.297600
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.023000
+Time Attack =		 0.029300
+Time Fortification =	 0.000000
+Time Total =		 0.052300
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.016500
+Time Attack =		 0.001300
+Time Fortification =	 0.000000
+Time Total =		 0.017800
+
+Total times for the aI this turn =	 0.070100
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.024700
+Time Attack =		 0.042100
+Time Fortification =	 0.000000
+Time Total =		 0.066800
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.023600
+Time Attack =		 0.055900
+Time Fortification =	 0.000000
+Time Total =		 0.079500
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.015800
+Time Attack =		 0.001400
+Time Fortification =	 0.000100
+Time Total =		 0.017300
+
+Total times for the aI this turn =	 0.163600
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.028200
+Time Attack =		 0.049100
+Time Fortification =	 0.000000
+Time Total =		 0.077300
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.049200
+Time Attack =		 0.077500
+Time Fortification =	 0.000100
+Time Total =		 0.126800
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.045300
+Time Attack =		 0.107600
+Time Fortification =	 0.000000
+Time Total =		 0.152900
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.023100
+Time Attack =		 0.052900
+Time Fortification =	 0.000000
+Time Total =		 0.076000
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.020300
+Time Attack =		 0.045800
+Time Fortification =	 0.000000
+Time Total =		 0.066100
+
+Total times for the aI this turn =	 0.295000
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.021700
+Time Attack =		 0.053400
+Time Fortification =	 0.000000
+Time Total =		 0.075100
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.021700
+Time Attack =		 0.001700
+Time Fortification =	 0.000000
+Time Total =		 0.023400
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.021600
+Time Attack =		 0.042900
+Time Fortification =	 0.000000
+Time Total =		 0.064500
+
+Total times for the aI this turn =	 0.163000
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.024500
+Time Attack =		 0.032900
+Time Fortification =	 0.000100
+Time Total =		 0.057500
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.015300
+Time Attack =		 0.028400
+Time Fortification =	 0.000000
+Time Total =		 0.043700
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.018300
+Time Attack =		 21655.723300
+Time Fortification =	 0.000000
+Time Total =		 21655.741600
+
+Total times for the aI this turn =	 21655.842800
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.024400
+Time Attack =		 0.030000
+Time Fortification =	 0.000000
+Time Total =		 0.054400
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.024000
+Time Attack =		 0.021200
+Time Fortification =	 0.000000
+Time Total =		 0.045200
+
+Total times for the aI this turn =	 0.099600
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.028800
+Time Attack =		 0.047800
+Time Fortification =	 0.000100
+Time Total =		 0.076700
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.027600
+Time Attack =		 0.028300
+Time Fortification =	 0.000000
+Time Total =		 0.055900
+
+Total times for the aI this turn =	 0.132600
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.031200
+Time Attack =		 0.050300
+Time Fortification =	 0.000000
+Time Total =		 0.081500
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.018900
+Time Attack =		 0.021600
+Time Fortification =	 0.000000
+Time Total =		 0.040500
+
+Total times for the aI this turn =	 0.122000
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.032500
+Time Attack =		 0.042000
+Time Fortification =	 0.000100
+Time Total =		 0.074600
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.048500
+Time Attack =		 0.040700
+Time Fortification =	 0.000000
+Time Total =		 0.089200
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.023200
+Time Attack =		 0.047300
+Time Fortification =	 0.000000
+Time Total =		 0.070500
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.017400
+Time Attack =		 0.034700
+Time Fortification =	 0.000000
+Time Total =		 0.052100
+
+Total times for the aI this turn =	 0.211800
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.020600
+Time Attack =		 0.004800
+Time Fortification =	 0.000000
+Time Total =		 0.025400
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.026500
+Time Attack =		 0.022800
+Time Fortification =	 0.000000
+Time Total =		 0.049300
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.023700
+Time Attack =		 0.013500
+Time Fortification =	 0.000000
+Time Total =		 0.037200
+
+Total times for the aI this turn =	 0.111900
 
 
 
 Stats for:AiCharacter_0
 Time Deployment =	 0.019700
-Time Attack =		 0.087900
+Time Attack =		 0.031000
+Time Fortification =	 0.000100
+Time Total =		 0.050800
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.028900
+Time Attack =		 0.024600
 Time Fortification =	 0.000000
-Time Total =		 0.107600
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.009600
-Time Attack =		 1.118900
-Time Fortification =	 0.002100
-Time Total =		 1.130600
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008100
-Time Attack =		 0.541100
-Time Fortification =	 0.003200
-Time Total =		 0.552400
+Time Total =		 0.053500
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.004100
-Time Attack =		 2.313700
-Time Fortification =	 0.001800
-Time Total =		 2.319600
+Time Deployment =	 0.023900
+Time Attack =		 0.044400
+Time Fortification =	 0.000000
+Time Total =		 0.068300
 
-Stats for:AiCharacter_3
-Time Deployment =	 0.006100
-Time Attack =		 1.243300
-Time Fortification =	 0.001700
-Time Total =		 1.251100
-
-Total times for the aI this turn =	 5.253700
+Total times for the aI this turn =	 0.172600
 
 
 
 Stats for:AiCharacter_0
-Time Deployment =	 0.008300
-Time Attack =		 0.022100
-Time Fortification =	 0.001900
-Time Total =		 0.032300
+Time Deployment =	 0.024500
+Time Attack =		 0.027100
+Time Fortification =	 0.000000
+Time Total =		 0.051600
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.007100
-Time Attack =		 0.017200
-Time Fortification =	 0.001500
-Time Total =		 0.025800
+Time Deployment =	 0.020100
+Time Attack =		 0.017700
+Time Fortification =	 0.000000
+Time Total =		 0.037800
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.007900
-Time Attack =		 1.096700
-Time Fortification =	 0.001200
-Time Total =		 1.105800
+Time Deployment =	 0.017600
+Time Attack =		 0.034300
+Time Fortification =	 0.000000
+Time Total =		 0.051900
 
-Stats for:AiCharacter_3
-Time Deployment =	 0.008600
-Time Attack =		 0.058100
-Time Fortification =	 0.000700
-Time Total =		 0.067400
-
-Total times for the aI this turn =	 1.231300
+Total times for the aI this turn =	 0.141300
 
 
 
 Stats for:AiCharacter_0
-Time Deployment =	 0.008500
-Time Attack =		 0.191400
-Time Fortification =	 0.000800
-Time Total =		 0.200700
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.007300
-Time Attack =		 0.026300
-Time Fortification =	 0.003500
-Time Total =		 0.037100
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.005200
-Time Attack =		 0.040600
-Time Fortification =	 0.001000
-Time Total =		 0.046800
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.005900
-Time Attack =		 0.091900
-Time Fortification =	 0.001600
-Time Total =		 0.099400
-
-Total times for the aI this turn =	 0.384000
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008500
-Time Attack =		 0.108800
-Time Fortification =	 0.003300
-Time Total =		 0.120600
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008000
-Time Attack =		 0.591200
-Time Fortification =	 0.005500
-Time Total =		 0.604700
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.009600
-Time Attack =		 0.888400
-Time Fortification =	 0.000700
-Time Total =		 0.898700
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.007100
-Time Attack =		 0.018200
-Time Fortification =	 0.001800
-Time Total =		 0.027100
-
-Total times for the aI this turn =	 1.651100
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.000000
-Time Attack =		 0.569000
-Time Fortification =	 0.002300
-Time Total =		 0.571300
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.010100
-Time Attack =		 0.919400
-Time Fortification =	 0.003200
-Time Total =		 0.932700
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.008400
-Time Attack =		 0.029700
-Time Fortification =	 0.001400
-Time Total =		 0.039500
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.008700
-Time Attack =		 0.138200
-Time Fortification =	 0.001600
-Time Total =		 0.148500
-
-Total times for the aI this turn =	 1.692000
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.007700
-Time Attack =		 0.144900
-Time Fortification =	 0.002300
-Time Total =		 0.154900
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008700
-Time Attack =		 0.149300
-Time Fortification =	 0.003300
-Time Total =		 0.161300
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.006600
-Time Attack =		 0.071000
-Time Fortification =	 0.000700
-Time Total =		 0.078300
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.007300
-Time Attack =		 0.056400
-Time Fortification =	 0.000800
-Time Total =		 0.064500
-
-Total times for the aI this turn =	 0.459000
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.000000
-Time Attack =		 0.542300
-Time Fortification =	 0.001000
-Time Total =		 0.543300
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008500
-Time Attack =		 0.019900
-Time Fortification =	 0.001800
-Time Total =		 0.030200
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.004900
-Time Attack =		 0.281000
-Time Fortification =	 0.001100
-Time Total =		 0.287000
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006600
-Time Attack =		 0.229200
-Time Fortification =	 0.001200
-Time Total =		 0.237000
-
-Total times for the aI this turn =	 1.097500
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.000000
-Time Attack =		 0.359000
-Time Fortification =	 0.001300
-Time Total =		 0.360300
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.006600
-Time Attack =		 0.087400
-Time Fortification =	 0.001600
-Time Total =		 0.095600
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.007700
-Time Attack =		 0.079300
-Time Fortification =	 0.000700
-Time Total =		 0.087700
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006100
-Time Attack =		 0.199000
-Time Fortification =	 0.001500
-Time Total =		 0.206600
-
-Total times for the aI this turn =	 0.750200
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008200
-Time Attack =		 0.037100
-Time Fortification =	 0.001400
-Time Total =		 0.046700
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.000000
-Time Attack =		 1.014200
-Time Fortification =	 0.001200
-Time Total =		 1.015400
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.000000
-Time Attack =		 0.040700
-Time Fortification =	 0.000900
-Time Total =		 0.041600
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.009700
-Time Attack =		 0.062100
-Time Fortification =	 0.001000
-Time Total =		 0.072800
-
-Total times for the aI this turn =	 1.176500
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.000000
-Time Attack =		 0.258700
-Time Fortification =	 0.001300
-Time Total =		 0.260000
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.011400
-Time Attack =		 0.085200
-Time Fortification =	 0.001600
-Time Total =		 0.098200
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.007000
-Time Attack =		 0.108400
-Time Fortification =	 0.000700
-Time Total =		 0.116100
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006100
-Time Attack =		 0.293700
-Time Fortification =	 0.004800
-Time Total =		 0.304600
-
-Total times for the aI this turn =	 0.778900
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.009000
-Time Attack =		 0.313500
-Time Fortification =	 0.001100
-Time Total =		 0.323600
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.007100
-Time Attack =		 0.032200
-Time Fortification =	 0.001200
-Time Total =		 0.040500
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.005100
-Time Attack =		 0.206200
-Time Fortification =	 0.002700
-Time Total =		 0.214000
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.000000
-Time Attack =		 0.446000
-Time Fortification =	 0.001600
-Time Total =		 0.447600
-
-Total times for the aI this turn =	 1.025700
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.007800
-Time Attack =		 0.398300
-Time Fortification =	 0.001200
-Time Total =		 0.407300
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.000000
-Time Attack =		 0.315000
-Time Fortification =	 0.001400
-Time Total =		 0.316400
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.005600
-Time Attack =		 0.026000
-Time Fortification =	 0.005200
-Time Total =		 0.036800
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006400
-Time Attack =		 0.294400
-Time Fortification =	 0.001500
-Time Total =		 0.302300
-
-Total times for the aI this turn =	 1.062800
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008400
-Time Attack =		 0.159000
-Time Fortification =	 0.001000
-Time Total =		 0.168400
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.000000
-Time Attack =		 0.179100
-Time Fortification =	 0.001100
-Time Total =		 0.180200
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.008400
-Time Attack =		 0.028000
-Time Fortification =	 0.000700
-Time Total =		 0.037100
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.000000
-Time Attack =		 0.212900
-Time Fortification =	 0.001300
-Time Total =		 0.214200
-
-Total times for the aI this turn =	 0.599900
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008000
-Time Attack =		 0.253000
-Time Fortification =	 0.001100
-Time Total =		 0.262100
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008400
-Time Attack =		 0.324000
-Time Fortification =	 0.001200
-Time Total =		 0.333600
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.007400
-Time Attack =		 0.259700
-Time Fortification =	 0.000600
-Time Total =		 0.267700
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.005900
-Time Attack =		 0.015600
-Time Fortification =	 0.001800
-Time Total =		 0.023300
-
-Total times for the aI this turn =	 0.886700
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008200
-Time Attack =		 0.125500
-Time Fortification =	 0.001200
-Time Total =		 0.134900
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.007200
-Time Attack =		 0.078300
-Time Fortification =	 0.001100
-Time Total =		 0.086600
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.006100
-Time Attack =		 0.107100
-Time Fortification =	 0.000600
-Time Total =		 0.113800
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006900
-Time Attack =		 0.266500
-Time Fortification =	 0.001100
-Time Total =		 0.274500
-
-Total times for the aI this turn =	 0.609800
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008400
-Time Attack =		 0.142500
-Time Fortification =	 0.001200
-Time Total =		 0.152100
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.007800
-Time Attack =		 0.374900
-Time Fortification =	 0.000900
-Time Total =		 0.383600
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.008900
-Time Attack =		 0.054900
-Time Fortification =	 0.002500
-Time Total =		 0.066300
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006000
-Time Attack =		 0.019000
-Time Fortification =	 0.001000
-Time Total =		 0.026000
-
-Total times for the aI this turn =	 0.628000
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008700
-Time Attack =		 0.104300
-Time Fortification =	 0.000800
-Time Total =		 0.113800
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.000000
-Time Attack =		 0.660200
-Time Fortification =	 0.000700
-Time Total =		 0.660900
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.009000
-Time Attack =		 0.144000
-Time Fortification =	 0.000800
-Time Total =		 0.153800
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.006700
-Time Attack =		 0.029300
-Time Fortification =	 0.000900
-Time Total =		 0.036900
-
-Total times for the aI this turn =	 0.965400
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.007800
-Time Attack =		 0.038700
-Time Fortification =	 0.001000
-Time Total =		 0.047500
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.007800
-Time Attack =		 0.092800
-Time Fortification =	 0.000700
-Time Total =		 0.101300
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.005600
-Time Attack =		 0.110600
-Time Fortification =	 0.000700
-Time Total =		 0.116900
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.005700
-Time Attack =		 0.335400
-Time Fortification =	 0.001100
-Time Total =		 0.342200
-
-Total times for the aI this turn =	 0.607900
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008200
-Time Attack =		 0.021900
-Time Fortification =	 0.002200
-Time Total =		 0.032300
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008200
-Time Attack =		 0.136300
-Time Fortification =	 0.001600
-Time Total =		 0.146100
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.007300
-Time Attack =		 0.065100
-Time Fortification =	 0.001000
-Time Total =		 0.073400
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.008100
-Time Attack =		 0.086900
-Time Fortification =	 0.000300
-Time Total =		 0.095300
-
-Total times for the aI this turn =	 0.347100
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008500
-Time Attack =		 0.069200
-Time Fortification =	 0.000800
-Time Total =		 0.078500
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.007700
-Time Attack =		 0.143600
-Time Fortification =	 0.000700
-Time Total =		 0.152000
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.000000
-Time Attack =		 0.103900
-Time Fortification =	 0.000700
-Time Total =		 0.104600
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.005800
-Time Attack =		 0.197000
-Time Fortification =	 0.001000
-Time Total =		 0.203800
-
-Total times for the aI this turn =	 0.538900
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008600
-Time Attack =		 0.026700
-Time Fortification =	 0.001600
-Time Total =		 0.036900
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.006300
-Time Attack =		 0.024900
-Time Fortification =	 0.001000
-Time Total =		 0.032200
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.010500
-Time Attack =		 0.121800
-Time Fortification =	 0.000400
-Time Total =		 0.132700
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.020400
-Time Attack =		 0.082300
-Time Fortification =	 0.000300
-Time Total =		 0.103000
-
-Total times for the aI this turn =	 0.304800
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008900
-Time Attack =		 0.053400
-Time Fortification =	 0.001600
-Time Total =		 0.063900
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.008200
-Time Attack =		 0.030000
-Time Fortification =	 0.000400
-Time Total =		 0.038600
-
-Stats for:AiCharacter_2
-Time Deployment =	 0.005400
-Time Attack =		 0.040600
-Time Fortification =	 0.000300
-Time Total =		 0.046300
-
-Stats for:AiCharacter_3
-Time Deployment =	 0.005200
-Time Attack =		 0.071300
-Time Fortification =	 0.000300
-Time Total =		 0.076800
-
-Total times for the aI this turn =	 0.225600
-
-
-
-Stats for:AiCharacter_0
-Time Deployment =	 0.008000
-Time Attack =		 0.141900
-Time Fortification =	 0.000900
-Time Total =		 0.150800
-
-Stats for:AiCharacter_1
-Time Deployment =	 0.006400
-Time Attack =		 0.016100
+Time Deployment =	 0.024500
+Time Attack =		 0.030900
 Time Fortification =	 0.000100
-Time Total =		 0.022600
+Time Total =		 0.055500
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.047300
+Time Attack =		 3600.908200
+Time Fortification =	 0.000000
+Time Total =		 3600.955500
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.028200
+Time Attack =		 734.911000
+Time Fortification =	 0.000100
+Time Total =		 734.939300
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.005900
-Time Attack =		 0.041100
-Time Fortification =	 0.000300
-Time Total =		 0.047300
+Time Deployment =	 0.026800
+Time Attack =		 593.155900
+Time Fortification =	 0.000000
+Time Total =		 593.182700
 
-Stats for:AiCharacter_3
-Time Deployment =	 0.000000
-Time Attack =		 0.519100
-Time Fortification =	 0.000400
-Time Total =		 0.519500
-
-Total times for the aI this turn =	 0.740200
+Total times for the aI this turn =	 4929.077500
 
 
 
 Stats for:AiCharacter_0
-Time Deployment =	 0.008500
-Time Attack =		 0.047300
-Time Fortification =	 0.000900
-Time Total =		 0.056700
+Time Deployment =	 0.030700
+Time Attack =		 3513.727000
+Time Fortification =	 0.000000
+Time Total =		 3513.757700
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.006200
-Time Attack =		 0.018200
-Time Fortification =	 0.000100
-Time Total =		 0.024500
+Time Deployment =	 0.033600
+Time Attack =		 1463.255700
+Time Fortification =	 0.000000
+Time Total =		 1463.289300
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.004600
-Time Attack =		 0.035900
-Time Fortification =	 0.000900
-Time Total =		 0.041400
+Time Deployment =	 0.026600
+Time Attack =		 1004.095400
+Time Fortification =	 0.000000
+Time Total =		 1004.122000
 
-Total times for the aI this turn =	 0.122600
+Total times for the aI this turn =	 5981.169000
 
 
 
 Stats for:AiCharacter_0
-Time Deployment =	 0.000000
-Time Attack =		 0.083400
-Time Fortification =	 0.000300
-Time Total =		 0.083700
+Time Deployment =	 0.030700
+Time Attack =		 1732.464400
+Time Fortification =	 0.000100
+Time Total =		 1732.495200
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.007700
-Time Attack =		 0.020500
-Time Fortification =	 0.000100
-Time Total =		 0.028300
+Time Deployment =	 0.033200
+Time Attack =		 1054.034800
+Time Fortification =	 0.000000
+Time Total =		 1054.068000
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.006300
-Time Attack =		 0.084000
-Time Fortification =	 0.000600
-Time Total =		 0.090900
+Time Deployment =	 0.026900
+Time Attack =		 598.205500
+Time Fortification =	 0.000100
+Time Total =		 598.232500
 
-Total times for the aI this turn =	 0.202900
+Total times for the aI this turn =	 3384.795700
+
+
+
+Stats for:AiCharacter_0
+Time Deployment =	 0.027900
+Time Attack =		 1869.575700
+Time Fortification =	 0.000000
+Time Total =		 1869.603600
+
+Stats for:AiCharacter_1
+Time Deployment =	 0.039600
+Time Attack =		 3018.127900
+Time Fortification =	 0.000000
+Time Total =		 3018.167500
+
+Stats for:AiCharacter_2
+Time Deployment =	 0.033200
+Time Attack =		 2741.794600
+Time Fortification =	 0.000000
+Time Total =		 2741.827800
+
+Total times for the aI this turn =	 7629.598900
 
 
 
 Stats for:AiCharacter_1
-Time Deployment =	 0.007800
-Time Attack =		 0.019300
-Time Fortification =	 0.000100
-Time Total =		 0.027200
+Time Deployment =	 0.028900
+Time Attack =		 3457.900400
+Time Fortification =	 0.000000
+Time Total =		 3457.929300
 
 Stats for:AiCharacter_2
-Time Deployment =	 0.007200
-Time Attack =		 0.044600
-Time Fortification =	 0.000800
-Time Total =		 0.052600
+Time Deployment =	 0.034300
+Time Attack =		 1459.015300
+Time Fortification =	 0.000000
+Time Total =		 1459.049600
 
-Total times for the aI this turn =	 0.079800
+Total times for the aI this turn =	 4916.978900
 
 
 

@@ -56,7 +56,7 @@ void ALevelSetup::InitializeLevel()
 		for (size_t i = 0; i < allRegions.Num(); ++i)
 		{
 			ARegion* region = StaticCast<ARegion*>(allRegions[i]);
-			region->ChangeOwnerShip(allPlayers[i % allPlayers.Num()], 100);
+			region->ChangeOwnerShip(allPlayers[i % allPlayers.Num()], FMath::RandRange(1, 6));
 		}
 	}
 	else 

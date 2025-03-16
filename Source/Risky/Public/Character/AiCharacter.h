@@ -2,7 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "BaseCharacter.h"
+#include "Containers/Map.h"
 #include "AiCharacter.generated.h"
+
+class ARegion;
 
 UCLASS()
 class RISKY_API AAiCharacter : public ABaseCharacter
@@ -16,13 +19,42 @@ class RISKY_API AAiCharacter : public ABaseCharacter
 
 	double tock();
 
-	class ARegion* GetRegionWithBorderingEnemy();
+	ARegion* GetRegionWithBorderingEnemy();
 
 	void WriteStatsIntoFile();
+
+	TMap<ARegion*, double> PrioritizedRegions;
+
+	TMap<ARegion*, double> PrioritizedRegionsToAttack;
+
+	void PrioritizeCloseRegions();
+
+	void PrioritizePopulatedRegions();
+
+	void CheckCloseRegions(TPair<ARegion*, double>& pair, ARegion* currentRegion, TSet<ARegion*>& visited, int32 iteration);
+
+	void FilterSafeRegion();
+
+	TArray<TPair<ARegion*, double>> GetTopResults(TMap<ARegion*, double> map);
+
+	TArray<TPair<ARegion*, double>> GetRegionsMostUnits();
+
+	void InitMap();
+
+	void InitAttackMap(ARegion* region);
+
+	void DeployUnits(int32 unitsToDeploy);
+
+	void EvaluateRegionForAttacking(ARegion* region);
+
+	bool AttackValuableRegion(ARegion* ownRegion, ARegion* regionToAttack);
+
+	void FilterRegionWithNoPoints(TMap<ARegion*, double> map);
 
 public:
 
 	class UAiStats* Statistic;
+
 	AAiCharacter();
 
 	void StartDeploymentPhase(int32 unitsToDeploy) override;
