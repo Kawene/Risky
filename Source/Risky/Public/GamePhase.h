@@ -7,3 +7,10 @@ enum class EGamePhase : uint8 {
 	FortificationPhase,
 	NotCurrentTurn
 };
+
+UENUM(BlueprintType)
+enum class EAiPhasesSteps : uint8 {
+	NoStop,
+	ByTurn,
+	ByPhases
+};

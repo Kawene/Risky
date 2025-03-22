@@ -68,6 +68,6 @@ void ALevelSetup::InitializeLevel()
 		}
 	}
 
-	auto turnManager = GetWorld()->SpawnActor<ATurnManager>(ATurnManager::StaticClass());
+	auto turnManager = StaticCast<ATurnManager*>(UGameplayStatics::GetActorOfClass(GetWorld(), ATurnManager::StaticClass()));
 	turnManager->Initialize(&allPlayers);
 }

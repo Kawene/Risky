@@ -8,6 +8,8 @@
 #include "Ui/UnitsDialogUI.h"
 #include "Ui/AttackUI.h"
 #include "Risky/RiskyPlayerController.h"
+#include "Kismet/GameplayStatics.h"
+#include "Manager/TurnManager.h"
 
 void UMainUI::NativeConstruct()
 {
@@ -54,6 +56,7 @@ void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
 	switch (gamePhase)
 	{
 	case EGamePhase::DeploymentPhase:	
+		SetVisibility(ESlateVisibility::Hidden);
 		break;
 	case EGamePhase::AttackPhase:
 		SetVisibility(ESlateVisibility::Visible);
@@ -63,7 +66,21 @@ void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
 		InteractText->SetText(FText::FromString("End Turn"));
 		break;
 	case EGamePhase::NotCurrentTurn:
-		SetVisibility(ESlateVisibility::Hidden);
+		auto turnManager = StaticCast<ATurnManager*>(UGameplayStatics::GetActorOfClass(GetWorld(), ATurnManager::StaticClass()));
+		switch (turnManager->AiPhasesSteps)
+		{
+		case EAiPhasesSteps::ByPhases:
+			InteractText->SetText(FText::FromString("Next Phase"));
+			break;
+		case EAiPhasesSteps::ByTurn:
+			InteractText->SetText(FText::FromString("Next Turn"));
+			break;
+		case EAiPhasesSteps::NoStop:
+			SetVisibility(ESlateVisibility::Hidden);
+			break;
+		default:
+			break;
+		}
 		break;
 	}
 }

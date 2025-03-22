@@ -30,12 +30,15 @@ public:
 
 	double TotalAiTimes;
 
+	UPROPERTY(EditAnywhere)
+	EAiPhasesSteps AiPhasesSteps;
+		 
 private:	
 
 	UPROPERTY()
 	TArray<ABaseCharacter*> Characters;
 
-	int32 CurrentCharracterIndex;
+	int32 CurrentCharacterIndex;
 
 	UPROPERTY()
 	EGamePhase CurrentPhase;
@@ -47,5 +50,11 @@ private:
 	int32 GetsNumberOfUnitsToDeploy(ABaseCharacter* character);
 
 	void WriteTotalTime();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UTurnTrackerUI> TurnTrackerUIClass;
+
+	UPROPERTY()
+	class UTurnTrackerUI* TurnTrackerUI;
 
 };

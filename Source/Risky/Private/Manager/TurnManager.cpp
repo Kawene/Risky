@@ -5,10 +5,14 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "Character/BaseCharacter.h"
+#include "Risky/RiskyPlayerController.h"
+#include "UI/TurnTrackerUI.h"
+#include "Components/Border.h"
+#include "Components/TextBlock.h"
 
 ATurnManager::ATurnManager()
 {
-	CurrentCharracterIndex = 0;
+	CurrentCharacterIndex = 0;
 	CurrentPhase = EGamePhase::DeploymentPhase;
 }
 
@@ -20,17 +24,31 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 	{
 		character->TurnManagerRef(this);
 	}
+
+	ARiskyPlayerController* controller = Characters[0]->GetController<ARiskyPlayerController>();
+	TurnTrackerUI = CreateWidget<UTurnTrackerUI>(controller, TurnTrackerUIClass);
+	TurnTrackerUI->AddToPlayerScreen();
 }
 
 void ATurnManager::StartTurn()
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
-	Characters[CurrentCharracterIndex]->
+	Characters[CurrentCharacterIndex]->
 		StartDeploymentPhase(
 			GetsNumberOfUnitsToDeploy(
-				Characters[CurrentCharracterIndex]
+				Characters[CurrentCharacterIndex]
 			)
 		);
+
+	FLinearColor LinearColor = FLinearColor(
+		Characters[CurrentCharacterIndex]->ColorIdentity.R / 255.0f,
+		Characters[CurrentCharacterIndex]->ColorIdentity.G / 255.0f,
+		Characters[CurrentCharacterIndex]->ColorIdentity.B / 255.0f
+	); 
+
+	TurnTrackerUI->PlayerTracker->SetBrushColor(LinearColor);
+
+
 }
 
 void ATurnManager::ProceedToNextPhase()
@@ -39,13 +57,16 @@ void ATurnManager::ProceedToNextPhase()
 	{
 	case EGamePhase::DeploymentPhase:
 		CurrentPhase = EGamePhase::AttackPhase;
-		Characters[CurrentCharracterIndex]->StartAttackPhase();
+		TurnTrackerUI->PhaseTracker->SetText(FText::FromString("A"));
+		Characters[CurrentCharacterIndex]->StartAttackPhase();
 		break;
 	case EGamePhase::AttackPhase:
 		CurrentPhase = EGamePhase::FortificationPhase;
-		Characters[CurrentCharracterIndex]->StartFortificationPhase();
+		TurnTrackerUI->PhaseTracker->SetText(FText::FromString("F"));
+		Characters[CurrentCharacterIndex]->StartFortificationPhase();
 		break;
 	case EGamePhase::FortificationPhase:
+		TurnTrackerUI->PhaseTracker->SetText(FText::FromString("D"));
 		EndTurn();
 		break;
 	default:
@@ -69,16 +90,16 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, "GG well played");
 	}
-	if (index < CurrentCharracterIndex)
+	if (index < CurrentCharacterIndex)
 	{
-		--CurrentCharracterIndex;
+		--CurrentCharacterIndex;
 	}
 }
 
 void ATurnManager::EndTurn()
 {
-	CurrentCharracterIndex = (CurrentCharracterIndex + 1) % Characters.Num();
-	if (CurrentCharracterIndex == 0 && TotalAiTimes != 0)
+	CurrentCharacterIndex = (CurrentCharacterIndex + 1) % Characters.Num();
+	if (CurrentCharacterIndex == 0 && TotalAiTimes != 0)
 	{
 		WriteTotalTime();
 	}

@@ -10,6 +10,7 @@
 #include "HAL/PlatformFileManager.h"
 #include "HAL/FileManager.h"
 #include "Containers/Map.h"
+#include "Manager/TurnManager.h"
 
 
 int64 unixTimeNow()
@@ -40,7 +41,11 @@ void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 	DeployUnits(unitsToDeploy);
 
 	Statistic->TimeDeployment = tock();
-	FinishedCurrentPhase();
+
+	if (TurnManager->AiPhasesSteps != EAiPhasesSteps::ByPhases)
+	{
+		FinishedCurrentPhase();
+	}
 }
 
 void AAiCharacter::StartAttackPhase()
@@ -91,7 +96,11 @@ void AAiCharacter::StartAttackPhase()
 	}
 
 	Statistic->TimeAttack = tock();
-	FinishedCurrentPhase();
+
+	if (TurnManager->AiPhasesSteps != EAiPhasesSteps::ByPhases)
+	{
+		FinishedCurrentPhase();
+	}
 }
 
 void AAiCharacter::StartFortificationPhase()
@@ -125,7 +134,11 @@ void AAiCharacter::StartFortificationPhase()
 
 	Statistic->TimeFortification = tock();
 	WriteStatsIntoFile();
-	FinishedCurrentPhase();
+
+	if (TurnManager->AiPhasesSteps == EAiPhasesSteps::NoStop)
+	{
+		FinishedCurrentPhase();
+	}
 }
 
 ARegion* AAiCharacter::GetRegionWithBorderingEnemy()
@@ -435,11 +448,11 @@ void AAiCharacter::FilterRegionWithNoPoints(TMap<ARegion*, double> map)
 
 void AAiCharacter::tick()
 {
-	TickTime = FPlatformTime::Cycles();  // Capture cycles at the start
+	TickTime = FPlatformTime::Cycles();
 }
 
 double AAiCharacter::tock()
 {
-	TockTime = FPlatformTime::Cycles();  // Capture cycles at the end
-	return (TockTime - TickTime) * FPlatformTime::GetSecondsPerCycle() * 1000.0f; // Return time in ms
+	TockTime = FPlatformTime::Cycles();  
+	return (TockTime - TickTime) * FPlatformTime::GetSecondsPerCycle() * 1000.0f;
 }
