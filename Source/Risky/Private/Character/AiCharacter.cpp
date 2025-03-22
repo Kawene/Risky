@@ -358,7 +358,7 @@ void AAiCharacter::EvaluateRegionForAttacking(ARegion* region)
 bool AAiCharacter::AttackValuableRegion(ARegion* ownRegion, ARegion* regionToAttack)
 {
 	bool result = false;
-	while (ownRegion->GetUnits() >= regionToAttack->GetUnits() && !result)
+	while (ownRegion->HasEnoughUnits() && ownRegion->GetUnits() >= regionToAttack->GetUnits() && !result)
 	{
 		result = CombatRegion(ownRegion, regionToAttack, ownRegion->GetUnits() - 1);
 
