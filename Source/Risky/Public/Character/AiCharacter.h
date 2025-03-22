@@ -35,6 +35,12 @@ class RISKY_API AAiCharacter : public ABaseCharacter
 
 	void FilterSafeRegion();
 
+	void FilterDangerousRegion();
+
+	void FilterRegionWithLowPopulation(int32 min);
+
+	void FilterConnectedRegion(ARegion* region);
+
 	TArray<TPair<ARegion*, double>> GetTopResults(TMap<ARegion*, double> map);
 
 	TArray<TPair<ARegion*, double>> GetRegionsMostUnits();

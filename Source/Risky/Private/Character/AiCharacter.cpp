@@ -97,33 +97,32 @@ void AAiCharacter::StartAttackPhase()
 void AAiCharacter::StartFortificationPhase()
 {
 	tick();
-	/*bool noEnemy;
-	for (auto ownRegion : RegionsOwned)
+
+	InitMap();
+
+	FilterDangerousRegion();
+
+	FilterRegionWithLowPopulation(1);
+
+	if (!PrioritizedRegions.IsEmpty())
 	{
-		if (ownRegion->GetUnits() < 2)
-		{
-			continue;
-		}
+		PrioritizePopulatedRegions();
 
-		noEnemy = true;
-		for (auto neighbours : ownRegion->GetBorderingRegions())
-		{
-			if (neighbours->GetRegionOwner() != this)
-			{
-				noEnemy = false;
-			}
-		}
+		ARegion* regionToTransferWith = GetTopResults(PrioritizedRegions)[0].Key;
 
-		if (noEnemy)
-		{
-			//Check if connected
-			TransferUnits(ownRegion, GetRegionWithBorderingEnemy(), ownRegion->GetUnits() - 1);
-			Statistic->TimeFortification = tock();
-			WriteStatsIntoFile();
-			FinishedCurrentPhase();
-			return;
-		}
-	}*/
+		InitMap();
+
+		FilterSafeRegion();
+
+		FilterConnectedRegion(regionToTransferWith);
+
+		int32 random = FMath::RandRange(0, PrioritizedRegions.Num()-1);
+
+		ARegion* regionToFortify = GetTopResults(PrioritizedRegions)[random].Key;
+
+		TransferUnits(regionToTransferWith, regionToFortify, regionToTransferWith->GetUnits() - 1);
+	}
+
 	Statistic->TimeFortification = tock();
 	WriteStatsIntoFile();
 	FinishedCurrentPhase();
@@ -240,6 +239,43 @@ void AAiCharacter::FilterSafeRegion()
 		});
 
 	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasEnemyNeihbors);
+}
+
+void AAiCharacter::FilterDangerousRegion()
+{
+	auto hasEnemyNeihbors = ([this](const TPair<ARegion*, double>& pair) -> bool
+		{
+			for (ARegion* neighbor : pair.Key->GetBorderingRegions())
+			{
+				if (neighbor->GetRegionOwner() != this)
+				{
+					return false;
+				}
+			}
+			return true;
+		});
+
+	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasEnemyNeihbors);
+}
+
+void AAiCharacter::FilterRegionWithLowPopulation(int32 min)
+{
+	auto hasEnoughUnits = ([min](const TPair<ARegion*, double>& pair) -> bool
+		{
+			return pair.Key->GetUnits() > min;
+		});
+
+	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasEnoughUnits);
+}
+
+void AAiCharacter::FilterConnectedRegion(ARegion* region)
+{
+	auto hasEnoughUnits = ([region](const TPair<ARegion*, double>& pair) -> bool
+		{
+			return region->CanFortifyThisRegion(pair.Key);
+		});
+
+	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasEnoughUnits);
 }
 
 TArray<TPair<ARegion*, double>> AAiCharacter::GetTopResults(TMap<ARegion*, double> map)
