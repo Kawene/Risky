@@ -64,8 +64,8 @@ FLinearColor GetRandomDistinctColor(const TArray<FLinearColor>& ExistingColors, 
 	for (int i = 0; i < MaxAttempts; i++)
 	{
 		float Hue = GetBalancedHue();
-		float Saturation = FMath::FRandRange(0.9f, 1.0f);
-		float Value = FMath::FRandRange(0.7f, 0.9f);
+		float Saturation = FMath::FRandRange(0.8f, 1.0f);
+		float Value = FMath::FRandRange(0.0f, 1.0f);
 		FLinearColor NewColor = UKismetMathLibrary::HSVToRGB(Hue, Saturation, Value);
 
 		float MinDist = FLT_MAX;
