@@ -43,6 +43,8 @@ private:
 	UPROPERTY()
 	EGamePhase CurrentPhase;
 
+	TArray<class AProvince*> Provinces;
+
 	UFUNCTION()
 	void EndTurn();
 

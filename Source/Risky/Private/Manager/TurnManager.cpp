@@ -9,6 +9,8 @@
 #include "UI/TurnTrackerUI.h"
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
+#include "Province.h"
+#include "Math/UnrealMathUtility.h"
 
 ATurnManager::ATurnManager()
 {
@@ -28,6 +30,18 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 	ARiskyPlayerController* controller = Characters[0]->GetController<ARiskyPlayerController>();
 	TurnTrackerUI = CreateWidget<UTurnTrackerUI>(controller, TurnTrackerUIClass);
 	TurnTrackerUI->AddToPlayerScreen();
+
+	TArray<AActor*> temp;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AProvince::StaticClass(), temp);
+
+	for (AActor* actor : temp)
+	{
+		AProvince* Province = Cast<AProvince>(actor);
+		if (Province)
+		{
+			Provinces.Add(Province);
+		}
+	}
 }
 
 void ATurnManager::StartTurn()
@@ -108,14 +122,21 @@ void ATurnManager::EndTurn()
 
 int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
 {
-	return character->RegionsOwned.Num();
+	int total = FMath::Max(3, character->RegionsOwned.Num() / 2); // devrait etre 3 round down
+
+	for (AProvince* province : Provinces)
+	{
+		total += province->GetBonusIfOwner(character);
+	}
+
+	return total;
 }
 
 void ATurnManager::WriteTotalTime()
 {
 	FString message;
 
-	message += FString::Printf(TEXT("Total times for the aI this turn =\t %f\n\n\n\n"), TotalAiTimes);
+	message += FString::Printf(TEXT("Total times for the Ai this turn =\t %f\n\n\n\n"), TotalAiTimes);
 
 	FString filePath = FPaths::ProjectDir() + TEXT("StatsAI.txt");
 

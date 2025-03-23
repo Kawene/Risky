@@ -7,6 +7,7 @@
 #include "Region.generated.h"
 class UTextRenderComponent;
 class ABaseCharacter;
+class AProvince;
 
 UCLASS()
 class RISKY_API ARegion : public AActor
@@ -24,6 +25,9 @@ class RISKY_API ARegion : public AActor
 
 	UPROPERTY(EditAnywhere)
 	TArray<ARegion*> BorderingRegions;
+
+	UPROPERTY(EditAnywhere)
+	AProvince* Province;
 
 	bool IsSelected;
 
