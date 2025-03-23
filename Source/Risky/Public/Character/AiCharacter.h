@@ -31,6 +31,8 @@ class RISKY_API AAiCharacter : public ABaseCharacter
 
 	void PrioritizePopulatedRegions();
 
+	void PrioritizeProvince();
+
 	void CheckCloseRegions(TPair<ARegion*, double>& pair, ARegion* currentRegion, TSet<ARegion*>& visited, int32 iteration);
 
 	void FilterSafeRegion();

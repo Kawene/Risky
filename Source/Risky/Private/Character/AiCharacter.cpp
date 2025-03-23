@@ -5,6 +5,7 @@
 #include "Character/AiStats.h"
 #include "Manager/TurnManager.h"
 #include "Region.h"
+#include "Province.h"
 #include "Math/UnrealMathUtility.h"
 #include "Misc/FileHelper.h"
 #include "HAL/PlatformFileManager.h"
@@ -35,6 +36,8 @@ void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
 	PrioritizeCloseRegions();
 
 	PrioritizePopulatedRegions();
+
+	PrioritizeProvince();
 
 	//FilterRegionWithNoPoints(PrioritizedRegions);
 
@@ -207,6 +210,43 @@ void AAiCharacter::PrioritizePopulatedRegions()
 	}
 }
 
+void AAiCharacter::PrioritizeProvince()
+{
+	TMap<AProvince*, double> prioritizedProvince;
+
+	for (auto pair : PrioritizedRegions)
+	{
+		if (!prioritizedProvince.Contains(pair.Key->GetProvince()))
+		{
+			prioritizedProvince.Add(pair.Key->GetProvince(), 0);
+		}
+	}
+
+	for (auto region : RegionsOwned)
+	{
+		if (prioritizedProvince.Contains(region->GetProvince()))
+		{
+			prioritizedProvince[region->GetProvince()]++;
+		}
+	}
+
+	for (TPair<ARegion*, double>& pair : PrioritizedRegions)
+	{
+		pair.Value += prioritizedProvince[pair.Key->GetProvince()];
+
+		if (prioritizedProvince[pair.Key->GetProvince()] > 2)
+		{
+			for (ARegion* neighbours : pair.Key->GetBorderingRegions())
+			{
+				if (neighbours->GetRegionOwner() != this && neighbours->GetProvince() == pair.Key->GetProvince())
+				{
+					pair.Value += 4;
+				}
+			}
+		}
+	}
+}
+
 void AAiCharacter::CheckCloseRegions(TPair<ARegion*, double>& pair, ARegion* currentRegion, TSet<ARegion*>& visited, int32 iteration)
 {
 	if (iteration > 2)
@@ -373,8 +413,11 @@ void AAiCharacter::EvaluateRegionForAttacking(ARegion* region)
 
 	for (TPair<ARegion*, double> &neighboursPair : PrioritizedRegionsToAttack)
 	{
+		
 		ARegion* neighboursRegion = neighboursPair.Key;
 		int32 neighboursUnits = neighboursRegion->GetUnits();
+
+		//Prioritize low population region
 		if (neighboursUnits < units)
 		{
 			int32 diff = units - neighboursUnits;
@@ -388,7 +431,7 @@ void AAiCharacter::EvaluateRegionForAttacking(ARegion* region)
 			}
 		}
 
-
+		//Prioritize lonely region
 		for (ARegion* neighboursOfNeighbours : neighboursRegion->GetBorderingRegions())
 		{
 			neighboursPair.Value -= 0.5;
@@ -400,6 +443,14 @@ void AAiCharacter::EvaluateRegionForAttacking(ARegion* region)
 			{
 				neighboursPair.Value += 1;
 			}
+		}
+
+		if (neighboursRegion->GetProvince() == region->GetProvince())
+		{
+			neighboursPair.Value += 3;
+		}
+		else if (neighboursRegion->GetProvince()->HasControlOverProvince(neighboursRegion->GetRegionOwner())) {
+			neighboursPair.Value += 5;
 		}
 	}
 }

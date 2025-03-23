@@ -64,6 +64,11 @@ int32 ARegion::GetUnits()
 	return UnitsInRegion;
 }
 
+AProvince* ARegion::GetProvince()
+{
+	return Province;
+}
+
 ABaseCharacter* ARegion::GetRegionOwner()
 {
 	return RegionOwner;

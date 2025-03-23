@@ -56,6 +56,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetUnits();
 
+	AProvince* GetProvince();
+
 	UFUNCTION(BlueprintCallable)
 	ABaseCharacter* GetRegionOwner();
 

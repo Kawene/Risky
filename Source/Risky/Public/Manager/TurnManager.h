@@ -32,6 +32,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	EAiPhasesSteps AiPhasesSteps;
+
+	TArray<class AProvince*> Provinces;
 		 
 private:	
 
@@ -42,8 +44,6 @@ private:
 
 	UPROPERTY()
 	EGamePhase CurrentPhase;
-
-	TArray<class AProvince*> Provinces;
 
 	UFUNCTION()
 	void EndTurn();
