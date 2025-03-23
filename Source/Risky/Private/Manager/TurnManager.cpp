@@ -98,6 +98,11 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 			break;
 		}
 	}
+	if (index == 0)
+	{
+		APlayerController* const player = GEngine->GetFirstLocalPlayerController(GetWorld());
+		player->SetPause(true);
+	}
 
 	Characters.Remove(corpse);
 	if (Characters.Num() == 1)
