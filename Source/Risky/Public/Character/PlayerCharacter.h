@@ -44,6 +44,8 @@ public:
 
 	void DialogAction(int32 units);
 
+	virtual void  IsCharacterDead() override;
+
 	FChangeGamePhase ChangeGamePhase;
 
 	FAttackStep AttackStep;

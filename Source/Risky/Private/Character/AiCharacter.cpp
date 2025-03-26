@@ -13,13 +13,6 @@
 #include "Containers/Map.h"
 #include "Manager/TurnManager.h"
 
-
-int64 unixTimeNow()
-{
-	FDateTime timeUtc = FDateTime::UtcNow();
-	return timeUtc.ToUnixTimestamp() * 1000 + timeUtc.GetMillisecond();
-}
-
 AAiCharacter::AAiCharacter()
 {
 	Statistic =  CreateDefaultSubobject<UAiStats>(TEXT("Statistic"));
@@ -128,11 +121,14 @@ void AAiCharacter::StartFortificationPhase()
 
 		FilterConnectedRegion(regionToTransferWith);
 
-		int32 random = FMath::RandRange(0, PrioritizedRegions.Num()-1);
+		if (!PrioritizedRegions.IsEmpty())
+		{
+			int32 random = FMath::RandRange(0, PrioritizedRegions.Num() - 1);
 
-		ARegion* regionToFortify = GetTopResults(PrioritizedRegions)[random].Key;
+			ARegion* regionToFortify = GetTopResults(PrioritizedRegions)[random].Key;
 
-		TransferUnits(regionToTransferWith, regionToFortify, regionToTransferWith->GetUnits() - 1);
+			TransferUnits(regionToTransferWith, regionToFortify, regionToTransferWith->GetUnits() - 1);
+		}
 	}
 
 	Statistic->TimeFortification = tock();

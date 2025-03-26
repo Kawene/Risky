@@ -40,7 +40,7 @@ public:
 
 	void TurnManagerRef(ATurnManager* tManager);
 
-	void IsCharacterDead();
+	virtual void IsCharacterDead();
 
 	TArray<ARegion*> RegionsOwned;
 

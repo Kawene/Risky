@@ -144,6 +144,15 @@ void APlayerCharacter::DialogAction(int32 units)
 	}
 }
 
+void APlayerCharacter::IsCharacterDead()
+{
+	if (RegionsOwned.IsEmpty())
+	{
+		TurnManager->CharacterDied(this);
+		PlayerHUD->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
 void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 {
 	if (IsUiOpen)

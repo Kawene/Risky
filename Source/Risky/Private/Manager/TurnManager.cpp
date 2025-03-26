@@ -11,6 +11,7 @@
 #include "Components/TextBlock.h"
 #include "Province.h"
 #include "Math/UnrealMathUtility.h"
+#include "GamePhase.h"
 
 ATurnManager::ATurnManager()
 {
@@ -98,10 +99,14 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 			break;
 		}
 	}
+
 	if (index == 0)
 	{
 		APlayerController* const player = GEngine->GetFirstLocalPlayerController(GetWorld());
-		player->SetPause(true);
+		if (AiPhasesSteps == EAiPhasesSteps::NoStop)
+		{
+			AiPhasesSteps = EAiPhasesSteps::ByTurn;
+		}
 	}
 
 	Characters.Remove(corpse);
