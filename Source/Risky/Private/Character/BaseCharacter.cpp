@@ -51,17 +51,6 @@ void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 
 	defendingDice.Sort();
 
 	int32 maxIteration = FMath::Min(defenders, attackingUnits) - 1;
-
-	for (auto dice : attackingDice)
-	{
-		FString Message = FString::Format(TEXT("Attacking: {0}"), { dice });
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, Message);
-	}
-	for (auto dice : defendingDice)
-	{
-		FString Message = FString::Format(TEXT("Defending: {0}"), { dice });
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, Message);
-	}
 	for (int32 i = 0; i <= maxIteration; ++i)
 	{
 		FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[attackingDice.Num() - 1 - i], defendingDice[defendingDice.Num() - 1 - i] });

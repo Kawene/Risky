@@ -195,9 +195,11 @@ void AAiCharacter::PredictDeployment()
 
 	auto bestList = GetTopResults(PrioritizedRegions);
 
-	for (auto pair : bestList)
+	int32 regionToPredict = FMath::Min(5, bestList.Num());
+
+	for (size_t i = 0; i < regionToPredict; i++)
 	{
-		ARegion* region = pair.Key;
+		ARegion* region = bestList[i].Key;
 
 		region->DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));
 
@@ -317,7 +319,7 @@ int32 AAiCharacter::EvaluateGameState()
 	for (ARegion* region : RegionsOwned)
 	{
 		totalPoints += 3 * prioritizedProvince[region->GetProvince()];
-		totalPoints += (region->GetUnits() * prioritizedProvince[region->GetProvince()]) / 2;
+		totalPoints += region->GetUnits() * prioritizedProvince[region->GetProvince()];
 	}
 
 	for (AProvince* province : TurnManager->Provinces)
