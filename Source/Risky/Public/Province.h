@@ -26,5 +26,7 @@ public:
 
 	bool HasControlOverProvince(ABaseCharacter* character);
 
+	bool SomeoneHasControl();
+
 	bool IsRegionInProvince(ARegion* region);
 };

@@ -24,6 +24,18 @@ bool AProvince::HasControlOverProvince(ABaseCharacter* character)
 	return true;
 }
 
+bool AProvince::SomeoneHasControl()
+{
+	for (size_t i = 1; i < Regions.Num(); ++i)
+	{
+		if (Regions[0]->GetRegionOwner() != Regions[i]->GetRegionOwner())
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 bool AProvince::IsRegionInProvince(ARegion* region)
 {
 	return Regions.Contains(region);

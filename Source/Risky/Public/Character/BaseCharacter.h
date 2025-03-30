@@ -30,7 +30,7 @@ protected:
 public:	
 	virtual void FinishedCurrentPhase();
 
-	virtual void StartDeploymentPhase(int32 unitsToDeploy);
+	virtual void StartDeploymentPhase();
 
 	virtual void StartAttackPhase();
 

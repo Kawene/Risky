@@ -65,9 +65,18 @@ public:
 
 	AAiCharacter();
 
-	void StartDeploymentPhase(int32 unitsToDeploy) override;
+	void StartDeploymentPhase() override;
 
 	void StartAttackPhase() override;
 
-	void StartFortificationPhase() override;	
+	void StartFortificationPhase() override;
+
+	void FilterForDeployment();
+
+	void PredictDeployment();
+
+	int32 MinimaxDeployment(int32 depth, bool isMaximizing, bool firstIteration = false);
+
+	int32 EvaluateGameState();
+
 };

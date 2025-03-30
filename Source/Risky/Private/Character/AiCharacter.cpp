@@ -12,33 +12,61 @@
 #include "HAL/FileManager.h"
 #include "Containers/Map.h"
 #include "Manager/TurnManager.h"
+#include "Kismet/GameplayStatics.h"
+
+struct FGameStateSnapshot
+{
+	TMap<ARegion*, TPair<ABaseCharacter*,int32>> RegionInfo;
+
+	void SaveState(UWorld* world)
+	{
+		RegionInfo.Empty();
+
+		TArray<AActor*> allRegions;
+		UGameplayStatics::GetAllActorsOfClass(world, ARegion::StaticClass(), allRegions);
+
+		for (AActor* actor : allRegions)
+		{
+			ARegion* region = StaticCast<ARegion*>(actor);
+			RegionInfo.Add(region, { region->GetRegionOwner(), region->GetUnits() });
+		}
+	}
+
+	void RestoreState()
+	{
+		for (auto& pair : RegionInfo)
+		{
+			pair.Key->ChangeOwnerShip(pair.Value.Key, pair.Value.Value);
+		}
+
+	}
+};
+
 
 AAiCharacter::AAiCharacter()
 {
 	Statistic =  CreateDefaultSubobject<UAiStats>(TEXT("Statistic"));
 }
 
-void AAiCharacter::StartDeploymentPhase(int32 unitsToDeploy)
+void AAiCharacter::StartDeploymentPhase()
 {
 	tick();
 
-	InitMap();
+	FilterForDeployment();
 
-	FilterSafeRegion();
-
-	PrioritizeCloseRegions();
-
-	PrioritizePopulatedRegions();
-
-	PrioritizeProvince();
-
-	//FilterRegionWithNoPoints(PrioritizedRegions);
-
-	DeployUnits(unitsToDeploy);
+	if (!TurnManager->InSimulation)
+	{
+		TurnManager->InSimulation = true;
+		PredictDeployment();
+		TurnManager->InSimulation = false;
+	}
+	else {
+		DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));
+	}
 
 	Statistic->TimeDeployment = tock();
 
-	if (TurnManager->AiPhasesSteps != EAiPhasesSteps::ByPhases)
+	if (TurnManager->AiPhasesSteps != EAiPhasesSteps::ByPhases && !TurnManager->InSimulation)
 	{
 		FinishedCurrentPhase();
 	}
@@ -93,7 +121,7 @@ void AAiCharacter::StartAttackPhase()
 
 	Statistic->TimeAttack = tock();
 
-	if (TurnManager->AiPhasesSteps != EAiPhasesSteps::ByPhases)
+	if (TurnManager->AiPhasesSteps != EAiPhasesSteps::ByPhases && !TurnManager->InSimulation)
 	{
 		FinishedCurrentPhase();
 	}
@@ -132,12 +160,189 @@ void AAiCharacter::StartFortificationPhase()
 	}
 
 	Statistic->TimeFortification = tock();
-	WriteStatsIntoFile();
-
-	if (TurnManager->AiPhasesSteps == EAiPhasesSteps::NoStop)
+	if (!TurnManager->InSimulation)
 	{
-		FinishedCurrentPhase();
+		WriteStatsIntoFile();
+		if (TurnManager->AiPhasesSteps == EAiPhasesSteps::NoStop)
+		{
+			FinishedCurrentPhase();
+		}
 	}
+
+}
+
+void AAiCharacter::FilterForDeployment()
+{
+	InitMap();
+
+	FilterSafeRegion();
+
+	PrioritizeCloseRegions();
+
+	PrioritizePopulatedRegions();
+
+	PrioritizeProvince();
+}
+
+void AAiCharacter::PredictDeployment()
+{
+
+	FGameStateSnapshot snapshot;
+	snapshot.SaveState(GetWorld());
+
+	ARegion* bestRegion = nullptr;
+	int32 bestScore = INT_MIN;
+
+	auto bestList = GetTopResults(PrioritizedRegions);
+
+	for (auto pair : bestList)
+	{
+		ARegion* region = pair.Key;
+
+		region->DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));
+
+		int32 predictedScore = MinimaxDeployment(3, true, true);
+
+		snapshot.RestoreState();
+
+		if (predictedScore > bestScore)
+		{
+			bestScore = predictedScore;
+			bestRegion = region;
+		}
+	}
+
+	if (bestRegion)
+	{
+		bestRegion->DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));
+	}
+}
+
+int32 AAiCharacter::MinimaxDeployment(int32 depth, bool isMaximizing, bool firstIteration)
+{
+
+	if (depth == 0)
+	{
+		return EvaluateGameState();
+	}
+
+	if (isMaximizing)
+	{
+		int32 bestScore = INT_MIN;
+
+		if (firstIteration)
+		{
+			//Depth 1
+			StartAttackPhase();
+			StartFortificationPhase();
+
+			int32 score = MinimaxDeployment(depth - 1, false);
+
+			bestScore = FMath::Max(score, bestScore);
+		}
+		else {
+
+			//Depth 3, 5, 7, 9...
+			FilterForDeployment();
+			auto bestList = GetTopResults(PrioritizedRegions);
+
+
+			for (auto pair : bestList)
+			{
+				FGameStateSnapshot snapshot;
+				snapshot.SaveState(GetWorld());
+
+				ARegion* region = pair.Key;
+
+				region->DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));			
+
+				StartAttackPhase();
+				StartFortificationPhase();
+
+				int32 score = MinimaxDeployment(depth - 1, false);
+
+				bestScore = FMath::Max(score, bestScore);
+
+
+				snapshot.RestoreState();
+			}
+		}
+		return bestScore;
+	}
+	else {
+		//Depth 2, 4, 6, 8...
+		int32 worstScore = INT_MAX;
+
+		for (ABaseCharacter* character : TurnManager->GetTurnOrderFrom(this))
+		{
+			if (!character->RegionsOwned.IsEmpty())
+			{
+				AAiCharacter* ai = Cast<AAiCharacter>(character);
+				//Faire pour player still
+				if (!ai) continue;
+
+				ai->StartDeploymentPhase();
+
+				ai->StartAttackPhase();
+
+				ai->StartFortificationPhase();
+			}
+		}
+		return MinimaxDeployment(depth - 1, true);
+	}
+}
+
+int32 AAiCharacter::EvaluateGameState()
+{
+	int32 totalPoints = 0;
+
+	TMap<AProvince*, double> prioritizedProvince;
+
+	for (ARegion* region : RegionsOwned)
+	{
+		if (!prioritizedProvince.Contains(region->GetProvince()))
+		{
+			prioritizedProvince.Add(region->GetProvince(), 0);
+		}
+	}
+
+	for (auto region : RegionsOwned)
+	{
+		if (prioritizedProvince.Contains(region->GetProvince()))
+		{
+			prioritizedProvince[region->GetProvince()]++;
+		}
+	}
+
+	for (ARegion* region : RegionsOwned)
+	{
+		totalPoints += 3 * prioritizedProvince[region->GetProvince()];
+		totalPoints += (region->GetUnits() * prioritizedProvince[region->GetProvince()]) / 2;
+	}
+
+	for (AProvince* province : TurnManager->Provinces)
+	{
+		if (province->SomeoneHasControl())
+		{
+			if (province->HasControlOverProvince(this))
+			{
+				totalPoints += 30;
+			}
+			else {
+				for (ABaseCharacter* character : TurnManager->Characters)
+				{
+					if (character != this && province->HasControlOverProvince(character))
+					{
+						totalPoints -= 20;
+					}
+				}
+			}
+		}
+	}
+
+	totalPoints -= TurnManager->Characters.Num() * 5;
+
+	return totalPoints;
 }
 
 ARegion* AAiCharacter::GetRegionWithBorderingEnemy()

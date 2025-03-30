@@ -49,11 +49,7 @@ void ATurnManager::StartTurn()
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
 	Characters[CurrentCharacterIndex]->
-		StartDeploymentPhase(
-			GetsNumberOfUnitsToDeploy(
-				Characters[CurrentCharacterIndex]
-			)
-		);
+		StartDeploymentPhase();
 
 	FLinearColor LinearColor = FLinearColor(
 		Characters[CurrentCharacterIndex]->ColorIdentity.R / 255.0f,
@@ -140,6 +136,24 @@ int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
 	}
 
 	return total;
+}
+
+TArray<ABaseCharacter*> ATurnManager::GetTurnOrderFrom(ABaseCharacter* character)
+{
+	TArray<ABaseCharacter*> orderedList;
+	int32 startIndex = Characters.Find(character);
+
+	for (int32 i = startIndex; i < Characters.Num(); i++)
+	{
+		orderedList.Add(Characters[i]);
+	}
+
+	for (int32 i = 0; i < startIndex; i++)
+	{
+		orderedList.Add(Characters[i]);
+	}
+
+	return orderedList;
 }
 
 void ATurnManager::WriteTotalTime()

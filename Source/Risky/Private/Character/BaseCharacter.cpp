@@ -14,14 +14,21 @@ void ABaseCharacter::BeginPlay()
 
 bool ABaseCharacter::CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
 {
-	CombatRoll(ownRegion, enemyRegion, attackingUnits);
-
-	if (enemyRegion->GetUnits() == 0)
+	if (TurnManager->InSimulation)
 	{
+		ownRegion->DecreaseUnitCount(enemyRegion->GetUnits());
 		enemyRegion->ChangeOwnerShip(ownRegion->GetRegionOwner(), 0);
 		return true;
 	}
-	return false;
+	else {
+		CombatRoll(ownRegion, enemyRegion, attackingUnits);
+		if (enemyRegion->GetUnits() == 0)
+		{
+			enemyRegion->ChangeOwnerShip(ownRegion->GetRegionOwner(), 0);
+			return true;
+		}
+		return false;
+	}
 }
 
 void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
@@ -36,10 +43,10 @@ void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 
 	defendingDice.Sort();
 
 	int32 maxIteration = FMath::Min(defenders, attackingUnits) - 1;
-	for (int32 i = maxIteration ; i >= 0; --i)
+	for (int32 i = 0; i <= maxIteration; ++i)
 	{
-		FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[i], defendingDice[i] });
-		if (attackingDice[i] > defendingDice[i])
+		FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[attackingDice.Num() - 1 - i], defendingDice[defendingDice.Num() - 1 - i] });
+		if (attackingDice[attackingDice.Num() - 1 - i] > defendingDice[defendingDice.Num() - 1 - i])
 		{
 			enemyRegion->DecreaseUnitCount(1);
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Message);
@@ -56,7 +63,7 @@ void ABaseCharacter::FinishedCurrentPhase()
 	TurnManager->ProceedToNextPhase();
 }
 
-void ABaseCharacter::StartDeploymentPhase(int32 unitsToDeploy)
+void ABaseCharacter::StartDeploymentPhase()
 {
 }
 
@@ -84,7 +91,7 @@ void ABaseCharacter::TurnManagerRef(ATurnManager* tManager)
 
 void ABaseCharacter::IsCharacterDead()
 {
-	if (RegionsOwned.IsEmpty())
+	if (RegionsOwned.IsEmpty() && !TurnManager->InSimulation)
 	{
 		TurnManager->CharacterDied(this);
 		Destroy();

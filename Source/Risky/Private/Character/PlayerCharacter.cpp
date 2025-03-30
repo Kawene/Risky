@@ -146,7 +146,7 @@ void APlayerCharacter::DialogAction(int32 units)
 
 void APlayerCharacter::IsCharacterDead()
 {
-	if (RegionsOwned.IsEmpty())
+	if (RegionsOwned.IsEmpty() && !TurnManager->InSimulation)
 	{
 		TurnManager->CharacterDied(this);
 		PlayerHUD->SetVisibility(ESlateVisibility::Visible);
@@ -237,10 +237,10 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 	}
 }
 
-void APlayerCharacter::StartDeploymentPhase(int32 unitsToDeploy)
+void APlayerCharacter::StartDeploymentPhase()
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
-	CurrentUnitsToDeploy = unitsToDeploy;
+	CurrentUnitsToDeploy = TurnManager->GetsNumberOfUnitsToDeploy(this);
 	ChangeGamePhase.Execute(CurrentPhase);
 }
 

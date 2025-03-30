@@ -34,11 +34,18 @@ public:
 	EAiPhasesSteps AiPhasesSteps;
 
 	TArray<class AProvince*> Provinces;
-		 
-private:	
 
 	UPROPERTY()
 	TArray<ABaseCharacter*> Characters;
+
+	UFUNCTION()
+	int32 GetsNumberOfUnitsToDeploy(ABaseCharacter* character);
+
+	TArray<ABaseCharacter*> GetTurnOrderFrom(ABaseCharacter* character);
+
+	bool InSimulation;
+		 
+private:	
 
 	int32 CurrentCharacterIndex;
 
@@ -47,9 +54,6 @@ private:
 
 	UFUNCTION()
 	void EndTurn();
-
-	UFUNCTION()
-	int32 GetsNumberOfUnitsToDeploy(ABaseCharacter* character);
 
 	void WriteTotalTime();
 
