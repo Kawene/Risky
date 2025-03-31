@@ -51,6 +51,14 @@ public:
 	FAttackStep AttackStep;
 
 	bool IsUiOpen;
+
+	UPROPERTY()
+	class AAiCharacter* AiPlayer;
+
+	void TransferTo(bool toPlayer);
+
+	virtual void TurnManagerRef(ATurnManager* tManager) override;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

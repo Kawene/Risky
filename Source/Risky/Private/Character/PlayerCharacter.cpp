@@ -2,6 +2,7 @@
 
 
 #include "Character/PlayerCharacter.h"
+#include "Character/AiCharacter.h"
 
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -65,6 +66,8 @@ void APlayerCharacter::BeginPlay()
 		PlayerHUD->InitializeUI(this, controller);
 		check(PlayerHUD);
 	}
+
+
 }
 
 void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -151,6 +154,41 @@ void APlayerCharacter::IsCharacterDead()
 		TurnManager->CharacterDied(this);
 		PlayerHUD->SetVisibility(ESlateVisibility::Visible);
 	}
+}
+
+void APlayerCharacter::TransferTo(bool toPlayer)
+{
+	if (toPlayer)
+	{
+		TArray<ARegion*> RegionsToProcess = AiPlayer->RegionsOwned;
+
+		if (RegionsToProcess.IsEmpty())
+		{
+			IsCharacterDead();
+			return;
+		}
+
+		TurnManager->InSimulation = true;
+		for (ARegion* region : RegionsToProcess)
+		{
+			region->ChangeOwnerShip(this, region->GetUnits());
+		}
+	}
+	else {
+		TurnManager->InSimulation = true;
+		TArray<ARegion*> RegionsToProcess = RegionsOwned;
+		for (ARegion* region : RegionsToProcess)
+		{
+			region->ChangeOwnerShip(AiPlayer, region->GetUnits());
+		}
+	}
+	TurnManager->InSimulation = false;
+}
+
+void APlayerCharacter::TurnManagerRef(ATurnManager* tManager)
+{
+	Super::TurnManagerRef(tManager);
+	AiPlayer->TurnManagerRef(tManager);
 }
 
 void APlayerCharacter::OnClickRegion(ARegion* regionSelected)

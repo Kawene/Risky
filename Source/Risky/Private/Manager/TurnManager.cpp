@@ -12,6 +12,8 @@
 #include "Province.h"
 #include "Math/UnrealMathUtility.h"
 #include "GamePhase.h"
+#include "Character/PlayerCharacter.h"
+#include "Character/AiCharacter.h"
 
 ATurnManager::ATurnManager()
 {
@@ -98,11 +100,16 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 
 	if (index == 0)
 	{
-		APlayerController* const player = GEngine->GetFirstLocalPlayerController(GetWorld());
 		if (AiPhasesSteps == EAiPhasesSteps::NoStop)
 		{
 			AiPhasesSteps = EAiPhasesSteps::ByTurn;
 		}
+		PlayerDead = true;
+		if (CurrentCharacterIndex == 0)
+		{
+			EndTurn();
+		}
+		return;
 	}
 
 	Characters.Remove(corpse);
@@ -121,7 +128,20 @@ void ATurnManager::EndTurn()
 	CurrentCharacterIndex = (CurrentCharacterIndex + 1) % Characters.Num();
 	if (CurrentCharacterIndex == 0 && TotalAiTimes != 0)
 	{
+		if (!PlayerDead)
+		{
+			APlayerCharacter* player = StaticCast<APlayerCharacter*>(Characters[0]);
+			player->TransferTo(true);
+		}
+		else {
+			CurrentCharacterIndex++;
+		}
+
 		WriteTotalTime();
+	}
+	else if (CurrentCharacterIndex == 1 && !PlayerDead) {
+		APlayerCharacter* player = StaticCast<APlayerCharacter*>(Characters[0]);
+		player->TransferTo(false);
 	}
 	StartTurn();
 }
@@ -143,12 +163,18 @@ TArray<ABaseCharacter*> ATurnManager::GetTurnOrderFrom(ABaseCharacter* character
 	TArray<ABaseCharacter*> orderedList;
 	int32 startIndex = Characters.Find(character);
 
-	for (int32 i = startIndex; i < Characters.Num(); i++)
+	for (int32 i = startIndex + 1; i < Characters.Num(); i++)
 	{
 		orderedList.Add(Characters[i]);
 	}
 
-	for (int32 i = 0; i < startIndex; i++)
+	if (!PlayerDead)
+	{
+		APlayerCharacter* player = StaticCast<APlayerCharacter*>(Characters[0]);
+		orderedList.Add(StaticCast<ABaseCharacter*>(player->AiPlayer));
+	}
+
+	for (int32 i = 1; i < startIndex; i++)
 	{
 		orderedList.Add(Characters[i]);
 	}

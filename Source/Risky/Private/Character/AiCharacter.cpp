@@ -280,8 +280,6 @@ int32 AAiCharacter::MinimaxDeployment(int32 depth, bool isMaximizing, bool first
 			if (!character->RegionsOwned.IsEmpty())
 			{
 				AAiCharacter* ai = Cast<AAiCharacter>(character);
-				//Faire pour player still
-				if (!ai) continue;
 
 				ai->StartDeploymentPhase();
 

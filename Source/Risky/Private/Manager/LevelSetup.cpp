@@ -4,6 +4,7 @@
 #include "Manager/LevelSetup.h"
 #include "Character/BaseCharacter.h"
 #include "Character/AiCharacter.h"
+#include "Character/PlayerCharacter.h"
 #include "Region.h"
 #include "Manager/TurnManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -125,6 +126,10 @@ void ALevelSetup::InitializeLevel()
 		currentPosition += 1000;
 		trans.SetLocation(FVector(currentPosition));
 	}
+
+	auto aiPlayer = GetWorld()->SpawnActor<AAiCharacter>(AAiCharacter::StaticClass(), trans);
+	aiPlayer->ColorIdentity = allPlayers[0]->ColorIdentity;
+	StaticCast<APlayerCharacter*>(allPlayers[0])->AiPlayer = aiPlayer;
 
 	TArray<AActor*> allRegions;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARegion::StaticClass(), allRegions);

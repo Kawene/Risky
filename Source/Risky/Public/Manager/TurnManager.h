@@ -63,4 +63,6 @@ private:
 	UPROPERTY()
 	class UTurnTrackerUI* TurnTrackerUI;
 
+	bool PlayerDead;
+
 };

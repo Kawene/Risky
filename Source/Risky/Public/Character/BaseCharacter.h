@@ -38,7 +38,7 @@ public:
 
 	void TransferUnits(ARegion* originRegion, ARegion* destinationRegion, int32 units);
 
-	void TurnManagerRef(ATurnManager* tManager);
+	virtual void TurnManagerRef(ATurnManager* tManager);
 
 	virtual void IsCharacterDead();
 
