@@ -53,15 +53,15 @@ void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 
 	int32 maxIteration = FMath::Min(defenders, attackingUnits) - 1;
 	for (int32 i = 0; i <= maxIteration; ++i)
 	{
-		FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[attackingDice.Num() - 1 - i], defendingDice[defendingDice.Num() - 1 - i] });
+		//FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[attackingDice.Num() - 1 - i], defendingDice[defendingDice.Num() - 1 - i] });
 		if (attackingDice[attackingDice.Num() - 1 - i] > defendingDice[defendingDice.Num() - 1 - i])
 		{
 			enemyRegion->DecreaseUnitCount(1);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Message);
+		//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Message);
 		}
 		else {
 			ownRegion->DecreaseUnitCount(1);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, Message);
+		//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, Message);
 		}
 	}
 }

@@ -404,3 +404,293 @@ Total times for the Ai this turn =	 4.173700
 
 
 
+Stats for:Statistic
+Time Deployment =	 0.208300
+Time Attack =		 0.035800
+Time Fortification =	 0.702900
+Time Total =		 0.947000
+
+Stats for:Statistic
+Time Deployment =	 0.210600
+Time Attack =		 0.049400
+Time Fortification =	 0.003900
+Time Total =		 0.263900
+
+Stats for:Statistic
+Time Deployment =	 0.227400
+Time Attack =		 0.044900
+Time Fortification =	 0.003300
+Time Total =		 0.275600
+
+Stats for:Statistic
+Time Deployment =	 0.206400
+Time Attack =		 0.025100
+Time Fortification =	 0.764800
+Time Total =		 0.996300
+
+Stats for:Statistic
+Time Deployment =	 0.204100
+Time Attack =		 0.045200
+Time Fortification =	 0.003400
+Time Total =		 0.252700
+
+Stats for:Statistic
+Time Deployment =	 0.193900
+Time Attack =		 0.031700
+Time Fortification =	 0.002600
+Time Total =		 0.228200
+
+Stats for:Statistic
+Time Deployment =	 0.194500
+Time Attack =		 0.050000
+Time Fortification =	 0.003700
+Time Total =		 0.248200
+
+Stats for:Statistic
+Time Deployment =	 0.205900
+Time Attack =		 0.023000
+Time Fortification =	 0.657300
+Time Total =		 0.886200
+
+Stats for:Statistic
+Time Deployment =	 0.212900
+Time Attack =		 0.038900
+Time Fortification =	 0.002700
+Time Total =		 0.254500
+
+Total times for the Ai this turn =	 4.352600
+
+
+
+Stats for:Statistic
+Time Deployment =	 0.181000
+Time Attack =		 0.023000
+Time Fortification =	 0.675800
+Time Total =		 0.879800
+
+Stats for:Statistic
+Time Deployment =	 0.197800
+Time Attack =		 0.028700
+Time Fortification =	 0.004000
+Time Total =		 0.230500
+
+Stats for:Statistic
+Time Deployment =	 0.194000
+Time Attack =		 0.020400
+Time Fortification =	 0.003400
+Time Total =		 0.217800
+
+Stats for:Statistic
+Time Deployment =	 0.196100
+Time Attack =		 0.025900
+Time Fortification =	 0.003400
+Time Total =		 0.225400
+
+Stats for:Statistic
+Time Deployment =	 0.213000
+Time Attack =		 0.015400
+Time Fortification =	 0.002900
+Time Total =		 0.231300
+
+Stats for:Statistic
+Time Deployment =	 0.193200
+Time Attack =		 0.008900
+Time Fortification =	 0.001800
+Time Total =		 0.203900
+
+Stats for:Statistic
+Time Deployment =	 0.194000
+Time Attack =		 0.020900
+Time Fortification =	 0.003700
+Time Total =		 0.218600
+
+Stats for:Statistic
+Time Deployment =	 0.215400
+Time Attack =		 0.032900
+Time Fortification =	 0.615200
+Time Total =		 0.863500
+
+Stats for:Statistic
+Time Deployment =	 0.198200
+Time Attack =		 0.017600
+Time Fortification =	 0.676100
+Time Total =		 0.891900
+
+Total times for the Ai this turn =	 3.962700
+
+
+
+Stats for:Statistic
+Time Deployment =	 0.177400
+Time Attack =		 0.027700
+Time Fortification =	 0.004100
+Time Total =		 0.209200
+
+Stats for:Statistic
+Time Deployment =	 0.196200
+Time Attack =		 0.015500
+Time Fortification =	 0.004100
+Time Total =		 0.215800
+
+Stats for:Statistic
+Time Deployment =	 0.187600
+Time Attack =		 0.024700
+Time Fortification =	 0.003300
+Time Total =		 0.215600
+
+Stats for:Statistic
+Time Deployment =	 0.200100
+Time Attack =		 0.020000
+Time Fortification =	 0.004000
+Time Total =		 0.224100
+
+Stats for:Statistic
+Time Deployment =	 0.194800
+Time Attack =		 0.013400
+Time Fortification =	 0.002800
+Time Total =		 0.211000
+
+Stats for:Statistic
+Time Deployment =	 0.194300
+Time Attack =		 0.012200
+Time Fortification =	 0.002500
+Time Total =		 0.209000
+
+Stats for:Statistic
+Time Deployment =	 0.194800
+Time Attack =		 0.018500
+Time Fortification =	 0.657500
+Time Total =		 0.870800
+
+Stats for:Statistic
+Time Deployment =	 0.234200
+Time Attack =		 0.040700
+Time Fortification =	 0.596300
+Time Total =		 0.871200
+
+Stats for:Statistic
+Time Deployment =	 0.208700
+Time Attack =		 0.027000
+Time Fortification =	 0.004000
+Time Total =		 0.239700
+
+Total times for the Ai this turn =	 3.266400
+
+
+
+Stats for:Statistic
+Time Deployment =	 0.176800
+Time Attack =		 0.018500
+Time Fortification =	 0.618100
+Time Total =		 0.813400
+
+Stats for:Statistic
+Time Deployment =	 0.213000
+Time Attack =		 0.018900
+Time Fortification =	 0.003900
+Time Total =		 0.235800
+
+Stats for:Statistic
+Time Deployment =	 0.198800
+Time Attack =		 0.007300
+Time Fortification =	 0.002000
+Time Total =		 0.208100
+
+Stats for:Statistic
+Time Deployment =	 0.218300
+Time Attack =		 0.020200
+Time Fortification =	 0.670800
+Time Total =		 0.909300
+
+Stats for:Statistic
+Time Deployment =	 0.206800
+Time Attack =		 0.006100
+Time Fortification =	 0.002700
+Time Total =		 0.215600
+
+Stats for:Statistic
+Time Deployment =	 0.202300
+Time Attack =		 0.015800
+Time Fortification =	 0.715600
+Time Total =		 0.933700
+
+Stats for:Statistic
+Time Deployment =	 0.218900
+Time Attack =		 0.038700
+Time Fortification =	 0.004400
+Time Total =		 0.262000
+
+Stats for:Statistic
+Time Deployment =	 0.235300
+Time Attack =		 0.076200
+Time Fortification =	 0.681200
+Time Total =		 0.992700
+
+Stats for:Statistic
+Time Deployment =	 0.191600
+Time Attack =		 0.022100
+Time Fortification =	 0.003900
+Time Total =		 0.217600
+
+Total times for the Ai this turn =	 4.788200
+
+
+
+Stats for:Statistic
+Time Deployment =	 0.198100
+Time Attack =		 0.018300
+Time Fortification =	 0.692300
+Time Total =		 0.908700
+
+Stats for:Statistic
+Time Deployment =	 0.220500
+Time Attack =		 0.060900
+Time Fortification =	 0.003700
+Time Total =		 0.285100
+
+Stats for:Statistic
+Time Deployment =	 0.204100
+Time Attack =		 0.065200
+Time Fortification =	 0.003700
+Time Total =		 0.273000
+
+Stats for:Statistic
+Time Deployment =	 0.230200
+Time Attack =		 0.026700
+Time Fortification =	 0.688100
+Time Total =		 0.945000
+
+Stats for:Statistic
+Time Deployment =	 0.197700
+Time Attack =		 0.038700
+Time Fortification =	 0.002800
+Time Total =		 0.239200
+
+Stats for:Statistic
+Time Deployment =	 0.264200
+Time Attack =		 0.013600
+Time Fortification =	 0.718700
+Time Total =		 0.996500
+
+Stats for:Statistic
+Time Deployment =	 0.200900
+Time Attack =		 0.026500
+Time Fortification =	 0.002300
+Time Total =		 0.229700
+
+Stats for:Statistic
+Time Deployment =	 0.188500
+Time Attack =		 0.030600
+Time Fortification =	 0.002600
+Time Total =		 0.221700
+
+Stats for:Statistic
+Time Deployment =	 0.195100
+Time Attack =		 0.059300
+Time Fortification =	 0.003600
+Time Total =		 0.258000
+
+Total times for the Ai this turn =	 4.356900
+
+
+

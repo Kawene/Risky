@@ -185,10 +185,17 @@ TArray<ABaseCharacter*> ATurnManager::GetTurnOrderFrom(ABaseCharacter* character
 void ATurnManager::WriteTotalTime()
 {
 	FString message;
-
-	message += FString::Printf(TEXT("Total times for the Ai this turn =\t %f\n\n\n\n"), TotalAiTimes);
-
 	FString filePath = FPaths::ProjectDir() + TEXT("StatsAI.txt");
+
+	if (TotalAiTimes > 100)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Ai turn took more then 0.1 second!!");
+		message += FString::Printf(TEXT("Total times for the Ai this turn =\t %f Busted the time limit!!\n\n\n\n"), TotalAiTimes);
+
+	}
+	else {
+		message += FString::Printf(TEXT("Total times for the Ai this turn =\t %f\n\n\n\n"), TotalAiTimes);
+	}
 
 	FFileHelper::SaveStringToFile(
 		message,
@@ -197,6 +204,5 @@ void ATurnManager::WriteTotalTime()
 		&IFileManager::Get(),
 		FILEWRITE_Append
 	);
-
 	TotalAiTimes = 0;
 }
