@@ -137,6 +137,7 @@ void AAiCharacter::StartFortificationPhase()
 
 	FilterRegionWithLowPopulation(1);
 
+
 	if (!PrioritizedRegions.IsEmpty())
 	{
 		PrioritizePopulatedRegions();
@@ -151,11 +152,20 @@ void AAiCharacter::StartFortificationPhase()
 
 		if (!PrioritizedRegions.IsEmpty())
 		{
-			int32 random = FMath::RandRange(0, PrioritizedRegions.Num() - 1);
 
-			ARegion* regionToFortify = GetTopResults(PrioritizedRegions)[random].Key;
+			if (!TurnManager->InSimulation)
+			{
+				TurnManager->InSimulation = true;
+				PredictFortification(regionToTransferWith);
+				TurnManager->InSimulation = false;
+			}
+			else {
+				int32 random = FMath::RandRange(0, PrioritizedRegions.Num() - 1);
 
-			TransferUnits(regionToTransferWith, regionToFortify, regionToTransferWith->GetUnits() - 1);
+				ARegion* regionToFortify = GetTopResults(PrioritizedRegions)[random].Key;
+
+				TransferUnits(regionToTransferWith, regionToFortify, regionToTransferWith->GetUnits() - 1);
+			}
 		}
 	}
 
@@ -217,6 +227,78 @@ void AAiCharacter::PredictDeployment()
 	if (bestRegion)
 	{
 		bestRegion->DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));
+	}
+}
+
+void AAiCharacter::PredictFortification(ARegion* regionToTransfer)
+{
+	FGameStateSnapshot snapshot;
+	snapshot.SaveState(GetWorld());
+
+	ARegion* bestRegion = nullptr;
+	int32 bestScore = INT_MIN;
+
+	auto bestList = GetTopResults(PrioritizedRegions);
+
+	for (size_t i = 0; i < bestList.Num(); i++)
+	{
+		ARegion* region = bestList[i].Key;
+
+		TransferUnits(regionToTransfer, region, regionToTransfer->GetUnits() - 1);
+
+		int32 predictedScore = MinimaxFortification(3, false);
+
+		snapshot.RestoreState();
+
+		if (predictedScore > bestScore)
+		{
+			bestScore = predictedScore;
+			bestRegion = region;
+		}
+	}
+
+	if (bestRegion)
+	{
+		TransferUnits(regionToTransfer, bestRegion, regionToTransfer->GetUnits() - 1);
+	}
+}
+
+int32 AAiCharacter::MinimaxFortification(int32 depth, bool isMaximizing)
+{
+	if (depth == 0)
+	{
+		return EvaluateGameState();
+	}
+
+	if (isMaximizing)
+	{
+		//Depth 2, 4, 6, 8...
+		StartDeploymentPhase();
+		StartAttackPhase();
+		StartFortificationPhase();
+
+		int32 score = MinimaxDeployment(depth - 1, false);
+		
+		return score;
+	}
+	else {
+		//Depth 1, 3, 5, 7...
+		int32 worstScore = INT_MAX;
+
+		for (ABaseCharacter* character : TurnManager->GetTurnOrderFrom(this))
+		{
+			if (!character->RegionsOwned.IsEmpty())
+			{
+				AAiCharacter* ai = Cast<AAiCharacter>(character);
+
+				ai->StartDeploymentPhase();
+
+				ai->StartAttackPhase();
+
+				ai->StartFortificationPhase();
+			}
+		}
+		return MinimaxDeployment(depth - 1, true);
 	}
 }
 

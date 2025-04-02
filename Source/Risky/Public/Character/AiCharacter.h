@@ -75,6 +75,10 @@ public:
 
 	void PredictDeployment();
 
+	void PredictFortification(ARegion* regionToTransfer);
+
+	int32 MinimaxFortification(int32 depth, bool isMaximizing);
+
 	int32 MinimaxDeployment(int32 depth, bool isMaximizing, bool firstIteration = false);
 
 	int32 EvaluateGameState();
