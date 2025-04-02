@@ -19,8 +19,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	ATurnManager* TurnManager;
-
 	bool CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits);
 
 	void CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits);
@@ -28,6 +26,8 @@ protected:
 	int32 CurrentUnitsToDeploy;
 
 public:	
+	ATurnManager* TurnManager;
+
 	virtual void FinishedCurrentPhase();
 
 	virtual void StartDeploymentPhase();

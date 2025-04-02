@@ -11,14 +11,26 @@ class RISKY_API UAiStats: public UObject
 {
 	GENERATED_BODY()
 
-public:
+	int64 TickTime = 0;
+	int64 TockTime = 0;
 
-	UPROPERTY()
 	double TimeDeployment;
 
-	UPROPERTY()
 	double TimeAttack;
 
-	UPROPERTY()
 	double TimeFortification;
+
+	double TicTok();
+
+public:
+
+	void Tick();
+
+	void TockDeployment();
+
+	void TockAttack();
+
+	void TockFortification();
+
+	void WriteStatsIntoFile(double& total);
 };
