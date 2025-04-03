@@ -19,6 +19,7 @@ class RISKY_API UAiPrediction : public UObject
 	int32 EvaluateGameState();
 
 public:
+	UPROPERTY()
 	class AAiCharacter* Ai;
 
 	void PredictDeployment();

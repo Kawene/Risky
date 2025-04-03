@@ -190,11 +190,11 @@ void ATurnManager::WriteTotalTime()
 	if (TotalAiTimes > 100)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "Ai turn took more then 0.1 second!!");
-		message += FString::Printf(TEXT("Total times for the Ai this turn =\t %f Busted the time limit!!\n\n\n\n"), TotalAiTimes);
+		message += FString::Printf(TEXT("Total time for the Ai this turn =\t %f Busted the time limit!!\n\n\n\n"), TotalAiTimes);
 
 	}
 	else {
-		message += FString::Printf(TEXT("Total times for the Ai this turn =\t %f\n\n\n\n"), TotalAiTimes);
+		message += FString::Printf(TEXT("Total time for all Ai this turn =\t %f\n\n\n\n"), TotalAiTimes);
 	}
 
 	FFileHelper::SaveStringToFile(

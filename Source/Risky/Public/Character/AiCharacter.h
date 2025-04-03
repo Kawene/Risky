@@ -16,12 +16,15 @@ class RISKY_API AAiCharacter : public ABaseCharacter
 
 	bool AttackValuableRegion(ARegion* ownRegion, ARegion* regionToAttack);
 
+	UPROPERTY()
 	class UAiStats* Statistic;
-
+	
+	UPROPERTY()
 	class UAiPrediction* Prediction;
 
 public:
 
+	UPROPERTY()
 	class URegionEvaluator* RegionEvaluator;
 
 	AAiCharacter();

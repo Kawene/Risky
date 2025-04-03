@@ -16,11 +16,16 @@ struct FGameStateSnapshot
 {
 	TMap<ARegion*, TPair<ABaseCharacter*, int32>> RegionInfo;
 
+	FGameStateSnapshot()
+	{
+		RegionInfo = TMap<ARegion*, TPair<ABaseCharacter*, int32>>();
+	}
+
 	void SaveState(UWorld* world)
 	{
-		RegionInfo.Empty();
+		RegionInfo = TMap<ARegion*, TPair<ABaseCharacter*, int32>>();
 
-		TArray<AActor*> allRegions;
+		TArray<AActor*> allRegions {};
 		UGameplayStatics::GetAllActorsOfClass(world, ARegion::StaticClass(), allRegions);
 
 		for (AActor* actor : allRegions)
@@ -43,7 +48,7 @@ struct FGameStateSnapshot
 
 void UAiPrediction::PredictDeployment()
 {
-	FGameStateSnapshot snapshot;
+	FGameStateSnapshot snapshot {};
 	snapshot.SaveState(GetWorld());
 
 	ARegion* bestRegion = nullptr;

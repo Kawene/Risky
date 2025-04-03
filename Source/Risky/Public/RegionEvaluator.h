@@ -19,8 +19,10 @@ class RISKY_API URegionEvaluator : public UObject
 {
 	GENERATED_BODY()
 
+	UPROPERTY()
 	TMap<ARegion*, double> PrioritizedRegions;
 
+	UPROPERTY()
 	TMap<ARegion*, double> PrioritizedRegionsToAttack;
 
 	void PrioritizeCloseRegions();
@@ -49,6 +51,9 @@ class RISKY_API URegionEvaluator : public UObject
 
 
 public:
+
+	URegionEvaluator();
+
 	class AAiCharacter* Ai;
 	
 	void FilterForDeployment();

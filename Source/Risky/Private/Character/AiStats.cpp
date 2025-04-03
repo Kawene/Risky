@@ -38,15 +38,15 @@ void UAiStats::WriteStatsIntoFile(double& total)
 	FString message;
 	message += "Stats for:" + this->GetFName().ToString() + "\n";
 
-	message += FString::Printf(TEXT("Time Deployment =\t %f\n"), TimeDeployment);
+	message += FString::Printf(TEXT("Deployment time =\t %f\n"), TimeDeployment);
 
-	message += FString::Printf(TEXT("Time Attack =\t\t %f\n"), TimeAttack);
+	message += FString::Printf(TEXT("Attack time =\t\t %f\n"), TimeAttack);
 
-	message += FString::Printf(TEXT("Time Fortification =\t %f\n"), TimeFortification);
+	message += FString::Printf(TEXT("Fortification time =\t %f\n"), TimeFortification);
 
 	double totalTime = TimeDeployment + TimeAttack + TimeFortification;
 
-	message += FString::Printf(TEXT("Time Total =\t\t %f\n\n"), totalTime);
+	message += FString::Printf(TEXT("Total Time =\t\t %f\n\n"), totalTime);
 
 	FString filePath = FPaths::ProjectDir() + TEXT("StatsAI.txt");
 

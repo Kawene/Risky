@@ -34,6 +34,7 @@ bool ABaseCharacter::CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int3
 void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
 {
 	TArray<int32> attackingDice;
+	attackingUnits = FMath::Min(3, attackingUnits);
 	attackingDice.Reserve(attackingUnits);
 	for (size_t i = 0; i < attackingUnits; i++)
 	{

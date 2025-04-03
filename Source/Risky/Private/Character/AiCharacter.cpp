@@ -18,7 +18,7 @@
 
 AAiCharacter::AAiCharacter()
 {
-	Statistic =  CreateDefaultSubobject<UAiStats>(TEXT("Statistic"));
+	Statistic =  CreateDefaultSubobject<UAiStats>(*this->GetName());
 	RegionEvaluator = CreateDefaultSubobject<URegionEvaluator>(TEXT("RegionEvaluator"));
 	RegionEvaluator->Ai = this;
 	Prediction = CreateDefaultSubobject<UAiPrediction>(TEXT("Prediction"));

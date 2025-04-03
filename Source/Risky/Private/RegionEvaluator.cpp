@@ -7,6 +7,12 @@
 #include "Character/AiCharacter.h"
 
 
+URegionEvaluator::URegionEvaluator()
+{
+	PrioritizedRegions = TMap<ARegion*, double>();
+	PrioritizedRegionsToAttack = TMap<ARegion*, double>();
+}
+
 void URegionEvaluator::FilterForDeployment()
 {
 	InitMap();
@@ -265,7 +271,19 @@ void URegionEvaluator::AddRegionToMap(ARegion* region)
 
 void URegionEvaluator::InitMap()
 {
-	PrioritizedRegions.Reset();
+	PrioritizedRegions = TMap<ARegion*, double>();
+
+
+	int test23a = 0;
+
+	if (!Ai)
+	{
+		int skibidi = 0;
+		return;
+	}
+
+	int test = 0;
+
 	for (ARegion* region : Ai->RegionsOwned)
 	{
 		PrioritizedRegions.Add(region, 0);
@@ -274,7 +292,7 @@ void URegionEvaluator::InitMap()
 
 void URegionEvaluator::InitAttackMap(ARegion* region)
 {
-	PrioritizedRegionsToAttack.Reset();
+	PrioritizedRegionsToAttack = TMap<ARegion*, double>();
 	for (ARegion* neighbours : region->GetBorderingRegions())
 	{
 		if (Ai != neighbours->GetRegionOwner())
