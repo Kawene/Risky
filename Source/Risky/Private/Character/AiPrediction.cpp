@@ -6,6 +6,7 @@
 #include "Province.h"
 #include "Character/BaseCharacter.h"
 #include "Character/AiCharacter.h"
+#include "Character/PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Math/UnrealMathUtility.h"
 #include "RegionEvaluator.h"
@@ -273,7 +274,20 @@ int32 UAiPrediction::EvaluateGameState()
 		}
 	}
 
-	totalPoints -= Ai->TurnManager->Characters.Num() * 5;
+
+	for (size_t i = 0; i < Ai->TurnManager->Characters.Num(); ++i)
+	{
+		if (i == 0)
+		{
+			if (StaticCast<APlayerCharacter*>(Ai->TurnManager->Characters[i])->AiPlayer->RegionsOwned.IsEmpty())
+			{
+				totalPoints += 50;
+			}
+		}
+		else if (Ai->TurnManager->Characters[i]->RegionsOwned.IsEmpty()) {
+			totalPoints += 50;
+		}
+	}
 
 	return totalPoints;
 }
