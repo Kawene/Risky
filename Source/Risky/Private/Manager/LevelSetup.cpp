@@ -11,6 +11,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "Algo/RandomShuffle.h"
 #include "Kismet/KismetMathLibrary.h"
+#include <GI_LevelData.h>
 
 FVector RGBToLab(const FLinearColor& Color)
 {
@@ -110,6 +111,9 @@ void ALevelSetup::InitializeLevel()
 		StaticCast<ABaseCharacter*>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)) 
 	};
 
+	UGI_LevelData* levelData = Cast<UGI_LevelData>(GetGameInstance());
+	this->NumberOfAI = levelData->NumberOfAI;
+
 	TArray<FLinearColor> existingColor{ allPlayers[0]->ColorIdentity };
 
 	float currentPosition = 1000;
@@ -138,10 +142,39 @@ void ALevelSetup::InitializeLevel()
 	{
 		Algo::RandomShuffle(allRegions);
 
+		int playerIndex = 0;
+		ABaseCharacter* currentPlayer = allPlayers[playerIndex];
+		int unitLeft = levelData->StartingAmount;
+		int maxRegions = allRegions.Num() / allPlayers.Num();
+		int currentRegionsCount = 0;
+
 		for (size_t i = 0; i < allRegions.Num(); ++i)
 		{
 			ARegion* region = StaticCast<ARegion*>(allRegions[i]);
-			region->ChangeOwnerShip(allPlayers[i % allPlayers.Num()], FMath::RandRange(1, 6));
+			int unitsToPlace = 1;
+
+			if (currentRegionsCount > maxRegions)
+			{
+				playerIndex++;
+				currentPlayer = allPlayers[playerIndex];
+				unitLeft = levelData->StartingAmount;
+				currentRegionsCount = 0;
+			}
+			else if (currentRegionsCount == maxRegions) {
+
+				unitsToPlace += unitLeft;
+				unitLeft = 0;
+			}
+
+			if (unitLeft > 0)
+			{
+				// Not sure if I shloud keep the min 
+				int extraUnits = FMath::RandRange(0, unitLeft);
+				unitsToPlace += extraUnits;
+				unitLeft -= extraUnits;		
+			}
+			currentRegionsCount++;
+			region->ChangeOwnerShip(currentPlayer, unitsToPlace);
 		}
 	}
 	else 
