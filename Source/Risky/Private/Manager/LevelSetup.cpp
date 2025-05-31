@@ -146,34 +146,46 @@ void ALevelSetup::InitializeLevel()
 		ABaseCharacter* currentPlayer = allPlayers[playerIndex];
 		int unitLeft = levelData->StartingAmount;
 		int maxRegions = allRegions.Num() / allPlayers.Num();
-		int currentRegionsCount = 0;
+		int currentRegionsCount = 1;
 
 		for (size_t i = 0; i < allRegions.Num(); ++i)
 		{
 			ARegion* region = StaticCast<ARegion*>(allRegions[i]);
 			int unitsToPlace = 1;
 
-			if (currentRegionsCount > maxRegions)
-			{
-				playerIndex++;
-				currentPlayer = allPlayers[playerIndex];
-				unitLeft = levelData->StartingAmount;
-				currentRegionsCount = 0;
-			}
-			else if (currentRegionsCount == maxRegions) {
+			if (currentRegionsCount == maxRegions) {
 
 				unitsToPlace += unitLeft;
 				unitLeft = 0;
 			}
-
-			if (unitLeft > 0)
+			else if (unitLeft > 0)
 			{
 				int extraUnits = FMath::RandRange(0, FMath::Max(unitLeft / (maxRegions - currentRegionsCount), 5));
 				unitsToPlace += extraUnits;
 				unitLeft -= extraUnits;		
 			}
+
 			currentRegionsCount++;
 			region->ChangeOwnerShip(currentPlayer, unitsToPlace);
+			
+			//At the end of the players list, but still have some region to distribute
+			if (playerIndex >= allPlayers.Num() - 1)
+			{
+				currentPlayer = allPlayers[FMath::RandRange(0, allPlayers.Num() - 1)];
+			}
+			else if (currentRegionsCount > maxRegions)
+			{
+				playerIndex++;
+				currentPlayer = allPlayers[playerIndex];
+				unitLeft = levelData->StartingAmount;
+				currentRegionsCount = 1;
+			}
+		}
+
+		if (unitLeft != 0)
+		{
+			ARegion* region = StaticCast<ARegion*>(allRegions.Last());
+			region->DeployUnits(unitLeft);
 		}
 	}
 	else 

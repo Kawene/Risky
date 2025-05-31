@@ -45,6 +45,8 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 			Provinces.Add(Province);
 		}
 	}
+
+	StartTurn();
 }
 
 void ATurnManager::StartTurn()
