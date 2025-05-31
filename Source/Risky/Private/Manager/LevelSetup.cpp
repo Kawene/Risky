@@ -168,8 +168,7 @@ void ALevelSetup::InitializeLevel()
 
 			if (unitLeft > 0)
 			{
-				// Not sure if I shloud keep the min 
-				int extraUnits = FMath::RandRange(0, unitLeft);
+				int extraUnits = FMath::RandRange(0, FMath::Max(unitLeft / (maxRegions - currentRegionsCount), 5));
 				unitsToPlace += extraUnits;
 				unitLeft -= extraUnits;		
 			}
