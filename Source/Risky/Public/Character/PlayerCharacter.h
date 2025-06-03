@@ -18,6 +18,8 @@ class APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 
+	virtual void Tick(float DeltaTime) override;
+
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
@@ -50,7 +52,8 @@ public:
 
 	FAttackStep AttackStep;
 
-	bool IsUiOpen;
+
+	void SetUiOpen(bool isOpen);
 
 	UPROPERTY()
 	class AAiCharacter* AiPlayer;
@@ -58,6 +61,10 @@ public:
 	void TransferTo(bool toPlayer);
 
 	virtual void TurnManagerRef(ATurnManager* tManager) override;
+
+	bool IsCameraMoving() const {
+		return CameraMoving;
+	};
 
 private:
 	/** Top down camera */
@@ -67,6 +74,21 @@ private:
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+
+	UPROPERTY()
+	bool CameraZoomedIn;
+
+	UPROPERTY()
+	bool CameraMoving;
+
+	FVector CameraTargetLocation;
+
+	float CameraTargetArmLength;
+
+	float PreviousCameraTargetArmLength;
+
+
+	bool IsUiOpen;
 
 
 	UPROPERTY(EditAnywhere)
@@ -85,5 +107,13 @@ private:
 	EGamePhase CurrentPhase;
 
 	void DeployUnitsToSelectedRegion(int32 unitsToDeploy);
+	void SelectRegion(ARegion** regionToModify, ARegion* regionSelected);
+	void DeselectRegion(ARegion** region, bool deZoom = true);
+
+	void ZoomCameraToRegion(ARegion* regionSelected);
+
+	void MoveCameraToRegion(ARegion* regionSelected);
+
+	void DeZoomCamera();
 
 };

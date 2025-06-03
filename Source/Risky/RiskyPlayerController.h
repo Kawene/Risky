@@ -49,6 +49,8 @@ protected:
 
 	void Move(const FInputActionValue& Value);
 
+	class APlayerCharacter* Player;
+
 };
 
 

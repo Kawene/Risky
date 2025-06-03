@@ -15,17 +15,62 @@
 #include "Ui/MainUI.h"
 #include "Region.h"
 
-void SelectRegion(ARegion** regionToModify, ARegion* regionSelected) {
+void APlayerCharacter::SelectRegion(ARegion** regionToModify, ARegion* regionSelected) {
 	*regionToModify = regionSelected;
 	(*regionToModify)->ToggleSelection();
+
+	ZoomCameraToRegion(*regionToModify);
 }
 
 
-void DeselectRegion(ARegion** region) {
+void APlayerCharacter::DeselectRegion(ARegion** region, bool deZoom) {
 	if (*region)
 	{
+		if ((*region)->GetRegionOwner() == this && deZoom)
+		{
+			DeZoomCamera();
+		}
+
 		(*region)->ToggleSelection();
 		(*region) = nullptr;
+	}
+}
+
+void APlayerCharacter::ZoomCameraToRegion(ARegion* regionSelected)
+{
+	if (regionSelected->GetRegionOwner() == this && CurrentPhase != EGamePhase::FortificationPhase)
+	{
+		if (CameraZoomedIn)
+		{
+			MoveCameraToRegion(regionSelected);
+			return;
+		}
+		
+		CameraZoomedIn = true;
+		CameraMoving = true;
+		CameraTargetLocation = regionSelected->GetActorLocation();
+		PreviousCameraTargetArmLength = CameraBoom->TargetArmLength;
+		CameraTargetArmLength = CameraBoom->TargetArmLength * 0.5f;
+	}
+}
+
+void APlayerCharacter::MoveCameraToRegion(ARegion* regionSelected)
+{
+	if (regionSelected->GetRegionOwner() == this)
+	{
+		CameraMoving = true;
+		CameraTargetLocation = regionSelected->GetActorLocation();
+	}
+}
+
+void APlayerCharacter::DeZoomCamera()
+{
+	if (CameraZoomedIn)
+	{
+		CameraZoomedIn = false;
+		CameraMoving = true;
+		CameraTargetLocation = GetActorLocation() + FVector(0, 0, 1000); 
+		CameraTargetArmLength = PreviousCameraTargetArmLength;
 	}
 }
 
@@ -52,6 +97,39 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	CurrentPhase = EGamePhase::NotCurrentTurn;
+}
+
+void APlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (CameraMoving)
+	{
+		FVector currentLocation = CameraBoom->GetComponentLocation();
+		float currentArmLength = CameraBoom->TargetArmLength;
+
+		float dist = FVector::Dist(currentLocation, CameraTargetLocation);
+
+		float alpha = FMath::Clamp(DeltaTime * 4.5f, 0.0f, 1.0f); 
+
+		if (dist < 200)
+			alpha = FMath::Clamp(DeltaTime * 9.0f, 0.0f, 1.0f);
+		else if (dist < 400.f) 
+			alpha = FMath::Clamp(DeltaTime * 7.5f, 0.0f, 1.0f);
+		else if (dist < 650.f)
+			alpha = FMath::Clamp(DeltaTime * 6.0f, 0.0f, 1.0f);
+
+		FVector newLocation = FMath::Lerp(currentLocation, CameraTargetLocation, alpha);
+		float newArmLength = FMath::Lerp(currentArmLength, CameraTargetArmLength, alpha);
+
+		CameraBoom->SetWorldLocation(newLocation);
+		CameraBoom->TargetArmLength = newArmLength;
+
+		if (FVector::Dist(newLocation, CameraTargetLocation) < 20.f && FMath::Abs(newArmLength - CameraTargetArmLength) < 10.f)
+		{
+			CameraMoving = false;
+		}
+	}
 }
 
 void APlayerCharacter::BeginPlay()
@@ -127,8 +205,23 @@ void APlayerCharacter::FinishedCurrentPhase()
 void APlayerCharacter::TransferAmount(int32 amount)
 {
 	TransferUnits(FirstSelectedRegion, SecondSelectedRegion, amount);
-	DeselectRegion(&FirstSelectedRegion);
-	DeselectRegion(&SecondSelectedRegion);
+
+	bool continueZoom = amount > 1 && CurrentPhase == EGamePhase::AttackPhase;
+
+	if (continueZoom)
+	{
+		ARegion* temp = SecondSelectedRegion;
+
+		DeselectRegion(&FirstSelectedRegion, false);
+		DeselectRegion(&SecondSelectedRegion, false);
+
+		SelectRegion(&FirstSelectedRegion, temp);
+	}
+	else 
+	{
+		DeselectRegion(&FirstSelectedRegion);
+		DeselectRegion(&SecondSelectedRegion);
+	}
 }
 
 void APlayerCharacter::DialogAction(int32 units)
@@ -153,6 +246,27 @@ void APlayerCharacter::IsCharacterDead()
 	{
 		TurnManager->CharacterDied(this);
 		PlayerHUD->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void APlayerCharacter::SetUiOpen(bool isOpen)
+{
+	IsUiOpen = isOpen;
+
+	if (!isOpen)
+	{
+		switch (CurrentPhase)
+		{
+		case EGamePhase::DeploymentPhase:
+			DeselectRegion(&FirstSelectedRegion);	
+			break;
+		case EGamePhase::AttackPhase:
+			DeselectRegion(&SecondSelectedRegion);	
+			break;
+		case EGamePhase::FortificationPhase:
+			DeselectRegion(&SecondSelectedRegion);
+			break;
+		}
 	}
 }
 
@@ -219,7 +333,7 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 				return;
 			}
 
-			DeselectRegion(&FirstSelectedRegion);
+			DeselectRegion(&FirstSelectedRegion, false);
 
 			SelectRegion(&FirstSelectedRegion, regionSelected);
 		}

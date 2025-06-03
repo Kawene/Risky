@@ -35,7 +35,7 @@ void UAttackUI::Attack()
 void UAttackUI::ClosePopup()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
-	Player->IsUiOpen = false;
+	Player->SetUiOpen(false);
 }
 
 void UAttackUI::UpdateUI(bool regionCaptured)
@@ -108,7 +108,7 @@ void UAttackUI::UpdateComboBoxOptions()
 
 void UAttackUI::ShowPopup(ARegion* attackingRegion)
 {
-	Player->IsUiOpen = true;
+	Player->SetUiOpen(true);
 	AttackingRegion = attackingRegion;
 	CloseButton->SetIsEnabled(true);
 	UpdateComboBoxOptions();

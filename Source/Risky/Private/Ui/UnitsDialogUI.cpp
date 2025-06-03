@@ -24,7 +24,7 @@ void UUnitsDialogUI::ButtonAction()
 void UUnitsDialogUI::ClosePopup()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
-	Player->IsUiOpen = false;
+	Player->SetUiOpen(false);
 	if (ParentWidget)
 	{
 		ParentWidget->SetVisibility(ESlateVisibility::Collapsed);
@@ -42,6 +42,6 @@ void UUnitsDialogUI::ShowPopup(int32 MaxValue, FText textButton)
 	ActionButtonText->SetText(textButton);
 	SliderUnits->SetMaxValue(MaxValue);
 	SliderUnits->SetValue(MaxValue);
-	Player->IsUiOpen = true;
+	Player->SetUiOpen(true);
 }
 

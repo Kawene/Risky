@@ -10,6 +10,7 @@
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
+#include "Character/PlayerCharacter.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -29,6 +30,7 @@ void ARiskyPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
 
+	Player = Cast<APlayerCharacter>(GetPawn());
 }
 
 void ARiskyPlayerController::SetupInputComponent()
@@ -45,10 +47,17 @@ void ARiskyPlayerController::SetupInputComponent()
 
 void ARiskyPlayerController::Move(const FInputActionValue& Value)
 {
+
+	if (Player->IsCameraMoving())
+	{
+		return;
+	}
+
 	FVector2D MovementVector = Value.Get<FVector2D>();
 	FVector InputVector = FVector(MovementVector, 0);
 
-	GetPawn()->AddMovementInput(InputVector, speed, false);
+	Player->AddMovementInput(InputVector, speed, false);
+
 }
 void ARiskyPlayerController::Tick(float DeltaTime)
 {
