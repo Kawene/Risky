@@ -22188,3 +22188,43 @@ Total time for all Ai this turn =	 6.425300
 
 
 
+Stats for:AiCharacter_0
+Deployment time =	 0.305700
+Attack time =		 0.155400
+Fortification time =	 0.931300
+Total Time =		 1.392400
+
+Total time for all Ai this turn =	 1.392400
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.497200
+Attack time =		 0.356800
+Fortification time =	 0.874200
+Total Time =		 1.728200
+
+Total time for all Ai this turn =	 1.728200
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.480000
+Attack time =		 0.385000
+Fortification time =	 1.069700
+Total Time =		 1.934700
+
+Total time for all Ai this turn =	 1.934700
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.410300
+Attack time =		 0.424500
+Fortification time =	 0.808500
+Total Time =		 1.643300
+
+Total time for all Ai this turn =	 1.643300
+
+
+

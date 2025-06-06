@@ -291,6 +291,7 @@ void APlayerCharacter::SetUiOpen(bool isOpen)
 			break;
 		case EGamePhase::AttackPhase:
 			DeselectRegion(&SecondSelectedRegion);	
+			PlayerHUD->ButtonVisibility(true);
 			if (FirstSelectedRegion)
 			{
 				MoveCameraToRegion(FirstSelectedRegion);
@@ -391,6 +392,7 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 		if (FirstSelectedRegion && FirstSelectedRegion->CanAttackThisRegion(SecondSelectedRegion))
 		{
 			MoveCameraToPosition((FirstSelectedRegion->GetActorLocation() + SecondSelectedRegion->GetActorLocation()) * 0.5);
+			PlayerHUD->ButtonVisibility(false);
 			PlayerHUD->ShowAttackUi(FirstSelectedRegion, SecondSelectedRegion->GetUnits());
 		}
 		break;
@@ -426,6 +428,38 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 		break;
 	case EGamePhase::NotCurrentTurn:
 		break;
+	}
+}
+
+void APlayerCharacter::EscapeAction()
+{
+	if (IsUiOpen)
+	{
+		switch (CurrentPhase)
+		{
+		case EGamePhase::DeploymentPhase:
+			PlayerHUD->CloseUnitsUi();
+			break;
+		case EGamePhase::AttackPhase:
+			PlayerHUD->CloseAttackUi();
+			break;
+		case EGamePhase::FortificationPhase:
+			PlayerHUD->CloseUnitsUi();
+			break;
+		case EGamePhase::NotCurrentTurn:
+			break;
+		}
+	}
+	else 
+	{
+		if (FirstSelectedRegion)
+		{
+			DeselectRegion(&FirstSelectedRegion);
+		}
+		else {
+
+		}
+		//Open options menu or something similar
 	}
 }
 

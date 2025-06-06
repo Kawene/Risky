@@ -33,6 +33,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* MovementInput;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* EscapeInput;
+
 	/** Jump Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* SetDestinationTouchAction;*/
@@ -48,6 +51,8 @@ protected:
 	float speed = 1.0f;
 
 	void Move(const FInputActionValue& Value);
+
+	void EscapeAction();
 
 	class APlayerCharacter* Player;
 

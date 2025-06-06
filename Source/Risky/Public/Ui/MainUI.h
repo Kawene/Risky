@@ -22,6 +22,12 @@ public:
 
 	void ShowAttackUi(class ARegion* region, int32 enemyCount);
 
+	void CloseUnitsUi();
+
+	void CloseAttackUi();
+
+	void ButtonVisibility(bool visible);
+
 private:
 
 	APlayerCharacter* Player;

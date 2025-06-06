@@ -17,6 +17,7 @@ public class Risky : ModuleRules
 			"AIModule", 
 			"Niagara", 
 			"EnhancedInput",
-			"UMG"});
+			"UMG",
+			"CommonUI"});
     }
 }

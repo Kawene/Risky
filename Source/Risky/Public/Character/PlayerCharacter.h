@@ -25,6 +25,8 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	void EscapeAction();
+
 	void StartDeploymentPhase() override;
 
 	void StartAttackPhase() override;

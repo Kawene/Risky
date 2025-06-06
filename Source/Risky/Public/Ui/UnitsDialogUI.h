@@ -23,8 +23,6 @@ class RISKY_API UUnitsDialogUI : public UUserWidget
 	UFUNCTION()
 	void ButtonAction();
 
-	UFUNCTION()
-	void ClosePopup();
 
 protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
@@ -48,6 +46,9 @@ public:
 	void ShowPopup(int32 MaxValue, FText textButton);
 
 	virtual void  NativeConstruct();
+
+	UFUNCTION()
+	void ClosePopup();
 
 	class APlayerCharacter* Player;
 	

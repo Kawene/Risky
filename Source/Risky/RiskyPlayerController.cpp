@@ -42,6 +42,7 @@ void ARiskyPlayerController::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(MovementInput, ETriggerEvent::Triggered, this, &ARiskyPlayerController::Move);
 
+		EnhancedInputComponent->BindAction(EscapeInput, ETriggerEvent::Triggered, this, &ARiskyPlayerController::EscapeAction);
 	}
 }
 
@@ -59,6 +60,12 @@ void ARiskyPlayerController::Move(const FInputActionValue& Value)
 	Player->AddMovementInput(InputVector, speed, false);
 
 }
+void ARiskyPlayerController::EscapeAction()
+{
+	Player->EscapeAction();
+}
+
+
 void ARiskyPlayerController::Tick(float DeltaTime)
 {
 }

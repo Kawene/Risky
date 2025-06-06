@@ -12,14 +12,24 @@
 #include "UI/UnitsDialogUI.h"
 #include "Region.h"
 #include "AttackResults.h"
+#include "CommonWidgetCarousel.h"
+#include "Components/Image.h"
+#include "Components/HorizontalBox.h"
 
 
 void UAttackUI::NativeConstruct()
 {
 	Super::NativeConstruct();
-	AttackButton->OnClicked.AddDynamic(this, &UAttackUI::Attack);
-	CloseButton->OnClicked.AddDynamic(this, &UAttackUI::ClosePopup);
+
 	Player->AttackStep.BindUObject(this, &UAttackUI::UpdateUI);
+
+	LeftButton->OnClicked.AddDynamic(this, &UAttackUI::LeftCarouselAction);
+	RightButton->OnClicked.AddDynamic(this, &UAttackUI::RightCarouselAction);
+
+	OptionBlitz->OnMouseButtonDownEvent.BindUFunction(this, FName("BlitzSelected"));
+	Option1->OnMouseButtonDownEvent.BindUFunction(this, FName("OneSelected"));
+	Option2->OnMouseButtonDownEvent.BindUFunction(this, FName("TwoSelected"));
+	Option3->OnMouseButtonDownEvent.BindUFunction(this, FName("ThreeSelected"));
 
 	TransferSection->CloseButton->SetVisibility(ESlateVisibility::Collapsed);
 	TransferSection->CloseButtonText->SetVisibility(ESlateVisibility::Collapsed);
@@ -28,11 +38,31 @@ void UAttackUI::NativeConstruct()
 	TransferSection->ParentWidget = this;
 }
 
-void UAttackUI::Attack()
+void UAttackUI::BlitzSelected()
 {
-	ResultsData = Player->DeclareAttack(CurrentAttacking());
+	Attack(AttackingRegion->GetUnits() - 1);
+}
 
-	if (UnitsToAttack->GetSelectedOption() == "Blitz")
+void UAttackUI::OneSelected()
+{
+	Attack(1);
+}
+
+void UAttackUI::TwoSelected()
+{
+	Attack(2);
+}
+
+void UAttackUI::ThreeSelected()
+{
+	Attack(3);
+}
+
+void UAttackUI::Attack(int32 attackingAmount)
+{
+	ResultsData = Player->DeclareAttack(attackingAmount);
+
+	if (AttackChoice->GetActiveWidgetIndex() == 0)
 	{
 		ExecuteAttack();
 		AttackResult1->SetText(FText::FromString(""));
@@ -87,8 +117,11 @@ void UAttackUI::Attack()
 
 void UAttackUI::ClosePopup()
 {
-	SetVisibility(ESlateVisibility::Collapsed);
-	Player->SetUiOpen(false);
+	if (!TransferSection->IsVisible())
+	{
+		SetVisibility(ESlateVisibility::Collapsed);
+		Player->SetUiOpen(false);
+	}
 }
 
 void UAttackUI::UpdateUI(bool regionCaptured)
@@ -101,9 +134,9 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 			ClosePopup();
 			return;
 		}
-		CloseButton->SetIsEnabled(false);
 		TransferSection->ShowPopup(AttackingRegion->GetUnits() - 1, FText::FromString("Transfer"));
 		TransferSection->SliderUnits->SetMinValue(FMath::Min(3, CurrentAttacking()));
+		Carousel->SetVisibility(ESlateVisibility::Collapsed);
 		return;
 	}
 
@@ -112,56 +145,76 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 	{
 		ClosePopup();
 	}
-	else if (UnitsToAttack->GetSelectedOption() == "Blitz") {
-		Attack();
+	else if (AttackChoice->GetActiveWidgetIndex() == 0) {
+		BlitzSelected();
 	}
-	else {
-		UpdateComboBoxOptions();
-	}
+
 }
 
 int32 UAttackUI::CurrentAttacking()
 {
 	int32 attacker = 0;
-	FString value = UnitsToAttack->GetSelectedOption();
-	if (value == "Blitz")
+	int32 value = AttackChoice->GetActiveWidgetIndex();
+	if (value == 0)
 	{
 		attacker = AttackingRegion->GetUnits() - 1;
 	}
 	else {
-		attacker = FCString::Atoi(*value);
+		attacker = value;
 	}
 	return attacker;
-}
-
-void UAttackUI::UpdateComboBoxOptions()
-{
-	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
-
-	FString itemSelected = UnitsToAttack->GetSelectedOption();
-
-	UnitsToAttack->ClearOptions();
-	UnitsToAttack->AddOption(FString("Blitz"));
-	UnitsToAttack->SetSelectedOption(FString("Blitz"));
-
-	if (remainingUnits > 2)
-	{
-		UnitsToAttack->AddOption(FString("3"));
-		UnitsToAttack->AddOption(FString("2"));
-	}
-	else if (remainingUnits == 2)
-	{
-		UnitsToAttack->AddOption(FString("2"));
-	}
-
-	UnitsToAttack->AddOption(FString("1"));
-
-	UnitsToAttack->SetSelectedOption(itemSelected);
 }
 
 void UAttackUI::ExecuteAttack()
 {
 	Player->ApplyAttackResults(ResultsData);
+}
+
+void UAttackUI::LeftCarouselAction()
+{
+	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
+
+	int32 test = AttackChoice->GetActiveWidgetIndex();
+
+	if (remainingUnits >= 3 || AttackChoice->GetActiveWidgetIndex() != 0)
+	{
+		AttackChoice->NextPage();
+		return;
+	}
+
+	if (remainingUnits == 2)
+	{
+		AttackChoice->SetActiveWidgetIndex(2);
+	}
+	else 
+	{
+		AttackChoice->PreviousPage();
+	}
+	
+}
+
+void UAttackUI::RightCarouselAction()
+{
+	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
+	int32 test = AttackChoice->GetActiveWidgetIndex();
+
+
+	if (remainingUnits >= 3)
+	{
+		AttackChoice->PreviousPage();
+		return;
+	}
+
+
+	if (AttackChoice->GetActiveWidgetIndex() == 1 && remainingUnits == 1)
+	{
+		AttackChoice->NextPage();
+	}
+	else if(AttackChoice->GetActiveWidgetIndex() == 2) {
+		AttackChoice->SetActiveWidgetIndex(0);
+	}
+	else 
+		AttackChoice->PreviousPage();
 }
 
 void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount)
@@ -174,7 +227,6 @@ void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount)
 	else 
 		DefenceResult2->SetVisibility(ESlateVisibility::Hidden);
 	
-	CloseButton->SetIsEnabled(true);
-	UpdateComboBoxOptions();
 	SetVisibility(ESlateVisibility::Visible);
+	Carousel->SetVisibility(ESlateVisibility::Visible);
 }

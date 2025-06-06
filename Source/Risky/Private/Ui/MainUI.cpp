@@ -46,6 +46,24 @@ void UMainUI::ShowAttackUi(ARegion* region, int32 enemyCount)
 	AttackDialog->ShowPopup(region, enemyCount);
 }
 
+void UMainUI::CloseUnitsUi()
+{
+	UnitsDialog->ClosePopup();
+}
+
+void UMainUI::CloseAttackUi()
+{
+	AttackDialog->ClosePopup();
+}
+
+void UMainUI::ButtonVisibility(bool visible)
+{
+	if (visible)
+		InteractButton->SetVisibility(ESlateVisibility::Visible);
+	else
+		InteractButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
 void UMainUI::OnButtonClick()
 {
 	Player->FinishedCurrentPhase();

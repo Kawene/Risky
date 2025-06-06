@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonWidgetCarousel.h"
 #include "Blueprint/UserWidget.h"
 #include "AttackUI.generated.h"
 
@@ -11,21 +12,6 @@ UCLASS()
 class RISKY_API UAttackUI : public UUserWidget
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UComboBoxString* UnitsToAttack;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* AttackButton;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* AttackButtonText;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* CloseButton;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* CloseButtonText;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UUnitsDialogUI* TransferSection;
@@ -54,27 +40,66 @@ class RISKY_API UAttackUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UVerticalBox* ResultsDefence;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UHorizontalBox* Carousel;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UCommonWidgetCarousel* AttackChoice;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* LeftButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* RightButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UImage* OptionBlitz;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UImage* Option1;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UImage* Option2;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UImage* Option3;
+
+	UFUNCTION()
+	void BlitzSelected();
+
+	UFUNCTION()
+	void OneSelected();
+
+	UFUNCTION()
+	void TwoSelected();
+
+	UFUNCTION()
+	void ThreeSelected();
 
 	FTimerHandle TimerHandle_DelayeAttack;
 
 	struct FAttackResults* ResultsData;
 
 	UFUNCTION()
-	void Attack();
-
-	UFUNCTION()
-	void ClosePopup();
+	void Attack(int32 attackingAmount);
 
 	UFUNCTION()
 	void UpdateUI(bool regionCaptured);
 
 	int32 CurrentAttacking();
 
-	void UpdateComboBoxOptions();
-
 	void ExecuteAttack();
 
+	UFUNCTION()
+	void LeftCarouselAction();
+
+	UFUNCTION()
+	void RightCarouselAction();
+
 public:
+
+	UFUNCTION()
+	void ClosePopup();
 
 	void ShowPopup(ARegion* attackingRegion, int32 enemyCount);
 
