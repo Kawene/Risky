@@ -33,6 +33,32 @@ class RISKY_API UAttackUI : public UUserWidget
 	UPROPERTY()
 	class ARegion* AttackingRegion;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* AttackResult1;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* AttackResult2;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* AttackResult3;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* DefenceResult1;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UTextBlock* DefenceResult2;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UVerticalBox* ResultsAttack;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UVerticalBox* ResultsDefence;
+
+
+	FTimerHandle TimerHandle_DelayeAttack;
+
+	struct FAttackResults* ResultsData;
+
 	UFUNCTION()
 	void Attack();
 
@@ -46,9 +72,11 @@ class RISKY_API UAttackUI : public UUserWidget
 
 	void UpdateComboBoxOptions();
 
+	void ExecuteAttack();
+
 public:
 
-	void ShowPopup(ARegion* attackingRegion);
+	void ShowPopup(ARegion* attackingRegion, int32 enemyCount);
 
 	virtual void  NativeConstruct();
 

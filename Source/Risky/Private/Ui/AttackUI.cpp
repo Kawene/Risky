@@ -11,6 +11,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "UI/UnitsDialogUI.h"
 #include "Region.h"
+#include "AttackResults.h"
 
 
 void UAttackUI::NativeConstruct()
@@ -29,7 +30,59 @@ void UAttackUI::NativeConstruct()
 
 void UAttackUI::Attack()
 {
-	Player->AttackSelectedRegion(CurrentAttacking());
+	ResultsData = Player->DeclareAttack(CurrentAttacking());
+
+	if (UnitsToAttack->GetSelectedOption() == "Blitz")
+	{
+		ExecuteAttack();
+		AttackResult1->SetText(FText::FromString(""));
+		AttackResult2->SetText(FText::FromString(""));
+		AttackResult3->SetText(FText::FromString(""));
+		DefenceResult1->SetText(FText::FromString(""));
+		DefenceResult2->SetText(FText::FromString(""));
+		return;
+	}
+
+	AttackResult1->SetText(FText::FromString(FString::Printf(TEXT("%d"), ResultsData->AttackResult1)));
+
+	if (ResultsData->AttackResult2 > 0)
+	{
+		AttackResult2->SetVisibility(ESlateVisibility::Visible);
+		AttackResult2->SetText(FText::FromString(FString::Printf(TEXT("%d"), ResultsData->AttackResult2)));
+	}
+	else
+		AttackResult2->SetVisibility(ESlateVisibility::Hidden);
+
+	if (ResultsData->AttackResult3 > 0)
+	{
+		AttackResult3->SetVisibility(ESlateVisibility::Visible);
+		AttackResult3->SetText(FText::FromString(FString::Printf(TEXT("%d"), ResultsData->AttackResult3)));
+	}
+	else
+		AttackResult3->SetVisibility(ESlateVisibility::Hidden);
+
+	DefenceResult1->SetText(FText::FromString(FString::Printf(TEXT("%d"), ResultsData->DefenceResult1)));
+
+	if (ResultsData->DefenceResult2 > 0)
+	{
+		DefenceResult2->SetVisibility(ESlateVisibility::Visible);
+		DefenceResult2->SetText(FText::FromString(FString::Printf(TEXT("%d"), ResultsData->DefenceResult2)));
+	}
+	else
+		DefenceResult2->SetVisibility(ESlateVisibility::Hidden);
+
+
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		{
+			GetWorld()->GetTimerManager().SetTimer(
+				TimerHandle_DelayeAttack,
+				this,
+				&UAttackUI::ExecuteAttack,
+				2.0f,
+				false
+			);
+		});
+	
 }
 
 void UAttackUI::ClosePopup()
@@ -106,10 +159,21 @@ void UAttackUI::UpdateComboBoxOptions()
 	UnitsToAttack->SetSelectedOption(itemSelected);
 }
 
-void UAttackUI::ShowPopup(ARegion* attackingRegion)
+void UAttackUI::ExecuteAttack()
+{
+	Player->ApplyAttackResults(ResultsData);
+}
+
+void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount)
 {
 	Player->SetUiOpen(true);
 	AttackingRegion = attackingRegion;
+
+	if (enemyCount > 1)
+		DefenceResult2->SetVisibility(ESlateVisibility::Visible);
+	else 
+		DefenceResult2->SetVisibility(ESlateVisibility::Hidden);
+	
 	CloseButton->SetIsEnabled(true);
 	UpdateComboBoxOptions();
 	SetVisibility(ESlateVisibility::Visible);

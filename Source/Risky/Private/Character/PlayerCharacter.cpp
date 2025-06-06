@@ -14,6 +14,7 @@
 #include "Manager/TurnManager.h"
 #include "Ui/MainUI.h"
 #include "Region.h"
+#include "AttackResults.h"
 
 void APlayerCharacter::SelectRegion(ARegion** regionToModify, ARegion* regionSelected) {
 	*regionToModify = regionSelected;
@@ -47,10 +48,9 @@ void APlayerCharacter::ZoomCameraToRegion(ARegion* regionSelected)
 		}
 		
 		CameraZoomedIn = true;
-		CameraMoving = true;
-		CameraTargetLocation = regionSelected->GetActorLocation();
 		PreviousCameraTargetArmLength = CameraBoom->TargetArmLength;
 		CameraTargetArmLength = CameraBoom->TargetArmLength * 0.5f;
+		MoveCameraToPosition(regionSelected->GetActorLocation());
 	}
 }
 
@@ -58,9 +58,14 @@ void APlayerCharacter::MoveCameraToRegion(ARegion* regionSelected)
 {
 	if (regionSelected->GetRegionOwner() == this)
 	{
-		CameraMoving = true;
-		CameraTargetLocation = regionSelected->GetActorLocation();
+		MoveCameraToPosition(regionSelected->GetActorLocation());
 	}
+}
+
+void APlayerCharacter::MoveCameraToPosition(FVector position)
+{
+	CameraMoving = true;
+	CameraTargetLocation = position;
 }
 
 void APlayerCharacter::DeZoomCamera()
@@ -68,9 +73,8 @@ void APlayerCharacter::DeZoomCamera()
 	if (CameraZoomedIn)
 	{
 		CameraZoomedIn = false;
-		CameraMoving = true;
-		CameraTargetLocation = GetActorLocation() + FVector(0, 0, 1000); 
 		CameraTargetArmLength = PreviousCameraTargetArmLength;
+		MoveCameraToPosition(GetActorLocation() + FVector(0, 0, 1000));
 	}
 }
 
@@ -173,16 +177,31 @@ void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 	}
 }
 
-void APlayerCharacter::AttackSelectedRegion(int32 attackerAmount)
+FAttackResults* APlayerCharacter::DeclareAttack(int32 attackerAmount)
+{
+	FAttackResults* attackResults = Super::GetDiceResults(SecondSelectedRegion, attackerAmount);
+
+	return attackResults;
+}
+
+void APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 {
 	if (FirstSelectedRegion && SecondSelectedRegion)
 	{
-		bool regionCaptured = Super::CombatRegion(FirstSelectedRegion, SecondSelectedRegion, attackerAmount);
+		Super::ExecuteAttack(FirstSelectedRegion, SecondSelectedRegion, results);
+		bool regionCaptured = false;
+		if (SecondSelectedRegion->GetUnits() == 0)
+		{
+			SecondSelectedRegion->ChangeOwnerShip(this, 0);
+			regionCaptured = true;
+		}
+
 		if (!FirstSelectedRegion->HasEnoughUnits())
 		{
 			DeselectRegion(&FirstSelectedRegion);
 			DeselectRegion(&SecondSelectedRegion);
 		}
+
 		AttackStep.Execute(regionCaptured);
 	}
 }
@@ -206,7 +225,17 @@ void APlayerCharacter::TransferAmount(int32 amount)
 {
 	TransferUnits(FirstSelectedRegion, SecondSelectedRegion, amount);
 
-	bool continueZoom = amount > 1 && CurrentPhase == EGamePhase::AttackPhase;
+	bool canStillAttack = false;
+	for (ARegion* region : SecondSelectedRegion->GetBorderingRegions())
+	{
+		if (region->GetRegionOwner() != this)
+		{
+			canStillAttack = true;
+			break;
+		}
+	}
+
+	bool continueZoom = amount > 1 && CurrentPhase == EGamePhase::AttackPhase && canStillAttack;
 
 	if (continueZoom)
 	{
@@ -262,6 +291,10 @@ void APlayerCharacter::SetUiOpen(bool isOpen)
 			break;
 		case EGamePhase::AttackPhase:
 			DeselectRegion(&SecondSelectedRegion);	
+			if (FirstSelectedRegion)
+			{
+				MoveCameraToRegion(FirstSelectedRegion);
+			}
 			break;
 		case EGamePhase::FortificationPhase:
 			DeselectRegion(&SecondSelectedRegion);
@@ -333,25 +366,32 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 				return;
 			}
 
-			DeselectRegion(&FirstSelectedRegion, false);
+			if (regionSelected->GetUnits() > 1)
+			{
+				DeselectRegion(&FirstSelectedRegion, false);
+				SelectRegion(&FirstSelectedRegion, regionSelected);
+			}
 
-			SelectRegion(&FirstSelectedRegion, regionSelected);
 		}
 		else
 		{
 			if (SecondSelectedRegion == regionSelected)
 			{
 				DeselectRegion(&SecondSelectedRegion);
+
+				MoveCameraToRegion(FirstSelectedRegion);
 				return;
 			}
 
 			DeselectRegion(&SecondSelectedRegion);
 
 			SelectRegion(&SecondSelectedRegion, regionSelected);
+
 		}
 		if (FirstSelectedRegion && FirstSelectedRegion->CanAttackThisRegion(SecondSelectedRegion))
 		{
-			PlayerHUD->ShowAttackUi(FirstSelectedRegion);
+			MoveCameraToPosition((FirstSelectedRegion->GetActorLocation() + SecondSelectedRegion->GetActorLocation()) * 0.5);
+			PlayerHUD->ShowAttackUi(FirstSelectedRegion, SecondSelectedRegion->GetUnits());
 		}
 		break;
 	case EGamePhase::FortificationPhase:

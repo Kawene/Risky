@@ -169,16 +169,19 @@ void ALevelSetup::InitializeLevel()
 			region->ChangeOwnerShip(currentPlayer, unitsToPlace);
 			
 			//At the end of the players list, but still have some region to distribute
-			if (playerIndex >= allPlayers.Num() - 1)
+			if (playerIndex >= allPlayers.Num())
 			{
 				currentPlayer = allPlayers[FMath::RandRange(0, allPlayers.Num() - 1)];
 			}
 			else if (currentRegionsCount > maxRegions)
 			{
 				playerIndex++;
-				currentPlayer = allPlayers[playerIndex];
-				unitLeft = levelData->StartingAmount;
-				currentRegionsCount = 1;
+				if (playerIndex < allPlayers.Num())
+				{
+					currentPlayer = allPlayers[playerIndex];
+					unitLeft = levelData->StartingAmount;
+					currentRegionsCount = 1;
+				}
 			}
 		}
 

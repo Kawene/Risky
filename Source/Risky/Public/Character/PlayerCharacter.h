@@ -38,7 +38,9 @@ public:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	void AttackSelectedRegion(int32 attackerAmount);
+	struct FAttackResults* DeclareAttack(int32 attackerAmount);
+
+	void ApplyAttackResults(FAttackResults* results);
 
 	void FinishedCurrentPhase() override;
 
@@ -113,6 +115,8 @@ private:
 	void ZoomCameraToRegion(ARegion* regionSelected);
 
 	void MoveCameraToRegion(ARegion* regionSelected);
+
+	void MoveCameraToPosition(FVector position);
 
 	void DeZoomCamera();
 

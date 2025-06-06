@@ -38,6 +38,10 @@ public:
 
 	void TransferUnits(ARegion* originRegion, ARegion* destinationRegion, int32 units);
 
+	struct FAttackResults* GetDiceResults(ARegion* enemyRegion, int32 attackingUnits);
+
+	void ExecuteAttack(ARegion* ownRegion, ARegion* enemyRegion, FAttackResults* results);
+
 	virtual void TurnManagerRef(ATurnManager* tManager);
 
 	virtual void IsCharacterDead();

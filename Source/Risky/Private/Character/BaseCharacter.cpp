@@ -5,6 +5,8 @@
 #include "Manager/TurnManager.h"
 #include "Region.h"
 #include "Math/UnrealMathUtility.h"
+#include "AttackResults.h"
+
 
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
@@ -33,38 +35,7 @@ bool ABaseCharacter::CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int3
 
 void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
 {
-	TArray<int32> attackingDice;
-	attackingUnits = FMath::Min(3, attackingUnits);
-	attackingDice.Reserve(attackingUnits);
-	for (size_t i = 0; i < attackingUnits; i++)
-	{
-		attackingDice.Add(FMath::RandRange(1, 6));
-	}
-	attackingDice.Sort();
-
-	TArray<int32> defendingDice;
-	int32 defenders = FMath::Min(2, enemyRegion->GetUnits());
-	defendingDice.Reserve(defenders);
-	for (size_t i = 0; i < defenders; i++)
-	{
-		defendingDice.Add(FMath::RandRange(1, 6));
-	}
-	defendingDice.Sort();
-
-	int32 maxIteration = FMath::Min(defenders, attackingUnits) - 1;
-	for (int32 i = 0; i <= maxIteration; ++i)
-	{
-		//FString Message = FString::Format(TEXT("AttackingDice: {0} DefendingDice: {1}"), { attackingDice[attackingDice.Num() - 1 - i], defendingDice[defendingDice.Num() - 1 - i] });
-		if (attackingDice[attackingDice.Num() - 1 - i] > defendingDice[defendingDice.Num() - 1 - i])
-		{
-			enemyRegion->DecreaseUnitCount(1);
-		//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, Message);
-		}
-		else {
-			ownRegion->DecreaseUnitCount(1);
-		//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, Message);
-		}
-	}
+	ExecuteAttack(ownRegion, enemyRegion, GetDiceResults(enemyRegion, attackingUnits));
 }
 
 void ABaseCharacter::FinishedCurrentPhase()
@@ -90,6 +61,62 @@ void ABaseCharacter::TransferUnits(ARegion* originRegion, ARegion* destinationRe
 	{
 		originRegion->DecreaseUnitCount(units);
 		destinationRegion->DeployUnits(units);
+	}
+}
+
+FAttackResults* ABaseCharacter::GetDiceResults(ARegion* enemyRegion, int32 attackingUnits)
+{
+	TArray<int32> attackingDice;
+	attackingUnits = FMath::Min(3, attackingUnits);
+	attackingDice.Reserve(attackingUnits);
+	for (size_t i = 0; i < attackingUnits; i++)
+	{
+		attackingDice.Add(FMath::RandRange(1, 6));
+	}
+	attackingDice.Sort();
+
+	TArray<int32> defendingDice;
+	int32 defenders = FMath::Min(2, enemyRegion->GetUnits());
+	defendingDice.Reserve(defenders);
+	for (size_t i = 0; i < defenders; i++)
+	{
+		defendingDice.Add(FMath::RandRange(1, 6));
+	}
+	defendingDice.Sort();
+
+	FAttackResults* attackResults = new FAttackResults();
+
+	if (attackingDice.Num() > 0) attackResults->AttackResult1 = attackingDice.Last();
+	if (attackingDice.Num() > 1) attackResults->AttackResult2 = attackingDice[attackingDice.Num() - 2];
+	if (attackingDice.Num() > 2) attackResults->AttackResult3 = attackingDice[attackingDice.Num() - 3];
+
+	if (defendingDice.Num() > 0) attackResults->DefenceResult1 = defendingDice.Last();
+	if (defendingDice.Num() > 1) attackResults->DefenceResult2 = defendingDice[defendingDice.Num() - 2];
+
+	return attackResults;
+}
+
+void ABaseCharacter::ExecuteAttack(ARegion* ownRegion, ARegion* enemyRegion, FAttackResults* results)
+{
+	if (results->AttackResult1 > results->DefenceResult1)
+	{
+		enemyRegion->DecreaseUnitCount(1);
+	}
+	else 
+	{
+		ownRegion->DecreaseUnitCount(1);
+	}
+
+	if (results->AttackResult2 != 0 && results->DefenceResult2 != 0)
+	{
+		if (results->AttackResult2 > results->DefenceResult2)
+		{
+			enemyRegion->DecreaseUnitCount(1);
+		}
+		else
+		{
+			ownRegion->DecreaseUnitCount(1);
+		}
 	}
 }
 

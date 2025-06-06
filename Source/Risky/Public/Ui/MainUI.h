@@ -20,7 +20,7 @@ public:
 
 	void ShowUnitsUi(int32 maxUnit, FText textButton);
 
-	void ShowAttackUi(class ARegion* region);
+	void ShowAttackUi(class ARegion* region, int32 enemyCount);
 
 private:
 
