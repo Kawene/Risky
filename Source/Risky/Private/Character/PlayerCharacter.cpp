@@ -184,7 +184,7 @@ FAttackResults* APlayerCharacter::DeclareAttack(int32 attackerAmount)
 	return attackResults;
 }
 
-void APlayerCharacter::ApplyAttackResults(FAttackResults* results)
+int32 APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 {
 	if (FirstSelectedRegion && SecondSelectedRegion)
 	{
@@ -203,7 +203,10 @@ void APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 		}
 
 		AttackStep.Execute(regionCaptured);
+
+		return SecondSelectedRegion->GetUnits();
 	}
+	return 0;
 }
 
 void APlayerCharacter::FinishedCurrentPhase()
@@ -393,7 +396,7 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 		{
 			MoveCameraToPosition((FirstSelectedRegion->GetActorLocation() + SecondSelectedRegion->GetActorLocation()) * 0.5);
 			PlayerHUD->ButtonVisibility(false);
-			PlayerHUD->ShowAttackUi(FirstSelectedRegion, SecondSelectedRegion->GetUnits());
+			PlayerHUD->ShowAttackUi(FirstSelectedRegion, SecondSelectedRegion->GetUnits(), SecondSelectedRegion->GetRegionOwner()->ColorIdentity);
 		}
 		break;
 	case EGamePhase::FortificationPhase:

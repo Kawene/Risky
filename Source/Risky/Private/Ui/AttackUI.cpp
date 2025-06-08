@@ -8,6 +8,7 @@
 #include "Character/PlayerCharacter.h"
 #include "Components/CanvasPanel.h"
 #include "Components/TextBlock.h"
+#include "Components/Border.h"
 #include "Math/UnrealMathUtility.h"
 #include "UI/UnitsDialogUI.h"
 #include "Region.h"
@@ -16,26 +17,27 @@
 #include "Components/Image.h"
 #include "Components/HorizontalBox.h"
 
+void UAttackUI::NativeConstruct()  
+{  
+   Super::NativeConstruct();  
 
-void UAttackUI::NativeConstruct()
-{
-	Super::NativeConstruct();
+   Player->AttackStep.BindUObject(this, &UAttackUI::UpdateUI);  
 
-	Player->AttackStep.BindUObject(this, &UAttackUI::UpdateUI);
+   LeftButton->OnClicked.AddDynamic(this, &UAttackUI::LeftCarouselAction);  
+   RightButton->OnClicked.AddDynamic(this, &UAttackUI::RightCarouselAction);  
 
-	LeftButton->OnClicked.AddDynamic(this, &UAttackUI::LeftCarouselAction);
-	RightButton->OnClicked.AddDynamic(this, &UAttackUI::RightCarouselAction);
+   AttackChoice->OnCurrentPageIndexChanged.AddDynamic(this, &UAttackUI::OnChoiceChange);  
 
-	OptionBlitz->OnMouseButtonDownEvent.BindUFunction(this, FName("BlitzSelected"));
-	Option1->OnMouseButtonDownEvent.BindUFunction(this, FName("OneSelected"));
-	Option2->OnMouseButtonDownEvent.BindUFunction(this, FName("TwoSelected"));
-	Option3->OnMouseButtonDownEvent.BindUFunction(this, FName("ThreeSelected"));
+   OptionBlitz->OnMouseButtonDownEvent.BindUFunction(this, FName("BlitzSelected"));  
+   Option1->OnMouseButtonDownEvent.BindUFunction(this, FName("OneSelected"));  
+   Option2->OnMouseButtonDownEvent.BindUFunction(this, FName("TwoSelected"));  
+   Option3->OnMouseButtonDownEvent.BindUFunction(this, FName("ThreeSelected"));  
 
-	TransferSection->CloseButton->SetVisibility(ESlateVisibility::Collapsed);
-	TransferSection->CloseButtonText->SetVisibility(ESlateVisibility::Collapsed);
-	TransferSection->SetVisibility(ESlateVisibility::Collapsed);
-	TransferSection->Player = Player;
-	TransferSection->ParentWidget = this;
+   TransferSection->CloseButton->SetVisibility(ESlateVisibility::Collapsed);  
+   TransferSection->CloseButtonText->SetVisibility(ESlateVisibility::Collapsed);  
+   TransferSection->SetVisibility(ESlateVisibility::Collapsed);  
+   TransferSection->Player = Player;  
+   TransferSection->ParentWidget = this;  
 }
 
 void UAttackUI::BlitzSelected()
@@ -58,8 +60,53 @@ void UAttackUI::ThreeSelected()
 	Attack(3);
 }
 
+void UAttackUI::OnChoiceChange(UCommonWidgetCarousel* widgetCarousel, int32 newPageIndex)
+{
+	int32 maxAttakingAmmount = AttackingRegion->GetUnits() - 1;
+	switch (newPageIndex)
+	{
+	case 0:
+		if (maxAttakingAmmount >= 3)
+		{
+			AttackResult1->SetVisibility(ESlateVisibility::Visible);
+			AttackResult2->SetVisibility(ESlateVisibility::Visible);
+			AttackResult3->SetVisibility(ESlateVisibility::Visible);
+		}
+		else if (maxAttakingAmmount >= 2)
+		{
+			AttackResult1->SetVisibility(ESlateVisibility::Visible);
+			AttackResult2->SetVisibility(ESlateVisibility::Visible);
+			AttackResult3->SetVisibility(ESlateVisibility::Hidden);
+		}
+		else 
+		{
+			AttackResult1->SetVisibility(ESlateVisibility::Visible);
+			AttackResult2->SetVisibility(ESlateVisibility::Hidden);
+			AttackResult3->SetVisibility(ESlateVisibility::Hidden);
+		}
+		break;
+	case 1:
+		AttackResult1->SetVisibility(ESlateVisibility::Visible);
+		AttackResult2->SetVisibility(ESlateVisibility::Hidden);
+		AttackResult3->SetVisibility(ESlateVisibility::Hidden);
+		break;
+	case 2:
+		AttackResult1->SetVisibility(ESlateVisibility::Visible);
+		AttackResult2->SetVisibility(ESlateVisibility::Visible);
+		AttackResult3->SetVisibility(ESlateVisibility::Hidden);
+		break;
+	case 3:
+		AttackResult1->SetVisibility(ESlateVisibility::Visible);
+		AttackResult2->SetVisibility(ESlateVisibility::Visible);
+		AttackResult3->SetVisibility(ESlateVisibility::Visible);
+		break;
+	}
+}
+
 void UAttackUI::Attack(int32 attackingAmount)
 {
+	VisualRandomize = false;
+
 	ResultsData = Player->DeclareAttack(attackingAmount);
 
 	if (AttackChoice->GetActiveWidgetIndex() == 0)
@@ -167,14 +214,19 @@ int32 UAttackUI::CurrentAttacking()
 
 void UAttackUI::ExecuteAttack()
 {
-	Player->ApplyAttackResults(ResultsData);
+	int32 remainingDefenders = Player->ApplyAttackResults(ResultsData);
+
+	if (remainingDefenders == 1)
+	{
+		DefenceResult2->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void UAttackUI::LeftCarouselAction()
 {
-	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
+	VisualRandomize = true;
 
-	int32 test = AttackChoice->GetActiveWidgetIndex();
+	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
 
 	if (remainingUnits >= 3 || AttackChoice->GetActiveWidgetIndex() != 0)
 	{
@@ -183,21 +235,15 @@ void UAttackUI::LeftCarouselAction()
 	}
 
 	if (remainingUnits == 2)
-	{
 		AttackChoice->SetActiveWidgetIndex(2);
-	}
 	else 
-	{
 		AttackChoice->PreviousPage();
-	}
-	
 }
 
 void UAttackUI::RightCarouselAction()
 {
+	VisualRandomize = true;
 	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
-	int32 test = AttackChoice->GetActiveWidgetIndex();
-
 
 	if (remainingUnits >= 3)
 	{
@@ -207,17 +253,47 @@ void UAttackUI::RightCarouselAction()
 
 
 	if (AttackChoice->GetActiveWidgetIndex() == 1 && remainingUnits == 1)
-	{
 		AttackChoice->NextPage();
-	}
-	else if(AttackChoice->GetActiveWidgetIndex() == 2) {
+	else if(AttackChoice->GetActiveWidgetIndex() == 2) 
 		AttackChoice->SetActiveWidgetIndex(0);
-	}
 	else 
 		AttackChoice->PreviousPage();
 }
 
-void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount)
+void UAttackUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	DisplayTimeDelay += InDeltaTime;
+
+	if (VisualRandomize)
+	{
+		float min = 0.5f;
+		float max = 0.53f;
+		float randomChange = FMath::FRandRange(min, max);
+		if (DisplayTimeDelay > randomChange)
+			AttackResult1->SetText(FText::AsNumber(FMath::RandRange(1, 6)));
+		
+		randomChange = FMath::FRandRange(min, max);
+		if (DisplayTimeDelay > randomChange)
+			AttackResult2->SetText(FText::AsNumber(FMath::RandRange(1, 6)));
+
+		randomChange = FMath::FRandRange(min, max);
+		if (DisplayTimeDelay > randomChange)
+			AttackResult3->SetText(FText::AsNumber(FMath::RandRange(1, 6)));
+
+		randomChange = FMath::FRandRange(min, max);
+		if (DisplayTimeDelay > randomChange)
+			DefenceResult1->SetText(FText::AsNumber(FMath::RandRange(1, 6)));
+
+		randomChange = FMath::FRandRange(min, max);
+		if (DisplayTimeDelay > randomChange)
+			DefenceResult2->SetText(FText::AsNumber(FMath::RandRange(1, 6)));
+
+		if (DisplayTimeDelay > max)
+			DisplayTimeDelay -= max;
+	}
+}
+
+void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount, FColor enemyColor)
 {
 	Player->SetUiOpen(true);
 	AttackingRegion = attackingRegion;
@@ -229,4 +305,11 @@ void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount)
 	
 	SetVisibility(ESlateVisibility::Visible);
 	Carousel->SetVisibility(ESlateVisibility::Visible);
+	OnChoiceChange(AttackChoice, AttackChoice->GetActiveWidgetIndex());
+
+	DefenceBackground->SetBrushColor(enemyColor.ReinterpretAsLinear());
+	AttackBackground->SetBrushColor(Player->ColorIdentity.ReinterpretAsLinear());
+
+	VisualRandomize = true;
+
 }

@@ -42,7 +42,7 @@ public:
 
 	struct FAttackResults* DeclareAttack(int32 attackerAmount);
 
-	void ApplyAttackResults(FAttackResults* results);
+	int32 ApplyAttackResults(FAttackResults* results);
 
 	void FinishedCurrentPhase() override;
 

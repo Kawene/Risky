@@ -47,9 +47,9 @@ void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
 	UnitsDialog->ShowPopup(maxUnit, textButton);
 }
 
-void UMainUI::ShowAttackUi(ARegion* region, int32 enemyCount)
+void UMainUI::ShowAttackUi(ARegion* region, int32 enemyCount, FColor enemyColor)
 {
-	AttackDialog->ShowPopup(region, enemyCount);
+	AttackDialog->ShowPopup(region, enemyCount, enemyColor);
 }
 
 void UMainUI::ToggleVisibilityPauseUi()

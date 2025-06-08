@@ -64,6 +64,13 @@ class RISKY_API UAttackUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UImage* Option3;
 
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UBorder* DefenceBackground;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UBorder* AttackBackground;
+
 	UFUNCTION()
 	void BlitzSelected();
 
@@ -75,6 +82,9 @@ class RISKY_API UAttackUI : public UUserWidget
 
 	UFUNCTION()
 	void ThreeSelected();
+
+	UFUNCTION()
+	void OnChoiceChange(UCommonWidgetCarousel* widgetCarousel, int32 newPageIndex);
 
 	FTimerHandle TimerHandle_DelayeAttack;
 
@@ -96,12 +106,18 @@ class RISKY_API UAttackUI : public UUserWidget
 	UFUNCTION()
 	void RightCarouselAction();
 
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+	bool VisualRandomize = false;
+
+	float DisplayTimeDelay = 0.0f;
+
 public:
 
 	UFUNCTION()
 	void ClosePopup();
 
-	void ShowPopup(ARegion* attackingRegion, int32 enemyCount);
+	void ShowPopup(ARegion* attackingRegion, int32 enemyCount, FColor enemyColor);
 
 	virtual void  NativeConstruct();
 
