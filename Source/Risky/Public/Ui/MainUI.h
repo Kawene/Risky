@@ -22,6 +22,8 @@ public:
 
 	void ShowAttackUi(class ARegion* region, int32 enemyCount);
 
+	void ToggleVisibilityPauseUi();
+
 	void CloseUnitsUi();
 
 	void CloseAttackUi();
@@ -55,4 +57,10 @@ private:
 
 	UPROPERTY()
 	class UAttackUI* AttackDialog;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UPauseUI> PauseHUDClass;
+
+	UPROPERTY()
+	class UPauseUI* PauseDialog;
 };

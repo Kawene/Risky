@@ -42,7 +42,7 @@ void ARiskyPlayerController::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(MovementInput, ETriggerEvent::Triggered, this, &ARiskyPlayerController::Move);
 
-		EnhancedInputComponent->BindAction(EscapeInput, ETriggerEvent::Triggered, this, &ARiskyPlayerController::EscapeAction);
+		EnhancedInputComponent->BindAction(EscapeInput, ETriggerEvent::Started, this, &ARiskyPlayerController::EscapeAction);
 	}
 }
 

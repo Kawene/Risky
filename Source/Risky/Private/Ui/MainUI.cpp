@@ -7,6 +7,7 @@
 #include "Character/PlayerCharacter.h"
 #include "Ui/UnitsDialogUI.h"
 #include "Ui/AttackUI.h"
+#include "Ui/PauseUI.h"
 #include "Risky/RiskyPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Manager/TurnManager.h"
@@ -34,6 +35,11 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	AttackDialog->Player = player;
 	AttackDialog->AddToPlayerScreen();
 	AttackDialog->SetVisibility(ESlateVisibility::Hidden);
+
+
+	PauseDialog = CreateWidget<UPauseUI>(controller, PauseHUDClass);
+	PauseDialog->AddToPlayerScreen();
+	PauseDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
@@ -44,6 +50,14 @@ void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
 void UMainUI::ShowAttackUi(ARegion* region, int32 enemyCount)
 {
 	AttackDialog->ShowPopup(region, enemyCount);
+}
+
+void UMainUI::ToggleVisibilityPauseUi()
+{
+	if (PauseDialog->IsVisible())	
+		PauseDialog->SetVisibility(ESlateVisibility::Hidden);
+	else
+		PauseDialog->SetVisibility(ESlateVisibility::Visible);
 }
 
 void UMainUI::CloseUnitsUi()

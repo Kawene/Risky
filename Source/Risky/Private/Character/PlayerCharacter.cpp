@@ -457,9 +457,8 @@ void APlayerCharacter::EscapeAction()
 			DeselectRegion(&FirstSelectedRegion);
 		}
 		else {
-
+			PlayerHUD->ToggleVisibilityPauseUi();
 		}
-		//Open options menu or something similar
 	}
 }
 
