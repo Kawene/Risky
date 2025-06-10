@@ -4,16 +4,24 @@
 #include "Ui/PauseUI.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
+#include "Ui/BaseButton.h"
+#include "Components/TextBlock.h"
 
 void UPauseUI::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	ResumeButton->OnClicked.AddDynamic(this, &UPauseUI::ResumeGame);
-	RestartButton->OnClicked.AddDynamic(this, &UPauseUI::RestartGame);
-	OptionButton->OnClicked.AddDynamic(this, &UPauseUI::OpenOptions);
-	MainMenuButton->OnClicked.AddDynamic(this, &UPauseUI::OpenMainMenu);
-	QuitButton->OnClicked.AddDynamic(this, &UPauseUI::QuitGame);
+	ResumeButton->Button->OnClicked.AddDynamic(this, &UPauseUI::ResumeGame);
+	RestartButton->Button->OnClicked.AddDynamic(this, &UPauseUI::RestartGame);
+	OptionButton->Button->OnClicked.AddDynamic(this, &UPauseUI::OpenOptions);
+	MainMenuButton->Button->OnClicked.AddDynamic(this, &UPauseUI::OpenMainMenu);
+	QuitButton->Button->OnClicked.AddDynamic(this, &UPauseUI::QuitGame);
+
+	ResumeButton->SetButtonText("Resume");
+	RestartButton->SetButtonText("Restart");
+	OptionButton->SetButtonText("Options");
+	MainMenuButton->SetButtonText("Main Menu");
+	QuitButton->SetButtonText("Quit Game");
 }
 
 

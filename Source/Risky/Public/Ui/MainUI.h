@@ -35,10 +35,7 @@ private:
 	APlayerCharacter* Player;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* InteractButton;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* InteractText;
+	class UBaseButton* InteractButton;
 
 	UFUNCTION()
 	void OnButtonClick();

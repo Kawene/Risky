@@ -6,13 +6,16 @@
 #include "Components/Slider.h"	
 #include "Components/Button.h"	
 #include "Character/PlayerCharacter.h"
+#include "Ui/BaseButton.h"
 
 
 void UUnitsDialogUI::NativeConstruct()
 {
 	Super::NativeConstruct();
-	ActionButton->OnClicked.AddDynamic(this, &UUnitsDialogUI::ButtonAction);
-	CloseButton->OnClicked.AddDynamic(this, &UUnitsDialogUI::ClosePopup);
+	ActionButton->Button->OnClicked.AddDynamic(this, &UUnitsDialogUI::ButtonAction);
+	CloseButton->Button->OnClicked.AddDynamic(this, &UUnitsDialogUI::ClosePopup);
+
+	CloseButton->SetButtonText("X");
 }
 
 void UUnitsDialogUI::ButtonAction()
@@ -36,12 +39,12 @@ void UUnitsDialogUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	SliderText->SetText(FText::AsNumber(SliderUnits->GetValue()));
 }
 
-void UUnitsDialogUI::ShowPopup(int32 MaxValue, FText textButton)
-{
-	SetVisibility(ESlateVisibility::Visible);
-	ActionButtonText->SetText(textButton);
-	SliderUnits->SetMaxValue(MaxValue);
-	SliderUnits->SetValue(MaxValue);
-	Player->SetUiOpen(true);
+void UUnitsDialogUI::ShowPopup(int32 MaxValue, FString textButton)  
+{  
+  SetVisibility(ESlateVisibility::Visible);  
+  ActionButton->SetButtonText(MoveTemp(textButton));
+  SliderUnits->SetMaxValue(MaxValue);  
+  SliderUnits->SetValue(MaxValue);  
+  Player->SetUiOpen(true);  
 }
 

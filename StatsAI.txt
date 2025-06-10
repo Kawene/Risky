@@ -22228,3 +22228,105 @@ Total time for all Ai this turn =	 1.643300
 
 
 
+Stats for:AiCharacter_0
+Deployment time =	 0.221300
+Attack time =		 0.061100
+Fortification time =	 0.487900
+Total Time =		 0.770300
+
+Stats for:AiCharacter_1
+Deployment time =	 0.237900
+Attack time =		 0.041200
+Fortification time =	 0.449000
+Total Time =		 0.728100
+
+Stats for:AiCharacter_2
+Deployment time =	 0.216600
+Attack time =		 0.028500
+Fortification time =	 0.361600
+Total Time =		 0.606700
+
+Total time for all Ai this turn =	 2.105100
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.258500
+Attack time =		 0.059300
+Fortification time =	 0.352800
+Total Time =		 0.670600
+
+Total time for all Ai this turn =	 0.670600
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.263500
+Attack time =		 0.058500
+Fortification time =	 0.299400
+Total Time =		 0.621400
+
+Total time for all Ai this turn =	 0.621400
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.237900
+Attack time =		 0.030300
+Fortification time =	 0.384500
+Total Time =		 0.652700
+
+Total time for all Ai this turn =	 0.652700
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.237600
+Attack time =		 0.022500
+Fortification time =	 0.319100
+Total Time =		 0.579200
+
+Total time for all Ai this turn =	 0.579200
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.226200
+Attack time =		 0.046300
+Fortification time =	 0.320000
+Total Time =		 0.592500
+
+Total time for all Ai this turn =	 0.592500
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.333000
+Attack time =		 0.251200
+Fortification time =	 1.106000
+Total Time =		 1.690200
+
+Total time for all Ai this turn =	 1.690200
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.438300
+Attack time =		 0.103300
+Fortification time =	 0.767300
+Total Time =		 1.308900
+
+Total time for all Ai this turn =	 1.308900
+
+
+
+Stats for:AiCharacter_0
+Deployment time =	 0.348800
+Attack time =		 0.205000
+Fortification time =	 0.840900
+Total Time =		 1.394700
+
+Total time for all Ai this turn =	 1.394700
+
+
+

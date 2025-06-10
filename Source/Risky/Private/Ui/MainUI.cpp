@@ -11,11 +11,12 @@
 #include "Risky/RiskyPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Manager/TurnManager.h"
+#include "Ui/BaseButton.h"
 
 void UMainUI::NativeConstruct()
 {
 	Super::NativeConstruct();
-	InteractButton->OnClicked.AddDynamic(this, &UMainUI::OnButtonClick);
+	InteractButton->Button->OnClicked.AddDynamic(this, &UMainUI::OnButtonClick);
 }
 
 void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* controller)
@@ -44,7 +45,7 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
 {
-	UnitsDialog->ShowPopup(maxUnit, textButton);
+	UnitsDialog->ShowPopup(maxUnit, textButton.ToString());
 }
 
 void UMainUI::ShowAttackUi(ARegion* region, int32 enemyCount, FColor enemyColor)
@@ -92,20 +93,20 @@ void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
 		break;
 	case EGamePhase::AttackPhase:
 		SetVisibility(ESlateVisibility::Visible);
-		InteractText->SetText(FText::FromString("Fortification"));
+		InteractButton->SetButtonText("Fortification");
 		break;
 	case EGamePhase::FortificationPhase:
-		InteractText->SetText(FText::FromString("End Turn"));
+		InteractButton->SetButtonText("End Turn");
 		break;
 	case EGamePhase::NotCurrentTurn:
 		auto turnManager = StaticCast<ATurnManager*>(UGameplayStatics::GetActorOfClass(GetWorld(), ATurnManager::StaticClass()));
 		switch (turnManager->AiPhasesSteps)
 		{
 		case EAiPhasesSteps::ByPhases:
-			InteractText->SetText(FText::FromString("Next Phase"));
+			InteractButton->SetButtonText("Next Phase");
 			break;
 		case EAiPhasesSteps::ByTurn:
-			InteractText->SetText(FText::FromString("Next Turn"));
+			InteractButton->SetButtonText("Next Turn");
 			break;
 		case EAiPhasesSteps::NoStop:
 			SetVisibility(ESlateVisibility::Hidden);

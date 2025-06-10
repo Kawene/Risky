@@ -14,19 +14,19 @@ class RISKY_API UPauseUI : public UUserWidget
 
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* ResumeButton;
+	class UBaseButton* ResumeButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* RestartButton;
+	class UBaseButton* RestartButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* OptionButton;
+	class UBaseButton* OptionButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* MainMenuButton;
+	class UBaseButton* MainMenuButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* QuitButton;
+	class UBaseButton* QuitButton;
 
 	UFUNCTION()
 	void ResumeGame();

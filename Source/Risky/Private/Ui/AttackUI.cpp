@@ -16,6 +16,7 @@
 #include "CommonWidgetCarousel.h"
 #include "Components/Image.h"
 #include "Components/HorizontalBox.h"
+#include "Ui/BaseButton.h"
 
 void UAttackUI::NativeConstruct()  
 {  
@@ -34,7 +35,6 @@ void UAttackUI::NativeConstruct()
    Option3->OnMouseButtonDownEvent.BindUFunction(this, FName("ThreeSelected"));  
 
    TransferSection->CloseButton->SetVisibility(ESlateVisibility::Collapsed);  
-   TransferSection->CloseButtonText->SetVisibility(ESlateVisibility::Collapsed);  
    TransferSection->SetVisibility(ESlateVisibility::Collapsed);  
    TransferSection->Player = Player;  
    TransferSection->ParentWidget = this;  
@@ -181,7 +181,7 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 			ClosePopup();
 			return;
 		}
-		TransferSection->ShowPopup(AttackingRegion->GetUnits() - 1, FText::FromString("Transfer"));
+		TransferSection->ShowPopup(AttackingRegion->GetUnits() - 1, "Transfer");
 		TransferSection->SliderUnits->SetMinValue(FMath::Min(3, CurrentAttacking()));
 		Carousel->SetVisibility(ESlateVisibility::Collapsed);
 		return;

@@ -17,9 +17,6 @@ class RISKY_API UUnitsDialogUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* SliderText;
 
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* ActionButtonText;
-
 	UFUNCTION()
 	void ButtonAction();
 
@@ -33,17 +30,14 @@ public:
 	class USlider* SliderUnits;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* ActionButton;
+	class UBaseButton* ActionButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UButton* CloseButton;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UTextBlock* CloseButtonText;
+	class UBaseButton* CloseButton;
 
 	UUserWidget* ParentWidget;
 
-	void ShowPopup(int32 MaxValue, FText textButton);
+	void ShowPopup(int32 MaxValue, FString textButton);
 
 	virtual void  NativeConstruct();
 

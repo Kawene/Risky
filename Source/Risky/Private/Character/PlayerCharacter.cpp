@@ -367,6 +367,7 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 			if (FirstSelectedRegion == regionSelected)
 			{
 				DeselectRegion(&FirstSelectedRegion);
+				DeselectRegion(&SecondSelectedRegion);
 				return;
 			}
 
@@ -379,24 +380,14 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 		}
 		else
 		{
-			if (SecondSelectedRegion == regionSelected)
+			if (FirstSelectedRegion && FirstSelectedRegion->CanAttackThisRegion(regionSelected))
 			{
-				DeselectRegion(&SecondSelectedRegion);
+				SelectRegion(&SecondSelectedRegion, regionSelected);
 
-				MoveCameraToRegion(FirstSelectedRegion);
-				return;
+				MoveCameraToPosition((FirstSelectedRegion->GetActorLocation() + SecondSelectedRegion->GetActorLocation()) * 0.5);
+				PlayerHUD->ButtonVisibility(false);
+				PlayerHUD->ShowAttackUi(FirstSelectedRegion, SecondSelectedRegion->GetUnits(), SecondSelectedRegion->GetRegionOwner()->ColorIdentity);
 			}
-
-			DeselectRegion(&SecondSelectedRegion);
-
-			SelectRegion(&SecondSelectedRegion, regionSelected);
-
-		}
-		if (FirstSelectedRegion && FirstSelectedRegion->CanAttackThisRegion(SecondSelectedRegion))
-		{
-			MoveCameraToPosition((FirstSelectedRegion->GetActorLocation() + SecondSelectedRegion->GetActorLocation()) * 0.5);
-			PlayerHUD->ButtonVisibility(false);
-			PlayerHUD->ShowAttackUi(FirstSelectedRegion, SecondSelectedRegion->GetUnits(), SecondSelectedRegion->GetRegionOwner()->ColorIdentity);
 		}
 		break;
 	case EGamePhase::FortificationPhase:
@@ -458,6 +449,7 @@ void APlayerCharacter::EscapeAction()
 		if (FirstSelectedRegion)
 		{
 			DeselectRegion(&FirstSelectedRegion);
+			DeselectRegion(&SecondSelectedRegion);
 		}
 		else {
 			PlayerHUD->ToggleVisibilityPauseUi();
