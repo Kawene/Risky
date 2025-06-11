@@ -14,7 +14,7 @@ class RISKY_API UGI_LevelData : public UGameInstance
 
 	public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 NumberOfAI = 0;
+		int32 NumberOfAI = 1;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 StartingAmount = 0;

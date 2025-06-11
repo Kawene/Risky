@@ -17,6 +17,7 @@
 #include "Components/Image.h"
 #include "Components/HorizontalBox.h"
 #include "Ui/BaseButton.h"
+#include "Kismet/GameplayStatics.h"
 
 void UAttackUI::NativeConstruct()  
 {  
@@ -164,17 +165,18 @@ void UAttackUI::Attack(int32 attackingAmount)
 
 void UAttackUI::ClosePopup()
 {
-	if (!TransferSection->IsVisible())
-	{
-		SetVisibility(ESlateVisibility::Collapsed);
-		Player->SetUiOpen(false);
-	}
+	if (TransferSection->IsVisible())	
+		Player->TransferAmount(AttackingRegion->GetUnits() - 1);
+	
+	SetVisibility(ESlateVisibility::Collapsed);
+	Player->SetUiOpen(false);
 }
 
 void UAttackUI::UpdateUI(bool regionCaptured)
 {
 	if (regionCaptured)
 	{
+		UGameplayStatics::PlaySound2D(this, SuccessSound);
 		if (CurrentAttacking() < 4 && CurrentAttacking() == AttackingRegion->GetUnits() - 1)
 		{
 			Player->TransferAmount(AttackingRegion->GetUnits() - 1);
@@ -187,12 +189,7 @@ void UAttackUI::UpdateUI(bool regionCaptured)
 		return;
 	}
 
-	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
-	if (remainingUnits == 0)
-	{
-		ClosePopup();
-	}
-	else if (AttackChoice->GetActiveWidgetIndex() == 0) {
+	if (AttackChoice->GetActiveWidgetIndex() == 0) {
 		BlitzSelected();
 	}
 
@@ -216,10 +213,22 @@ void UAttackUI::ExecuteAttack()
 {
 	int32 remainingDefenders = Player->ApplyAttackResults(ResultsData);
 
+	if (remainingDefenders == -1)
+	{
+		ClosePopup();
+		UGameplayStatics::PlaySound2D(this, FailedSound);
+		return;
+	}
+
 	if (remainingDefenders == 1)
 	{
 		DefenceResult2->SetVisibility(ESlateVisibility::Hidden);
-	}
+		UpdateUI(false);
+	}else if (remainingDefenders == 0)
+		UpdateUI(true);
+	else 
+		UpdateUI(false);
+
 }
 
 void UAttackUI::LeftCarouselAction()

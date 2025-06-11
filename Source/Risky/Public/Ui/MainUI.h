@@ -24,6 +24,10 @@ public:
 
 	void ToggleVisibilityPauseUi();
 
+	void ShowVictoryUi();
+
+	void ShowDefeatUi();
+
 	void CloseUnitsUi();
 
 	void CloseAttackUi();
@@ -60,4 +64,16 @@ private:
 
 	UPROPERTY()
 	class UPauseUI* PauseDialog;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UVictoryUI> VictoryHUDClass;
+
+	UPROPERTY()
+	class UVictoryUI* VictoryDialog;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UDefeatUI> DefeatHUDClass;
+
+	UPROPERTY()
+	class UDefeatUI* DefeatDialog;
 };

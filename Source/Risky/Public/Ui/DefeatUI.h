@@ -3,20 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Ui/DefeatUI.h"
-#include "PauseUI.generated.h"
-
+#include "Ui/VictoryUI.h"
+#include "DefeatUI.generated.h"
 
 UCLASS()
-class RISKY_API UPauseUI : public UDefeatUI
+class RISKY_API UDefeatUI : public UVictoryUI
 {
 	GENERATED_BODY()
+protected:
+	
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UBaseButton* OptionButton;
+	class UBaseButton* ResumeButton;
 
 	UFUNCTION()
-	void OpenOptions();
+	void ResumeGame();
 
 public:
 	virtual void  NativeConstruct();

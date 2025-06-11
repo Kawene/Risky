@@ -15,6 +15,7 @@
 #include "Ui/MainUI.h"
 #include "Region.h"
 #include "AttackResults.h"
+#include <Kismet/GameplayStatics.h>
 
 void APlayerCharacter::SelectRegion(ARegion** regionToModify, ARegion* regionSelected) {
 	*regionToModify = regionSelected;
@@ -189,20 +190,18 @@ int32 APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 	if (FirstSelectedRegion && SecondSelectedRegion)
 	{
 		Super::ExecuteAttack(FirstSelectedRegion, SecondSelectedRegion, results);
-		bool regionCaptured = false;
 		if (SecondSelectedRegion->GetUnits() == 0)
 		{
 			SecondSelectedRegion->ChangeOwnerShip(this, 0);
-			regionCaptured = true;
+			return 0;
 		}
 
 		if (!FirstSelectedRegion->HasEnoughUnits())
 		{
 			DeselectRegion(&FirstSelectedRegion);
 			DeselectRegion(&SecondSelectedRegion);
+			return -1;
 		}
-
-		AttackStep.Execute(regionCaptured);
 
 		return SecondSelectedRegion->GetUnits();
 	}
@@ -342,6 +341,17 @@ void APlayerCharacter::TurnManagerRef(ATurnManager* tManager)
 	AiPlayer->TurnManagerRef(tManager);
 }
 
+void APlayerCharacter::ShowVictoryScreen()
+{
+	PlayerHUD->CloseAttackUi();
+	PlayerHUD->ShowVictoryUi();
+}
+
+void APlayerCharacter::ShowDefeatScreen()
+{
+	PlayerHUD->ShowDefeatUi();
+}
+
 void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 {
 	if (IsUiOpen)
@@ -459,6 +469,7 @@ void APlayerCharacter::EscapeAction()
 
 void APlayerCharacter::StartDeploymentPhase()
 {
+	UGameplayStatics::PlaySound2D(this, TurnStartSound);
 	CurrentPhase = EGamePhase::DeploymentPhase;
 	CurrentUnitsToDeploy = TurnManager->GetsNumberOfUnitsToDeploy(this);
 	ChangeGamePhase.Execute(CurrentPhase);

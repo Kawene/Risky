@@ -69,7 +69,7 @@ void UAiPrediction::PredictDeployment()
 
 		snapshot.RestoreState();
 
-		if (predictedScore > bestScore)
+		if (predictedScore >= bestScore)
 		{
 			bestScore = predictedScore;
 			bestRegion = region;

@@ -111,13 +111,21 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 		{
 			EndTurn();
 		}
+
+		StaticCast<APlayerCharacter*>(Characters[0])->ShowDefeatScreen();
 		return;
 	}
 
 	Characters.Remove(corpse);
 	if (Characters.Num() == 1)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, "GG well played");
+		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+			{
+					if (APlayerCharacter* Player = Cast<APlayerCharacter>(Characters[0]))
+					{
+						Player->ShowVictoryScreen();
+					}
+			});
 	}
 	if (index < CurrentCharacterIndex)
 	{
@@ -150,7 +158,7 @@ void ATurnManager::EndTurn()
 
 int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
 {
-	int total = FMath::Max(3, character->RegionsOwned.Num() / 2); // devrait etre 3 round down
+	int total = FMath::Max(3, character->RegionsOwned.Num() / 0.4); // devrait etre 3 round down
 
 	for (AProvince* province : Provinces)
 	{

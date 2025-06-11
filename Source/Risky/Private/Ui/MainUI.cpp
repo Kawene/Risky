@@ -41,6 +41,14 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	PauseDialog = CreateWidget<UPauseUI>(controller, PauseHUDClass);
 	PauseDialog->AddToPlayerScreen();
 	PauseDialog->SetVisibility(ESlateVisibility::Hidden);
+
+	VictoryDialog = CreateWidget<UVictoryUI>(controller, VictoryHUDClass);
+	VictoryDialog->AddToPlayerScreen();
+	VictoryDialog->SetVisibility(ESlateVisibility::Hidden);
+
+	DefeatDialog = CreateWidget<UDefeatUI>(controller, DefeatHUDClass);
+	DefeatDialog->AddToPlayerScreen();
+	DefeatDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
@@ -59,6 +67,16 @@ void UMainUI::ToggleVisibilityPauseUi()
 		PauseDialog->SetVisibility(ESlateVisibility::Hidden);
 	else
 		PauseDialog->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UMainUI::ShowVictoryUi()
+{
+	VictoryDialog->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UMainUI::ShowDefeatUi()
+{
+	DefeatDialog->SetVisibility(ESlateVisibility::Visible);
 }
 
 void UMainUI::CloseUnitsUi()

@@ -70,6 +70,10 @@ public:
 		return CameraMoving;
 	};
 
+	void ShowVictoryScreen();
+
+	void ShowDefeatScreen();
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -122,4 +126,10 @@ private:
 
 	void DeZoomCamera();
 
+
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* TurnStartSound;
 };

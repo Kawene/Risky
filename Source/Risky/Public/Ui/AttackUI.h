@@ -112,6 +112,14 @@ class RISKY_API UAttackUI : public UUserWidget
 
 	float DisplayTimeDelay = 0.0f;
 
+protected:
+		
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+		USoundBase* FailedSound;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+		USoundBase* SuccessSound;
+
 public:
 
 	UFUNCTION()
