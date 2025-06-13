@@ -22,6 +22,8 @@ protected:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBaseButton* QuitButton;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundBase* OpenSound;
 
 	UFUNCTION()
 	void RestartGame();
@@ -35,5 +37,7 @@ protected:
 
 public:
 	virtual void  NativeConstruct();
+
+	void ShowPopup();
 	
 };

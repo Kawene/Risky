@@ -21,6 +21,15 @@ void UVictoryUI::NativeConstruct()
 	QuitButton->SetButtonText("Quit Game");
 }
 
+void UVictoryUI::ShowPopup()
+{
+	if (OpenSound)
+	{
+		UGameplayStatics::PlaySound2D(this, OpenSound);
+	}
+	SetVisibility(ESlateVisibility::Visible);
+}
+
 void UVictoryUI::RestartGame()
 {
 	if (APlayerController* PlayerController = GetOwningPlayer())

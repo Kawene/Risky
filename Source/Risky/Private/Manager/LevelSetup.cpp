@@ -160,7 +160,7 @@ void ALevelSetup::InitializeLevel()
 			}
 			else if (unitLeft > 0)
 			{
-				int extraUnits = FMath::RandRange(0, FMath::Max(unitLeft / (maxRegions - currentRegionsCount), 5));
+				int extraUnits = FMath::RandRange(0, FMath::Max(unitLeft / (maxRegions - currentRegionsCount), FMath::Min(5, unitLeft)));
 				unitsToPlace += extraUnits;
 				unitLeft -= extraUnits;		
 			}

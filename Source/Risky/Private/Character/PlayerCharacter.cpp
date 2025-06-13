@@ -469,7 +469,7 @@ void APlayerCharacter::EscapeAction()
 
 void APlayerCharacter::StartDeploymentPhase()
 {
-	UGameplayStatics::PlaySound2D(this, TurnStartSound);
+	UGameplayStatics::PlaySound2D(this, TurnStartSound, 1.0f, 1.0f, 0.4f);
 	CurrentPhase = EGamePhase::DeploymentPhase;
 	CurrentUnitsToDeploy = TurnManager->GetsNumberOfUnitsToDeploy(this);
 	ChangeGamePhase.Execute(CurrentPhase);

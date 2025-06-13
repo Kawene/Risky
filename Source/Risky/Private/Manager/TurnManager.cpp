@@ -158,7 +158,7 @@ void ATurnManager::EndTurn()
 
 int32 ATurnManager::GetsNumberOfUnitsToDeploy(ABaseCharacter* character)
 {
-	int total = FMath::Max(3, character->RegionsOwned.Num() / 0.4); // devrait etre 3 round down
+	int total = FMath::Max(3, character->RegionsOwned.Num() / 2); // devrait etre 3 round down
 
 	for (AProvince* province : Provinces)
 	{

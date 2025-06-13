@@ -66,17 +66,17 @@ void UMainUI::ToggleVisibilityPauseUi()
 	if (PauseDialog->IsVisible())	
 		PauseDialog->SetVisibility(ESlateVisibility::Hidden);
 	else
-		PauseDialog->SetVisibility(ESlateVisibility::Visible);
+		PauseDialog->ShowPopup();
 }
 
 void UMainUI::ShowVictoryUi()
 {
-	VictoryDialog->SetVisibility(ESlateVisibility::Visible);
+	VictoryDialog->ShowPopup();
 }
 
 void UMainUI::ShowDefeatUi()
 {
-	DefeatDialog->SetVisibility(ESlateVisibility::Visible);
+	DefeatDialog->ShowPopup();
 }
 
 void UMainUI::CloseUnitsUi()
