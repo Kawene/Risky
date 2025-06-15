@@ -6,21 +6,29 @@
 #include "Kismet/GameplayStatics.h"
 #include "Ui/BaseButton.h"
 #include "Components/TextBlock.h"
+#include "Ui/OptionsUI.h"
+#include "Components/VerticalBox.h"
 
-void UPauseUI::NativeConstruct()
-{
-	Super::NativeConstruct();
+void UPauseUI::NativeConstruct()  
+{  
+	Super::NativeConstruct();  
 
-	OptionButton->Button->OnClicked.AddDynamic(this, &UPauseUI::OpenOptions);
+	OptionButton->Button->OnClicked.AddDynamic(this, &UPauseUI::OpenOptions);  
 
-	OptionButton->SetButtonText("Options");
+	OptionButton->SetButtonText("Options");  
 
+	OptionDialog->SetVisibility(ESlateVisibility::Hidden);
+	OptionDialog->SetVisibility(ESlateVisibility::Collapsed);
+	OptionDialog->Parent = PauseContainer;
 }
 
 
 
 void UPauseUI::OpenOptions()
 {
+	OptionDialog->SetVisibility(ESlateVisibility::Visible);
+	PauseContainer->SetVisibility(ESlateVisibility::Hidden);
+	PauseContainer->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 

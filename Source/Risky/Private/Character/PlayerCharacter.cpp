@@ -267,6 +267,7 @@ void APlayerCharacter::DialogAction(int32 units)
 		break;
 	case EGamePhase::FortificationPhase:
 		TransferAmount(units);
+		FinishedCurrentPhase();
 		break;
 	}
 }

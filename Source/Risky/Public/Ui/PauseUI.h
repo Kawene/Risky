@@ -18,6 +18,12 @@ class RISKY_API UPauseUI : public UDefeatUI
 	UFUNCTION()
 	void OpenOptions();
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UOptionsUI* OptionDialog;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UVerticalBox* PauseContainer;
+
 public:
 	virtual void  NativeConstruct();
 };
