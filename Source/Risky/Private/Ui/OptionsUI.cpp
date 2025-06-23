@@ -8,6 +8,7 @@
 #include "Ui/BaseButton.h"
 #include "SettingsSaved.h"
 #include <Kismet/GameplayStatics.h>
+#include <Manager/MusicManager.h>
 
 
 void UOptionsUI::NativeConstruct()
@@ -43,6 +44,8 @@ void UOptionsUI::NativeConstruct()
 
 void UOptionsUI::ApplySettings()
 {
+	auto oldMusicValue = Settings->GetMusicVolume();
+
 	Settings->SetSFXVolume(SFXSlider->GetValue());
 	Settings->SetMusicVolume(MusicSlider->GetValue());
 	Settings->SaveSettings();
@@ -66,6 +69,11 @@ void UOptionsUI::ApplySettings()
 		UGameplayStatics::PushSoundMixModifier(GetWorld(), SoundMix);
 	}
 
+	if (oldMusicValue == 0 && MusicSlider->GetValue() > 0)
+	{
+		AMusicManager* musicManager = Cast<AMusicManager>(UGameplayStatics::GetActorOfClass(GetWorld(), AMusicManager::StaticClass()));
+		musicManager->PlayRandomTrack();
+	}
 
 	BackAction();
 }
