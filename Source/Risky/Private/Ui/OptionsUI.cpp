@@ -39,6 +39,7 @@ void UOptionsUI::NativeConstruct()
 		MusicSlider->SetValue(Settings->GetMusicVolume());
 		UpdateSFXText(Settings->GetSFXVolume());
 		UpdateMusicText(Settings->GetMusicVolume());
+		ApplySettings();
 	}
 }
 

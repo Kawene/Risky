@@ -141,6 +141,11 @@ void ARegion::ToggleSelection(bool turnOff)
 	}*/
 }
 
+FVector ARegion::GetRegionScale()
+{
+	return RegionMesh->GetComponentScale();
+}
+
 
 
 void ARegion::ChangeOwnerShip(ABaseCharacter* newOwner, int32 unitsAmount)

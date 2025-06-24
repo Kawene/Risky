@@ -98,6 +98,8 @@ private:
 
 	bool IsUiOpen;
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	class UNiagaraSystem* CaptureEffectNiagara;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UMainUI> PlayerHUDClass;

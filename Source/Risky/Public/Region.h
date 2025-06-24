@@ -80,4 +80,6 @@ public:
 	bool CanFortifyThisRegion(ARegion* otherRegion);
 
 	void ToggleSelection(bool turnOff = false);
+
+	FVector GetRegionScale();
 };

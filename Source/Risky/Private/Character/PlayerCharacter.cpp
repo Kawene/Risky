@@ -16,6 +16,9 @@
 #include "Region.h"
 #include "AttackResults.h"
 #include <Kismet/GameplayStatics.h>
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+
 
 void APlayerCharacter::SelectRegion(ARegion** regionToModify, ARegion* regionSelected) {
 	*regionToModify = regionSelected;
@@ -150,7 +153,6 @@ void APlayerCharacter::BeginPlay()
 		check(PlayerHUD);
 	}
 
-
 }
 
 void APlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -192,6 +194,13 @@ int32 APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 		Super::ExecuteAttack(FirstSelectedRegion, SecondSelectedRegion, results);
 		if (SecondSelectedRegion->GetUnits() == 0)
 		{
+			auto niagara = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), CaptureEffectNiagara, 
+				SecondSelectedRegion->GetActorLocation(),
+				FRotator::ZeroRotator,
+				SecondSelectedRegion->GetRegionScale() + FVector(1,1,3));
+
+			niagara->SetVariableLinearColor(FName("User.Color"), ColorIdentity);
+
 			SecondSelectedRegion->ChangeOwnerShip(this, 0);
 			return 0;
 		}
