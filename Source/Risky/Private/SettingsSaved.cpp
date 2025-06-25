@@ -24,6 +24,16 @@ float USettingsSaved::GetMusicVolume() const
 	return MusicVolume;
 }
 
+EAiPhasesSteps USettingsSaved::GetPhasesSteps() const
+{
+	return PhasesSteps;
+}
+
+void USettingsSaved::SetPhasesSteps(EAiPhasesSteps phase)
+{
+	PhasesSteps = phase;
+}
+
 void USettingsSaved::SaveSettings()
 {
     FString saveSlotName = TEXT("SettingsSaveSlot");

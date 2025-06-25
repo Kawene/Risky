@@ -14,6 +14,7 @@
 #include "GamePhase.h"
 #include "Character/PlayerCharacter.h"
 #include "Character/AiCharacter.h"
+#include "SettingsSaved.h"
 
 ATurnManager::ATurnManager()
 {
@@ -45,6 +46,11 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 			Provinces.Add(Province);
 		}
 	}
+
+	FString saveSlotName = TEXT("SettingsSaveSlot");
+	int32 userIndex = 0;
+	USettingsSaved* settings = Cast<USettingsSaved>(UGameplayStatics::LoadGameFromSlot(saveSlotName, userIndex));
+	AiPhasesSteps = settings->GetPhasesSteps();
 
 	StartTurn();
 }

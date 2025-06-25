@@ -30,7 +30,7 @@ public:
 
 	double TotalAiTimes;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
 	EAiPhasesSteps AiPhasesSteps;
 
 	TArray<class AProvince*> Provinces;

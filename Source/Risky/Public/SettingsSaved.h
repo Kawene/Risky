@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <GamePhase.h>
 #include "GameFramework/SaveGame.h"
 #include "SettingsSaved.generated.h"
 
@@ -20,6 +21,9 @@ class RISKY_API USettingsSaved : public USaveGame
 	UPROPERTY()
 	float MusicVolume = 1.0f;
 
+	UPROPERTY()
+	EAiPhasesSteps PhasesSteps;
+
 
 public:
 	void SetSFXVolume(float value);
@@ -29,6 +33,10 @@ public:
 	float GetSFXVolume() const;
 
 	float GetMusicVolume() const;
+
+	EAiPhasesSteps GetPhasesSteps() const;
+
+	void SetPhasesSteps(EAiPhasesSteps phase);
 
 	void SaveSettings();
 	

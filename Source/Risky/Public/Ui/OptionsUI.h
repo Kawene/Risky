@@ -29,6 +29,9 @@ class RISKY_API UOptionsUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* BackButton;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UComboBoxString* PhasesStepsChoice;
+
 	class USettingsSaved* Settings;
 
 	UPROPERTY(EditAnywhere, Category = "Audio")
@@ -41,7 +44,13 @@ class RISKY_API UOptionsUI : public UUserWidget
 	class USoundClass* MusicSoundClass;
 
 	UFUNCTION()
+	void ApplyAndSaveSettings();
+
+	UFUNCTION()
 	void ApplySettings();
+
+	UFUNCTION()
+	void SaveSettings();
 
 	UFUNCTION()
 	void UpdateSFXText(float value);
