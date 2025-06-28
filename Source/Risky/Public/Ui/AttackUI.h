@@ -35,12 +35,6 @@ class RISKY_API UAttackUI : public UUserWidget
 	class UTextBlock* DefenceResult2;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UVerticalBox* ResultsAttack;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UVerticalBox* ResultsDefence;
-
-	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UHorizontalBox* Carousel;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -53,16 +47,16 @@ class RISKY_API UAttackUI : public UUserWidget
 	class UButton* RightButton;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UImage* OptionBlitz;
+	class UButton* OptionBlitz;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UImage* Option1;
+	class UButton* Option1;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UImage* Option2;
+	class UButton* Option2;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UImage* Option3;
+	class UButton* Option3;
 
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
@@ -70,6 +64,18 @@ class RISKY_API UAttackUI : public UUserWidget
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBorder* AttackBackground;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	class UWidgetAnimation* AttackAnim1Won;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	class UWidgetAnimation* AttackAnim2Won;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	class UWidgetAnimation* DefenceAnim1Won;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	class UWidgetAnimation* DefenceAnim2Won;
 
 	UFUNCTION()
 	void BlitzSelected();
@@ -86,7 +92,7 @@ class RISKY_API UAttackUI : public UUserWidget
 	UFUNCTION()
 	void OnChoiceChange(UCommonWidgetCarousel* widgetCarousel, int32 newPageIndex);
 
-	FTimerHandle TimerHandle_DelayeAttack;
+	FTimerHandle TimerHandle_Animation;
 
 	struct FAttackResults* ResultsData;
 
@@ -98,19 +104,31 @@ class RISKY_API UAttackUI : public UUserWidget
 
 	int32 CurrentAttacking();
 
+	UFUNCTION()
+	void StartNumberAnimation();
+
+	UFUNCTION()
+	void ContinueNumberAnimation();
+
 	void ExecuteAttack();
 
 	UFUNCTION()
 	void LeftCarouselAction();
 
+	void LeftCarouselCheck();
+
 	UFUNCTION()
 	void RightCarouselAction();
+
+	void RightCarouselCheck();
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	bool VisualRandomize = false;
 
 	float DisplayTimeDelay = 0.0f;
+
+	bool AttackInProgress = false;
 
 protected:
 		

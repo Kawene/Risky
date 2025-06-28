@@ -18,6 +18,9 @@
 #include "Components/HorizontalBox.h"
 #include "Ui/BaseButton.h"
 #include "Kismet/GameplayStatics.h"
+#include "Animation/WidgetAnimation.h"
+#include "Animation/UMGSequencePlayer.h"
+
 
 void UAttackUI::NativeConstruct()  
 {  
@@ -30,10 +33,10 @@ void UAttackUI::NativeConstruct()
 
    AttackChoice->OnCurrentPageIndexChanged.AddDynamic(this, &UAttackUI::OnChoiceChange);  
 
-   OptionBlitz->OnMouseButtonDownEvent.BindUFunction(this, FName("BlitzSelected"));  
-   Option1->OnMouseButtonDownEvent.BindUFunction(this, FName("OneSelected"));  
-   Option2->OnMouseButtonDownEvent.BindUFunction(this, FName("TwoSelected"));  
-   Option3->OnMouseButtonDownEvent.BindUFunction(this, FName("ThreeSelected"));  
+   OptionBlitz->OnClicked.AddDynamic(this, &UAttackUI::BlitzSelected);
+   Option1->OnClicked.AddDynamic(this, &UAttackUI::OneSelected);
+   Option2->OnClicked.AddDynamic(this, &UAttackUI::TwoSelected);
+   Option3->OnClicked.AddDynamic(this, &UAttackUI::ThreeSelected);
 
    TransferSection->CloseButton->SetVisibility(ESlateVisibility::Collapsed);  
    TransferSection->SetVisibility(ESlateVisibility::Collapsed);  
@@ -106,6 +109,10 @@ void UAttackUI::OnChoiceChange(UCommonWidgetCarousel* widgetCarousel, int32 newP
 
 void UAttackUI::Attack(int32 attackingAmount)
 {
+	if (AttackInProgress)
+		return;
+	
+
 	VisualRandomize = false;
 
 	ResultsData = Player->DeclareAttack(attackingAmount);
@@ -120,6 +127,8 @@ void UAttackUI::Attack(int32 attackingAmount)
 		DefenceResult2->SetText(FText::FromString(""));
 		return;
 	}
+
+	AttackInProgress = true;
 
 	AttackResult1->SetText(FText::FromString(FString::Printf(TEXT("%d"), ResultsData->AttackResult1)));
 
@@ -153,10 +162,10 @@ void UAttackUI::Attack(int32 attackingAmount)
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 		{
 			GetWorld()->GetTimerManager().SetTimer(
-				TimerHandle_DelayeAttack,
+				TimerHandle_Animation,
 				this,
-				&UAttackUI::ExecuteAttack,
-				2.0f,
+				&UAttackUI::StartNumberAnimation,
+				0.8f,
 				false
 			);
 		});
@@ -165,6 +174,10 @@ void UAttackUI::Attack(int32 attackingAmount)
 
 void UAttackUI::ClosePopup()
 {
+	if (AttackInProgress)
+		return;
+
+	
 	if (TransferSection->IsVisible())	
 		Player->TransferAmount(AttackingRegion->GetUnits() - 1);
 	
@@ -209,12 +222,66 @@ int32 UAttackUI::CurrentAttacking()
 	return attacker;
 }
 
+void UAttackUI::StartNumberAnimation()
+{
+	if (ResultsData->AttackResult1 > ResultsData->DefenceResult1)
+	{
+		PlayAnimation(AttackAnim1Won);
+	}
+	else {
+		PlayAnimation(DefenceAnim1Won);
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(
+		TimerHandle_Animation,
+		this,
+		&UAttackUI::ContinueNumberAnimation,
+		0.75f,
+		false
+	);
+
+}
+
+void UAttackUI::ContinueNumberAnimation()
+{
+
+	if (!(ResultsData->AttackResult2 > 0 && ResultsData->DefenceResult2 > 0))
+	{
+		GetWorld()->GetTimerManager().SetTimer(
+			TimerHandle_Animation,
+			this,
+			&UAttackUI::ExecuteAttack,
+			0.15f,
+			false
+		);
+		return;
+	}
+
+	if (ResultsData->AttackResult2 > ResultsData->DefenceResult2)
+	{
+		PlayAnimation(AttackAnim2Won);
+	}
+	else {
+		PlayAnimation(DefenceAnim2Won);
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(
+		TimerHandle_Animation,
+		this,
+		&UAttackUI::ExecuteAttack,
+		0.75f,
+		false
+	);
+}
+
+
 void UAttackUI::ExecuteAttack()
 {
 	int32 remainingDefenders = Player->ApplyAttackResults(ResultsData);
 
 	if (remainingDefenders == -1)
 	{
+		AttackInProgress = false;
 		ClosePopup();
 		UGameplayStatics::PlaySound2D(this, FailedSound);
 		return;
@@ -229,48 +296,75 @@ void UAttackUI::ExecuteAttack()
 	else 
 		UpdateUI(false);
 
+	AttackInProgress = false;
 }
 
 void UAttackUI::LeftCarouselAction()
 {
+	if (AttackInProgress)
+		return;
+
 	VisualRandomize = true;
 
+	AttackChoice->NextPage();
+	RightButton->SetVisibility(ESlateVisibility::Visible);
+
+	LeftCarouselCheck();
+}
+
+void UAttackUI::LeftCarouselCheck()
+{
 	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
 
-	if (remainingUnits >= 3 || AttackChoice->GetActiveWidgetIndex() != 0)
+	if (remainingUnits < 3 && AttackChoice->GetActiveWidgetIndex() == 0)
 	{
-		AttackChoice->NextPage();
-		return;
+		LeftButton->SetVisibility(ESlateVisibility::Hidden);
 	}
-
-	if (remainingUnits == 2)
-		AttackChoice->SetActiveWidgetIndex(2);
 	else 
-		AttackChoice->PreviousPage();
+	{
+		LeftButton->SetVisibility(ESlateVisibility::Visible);
+	}
 }
 
 void UAttackUI::RightCarouselAction()
 {
+	if (AttackInProgress)
+		return;
+
 	VisualRandomize = true;
+
+	AttackChoice->PreviousPage();
+	LeftButton->SetVisibility(ESlateVisibility::Visible);
+
+	RightCarouselCheck();
+}
+
+void UAttackUI::RightCarouselCheck()
+{
 	int32 remainingUnits = AttackingRegion->GetUnits() - 1;
 
 	if (remainingUnits >= 3)
 	{
-		AttackChoice->PreviousPage();
+		RightButton->SetVisibility(ESlateVisibility::Visible);
 		return;
 	}
 
-
 	if (AttackChoice->GetActiveWidgetIndex() == 1 && remainingUnits == 1)
-		AttackChoice->NextPage();
-	else if(AttackChoice->GetActiveWidgetIndex() == 2) 
-		AttackChoice->SetActiveWidgetIndex(0);
-	else 
-		AttackChoice->PreviousPage();
+	{
+		RightButton->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else if (AttackChoice->GetActiveWidgetIndex() == 2)
+	{
+		RightButton->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else {
+		RightButton->SetVisibility(ESlateVisibility::Visible);
+	}
 }
 
 void UAttackUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
+	Super::NativeTick(MyGeometry, InDeltaTime);
 	DisplayTimeDelay += InDeltaTime;
 
 	if (VisualRandomize)
@@ -321,4 +415,6 @@ void UAttackUI::ShowPopup(ARegion* attackingRegion, int32 enemyCount, FColor ene
 
 	VisualRandomize = true;
 
+	RightCarouselCheck();
+	LeftCarouselCheck();
 }

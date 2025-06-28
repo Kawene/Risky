@@ -32,6 +32,7 @@ class RISKY_API UOptionsUI : public UUserWidget
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UComboBoxString* PhasesStepsChoice;
 
+	UPROPERTY()
 	class USettingsSaved* Settings;
 
 	UPROPERTY(EditAnywhere, Category = "Audio")

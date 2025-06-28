@@ -36,6 +36,6 @@ void USettingsSaved::SetPhasesSteps(EAiPhasesSteps phase)
 
 void USettingsSaved::SaveSettings()
 {
-    FString saveSlotName = TEXT("SettingsSaveSlot");
+	FString saveSlotName = TEXT("SettingsSaveSlot");
 	UGameplayStatics::SaveGameToSlot(this, saveSlotName, 0);
 }
