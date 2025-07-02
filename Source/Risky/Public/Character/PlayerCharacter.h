@@ -27,6 +27,8 @@ public:
 
 	void EscapeAction();
 
+	void TabAction();
+
 	void StartDeploymentPhase() override;
 
 	void StartAttackPhase() override;

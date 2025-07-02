@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* EscapeInput;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* TabInput;
+
 	/** Jump Input Action 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* SetDestinationTouchAction;*/
@@ -53,6 +56,8 @@ protected:
 	void Move(const FInputActionValue& Value);
 
 	void EscapeAction();
+
+	void TabAction();
 
 	class APlayerCharacter* Player;
 

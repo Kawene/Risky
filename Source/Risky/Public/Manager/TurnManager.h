@@ -57,6 +57,8 @@ private:
 
 	void WriteTotalTime();
 
+	int32 GetCurrentPlayersAliveCount();
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UTurnTrackerUI> TurnTrackerUIClass;
 

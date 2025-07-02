@@ -122,8 +122,7 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 		return;
 	}
 
-	Characters.Remove(corpse);
-	if (Characters.Num() == 1)
+	if (GetCurrentPlayersAliveCount() == 1)
 	{
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 			{
@@ -133,15 +132,14 @@ void ATurnManager::CharacterDied(ABaseCharacter* corpse)
 					}
 			});
 	}
-	if (index < CurrentCharacterIndex)
-	{
-		--CurrentCharacterIndex;
-	}
 }
 
 void ATurnManager::EndTurn()
 {
-	CurrentCharacterIndex = (CurrentCharacterIndex + 1) % Characters.Num();
+	do {
+		CurrentCharacterIndex = (CurrentCharacterIndex + 1) % Characters.Num();
+	} while (Characters[CurrentCharacterIndex]->CharacterDead);
+
 	if (CurrentCharacterIndex == 0 && TotalAiTimes != 0)
 	{
 		if (!PlayerDead)
@@ -221,4 +219,18 @@ void ATurnManager::WriteTotalTime()
 		FILEWRITE_Append
 	);
 	TotalAiTimes = 0;
+}
+
+int32 ATurnManager::GetCurrentPlayersAliveCount()
+{
+	int32 count = 0;
+	for (size_t i = 0; i < Characters.Num(); ++i)
+	{
+		if (!Characters[i]->CharacterDead)
+		{
+			++count;
+		}
+	}
+
+	return count;
 }

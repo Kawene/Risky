@@ -51,4 +51,5 @@ public:
 	UPROPERTY(EditAnywhere)
 	FColor ColorIdentity;
 
+	bool CharacterDead = false;
 };

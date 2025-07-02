@@ -1,0 +1,42 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "Ui/PlayerInformationUI.h"
+#include "Components/Image.h"
+#include "Components/TextBlock.h"
+
+void UPlayerInformationUI::InitializeData(FColor color, FPlayerInformationData* playerInformation)
+{
+	FVector newColor = FVector(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
+
+	PlayerColor->SetColorAndOpacity(FLinearColor(newColor));
+	UpdateInformation(playerInformation);
+
+	DeathSign->SetVisibility(ESlateVisibility::Hidden);
+	DeathSign->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void UPlayerInformationUI::UpdateInformation(FPlayerInformationData* playerInformation)
+{
+	if (PlayerDead)
+		return;
+
+	if (playerInformation->IsDead)
+	{
+		PlayerDied();
+		return;
+	}
+
+	UnitsAmountOwned->SetText(FText::AsNumber(playerInformation->UnitsAmountOwned));	
+	RegionAmountOwned->SetText(FText::AsNumber(playerInformation->RegionAmountOwned));
+	DeploymentAmount->SetText(FText::AsNumber(playerInformation->DeploymentAmount));
+}
+
+void UPlayerInformationUI::PlayerDied()
+{
+	PlayerDead = true;
+	DeathSign->SetVisibility(ESlateVisibility::Visible);
+	UnitsAmountOwned->SetText(FText::FromString("0"));
+	RegionAmountOwned->SetText(FText::FromString("0"));
+	DeploymentAmount->SetText(FText::FromString("0"));
+}

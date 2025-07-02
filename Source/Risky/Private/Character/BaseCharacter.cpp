@@ -129,8 +129,8 @@ void ABaseCharacter::IsCharacterDead()
 {
 	if (RegionsOwned.IsEmpty() && !TurnManager->InSimulation)
 	{
+		CharacterDead = true;
 		TurnManager->CharacterDied(this);
-		Destroy();
 	}
 }
 

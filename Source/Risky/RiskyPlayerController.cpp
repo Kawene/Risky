@@ -43,6 +43,8 @@ void ARiskyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(MovementInput, ETriggerEvent::Triggered, this, &ARiskyPlayerController::Move);
 
 		EnhancedInputComponent->BindAction(EscapeInput, ETriggerEvent::Started, this, &ARiskyPlayerController::EscapeAction);
+
+		EnhancedInputComponent->BindAction(TabInput, ETriggerEvent::Started, this, &ARiskyPlayerController::TabAction);
 	}
 }
 
@@ -63,6 +65,11 @@ void ARiskyPlayerController::Move(const FInputActionValue& Value)
 void ARiskyPlayerController::EscapeAction()
 {
 	Player->EscapeAction();
+}
+
+void ARiskyPlayerController::TabAction()
+{
+	Player->TabAction();
 }
 
 

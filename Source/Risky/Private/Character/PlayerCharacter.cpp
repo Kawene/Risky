@@ -477,6 +477,11 @@ void APlayerCharacter::EscapeAction()
 	}
 }
 
+void APlayerCharacter::TabAction()
+{
+	PlayerHUD->ToggleVisibilityScoreboardUi();
+}
+
 void APlayerCharacter::StartDeploymentPhase()
 {
 	UGameplayStatics::PlaySound2D(this, TurnStartSound, 1.0f, 1.0f, 0.4f);

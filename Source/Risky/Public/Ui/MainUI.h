@@ -24,6 +24,8 @@ public:
 
 	void ToggleVisibilityPauseUi();
 
+	void ToggleVisibilityScoreboardUi();
+
 	void ShowVictoryUi();
 
 	void ShowDefeatUi();
@@ -76,4 +78,10 @@ private:
 
 	UPROPERTY()
 	class UDefeatUI* DefeatDialog;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UScoreboardUI> ScoreboardHUDClass;
+
+	UPROPERTY()
+	class UScoreboardUI* ScoreboardDialog;
 };

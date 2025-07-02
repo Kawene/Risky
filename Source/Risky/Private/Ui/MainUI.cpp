@@ -8,6 +8,7 @@
 #include "Ui/UnitsDialogUI.h"
 #include "Ui/AttackUI.h"
 #include "Ui/PauseUI.h"
+#include "Ui/ScoreboardUI.h"
 #include "Risky/RiskyPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Manager/TurnManager.h"
@@ -39,7 +40,7 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 
 
 	PauseDialog = CreateWidget<UPauseUI>(controller, PauseHUDClass);
-	PauseDialog->AddToPlayerScreen();
+	PauseDialog->AddToPlayerScreen(2);
 	PauseDialog->SetVisibility(ESlateVisibility::Hidden);
 
 	VictoryDialog = CreateWidget<UVictoryUI>(controller, VictoryHUDClass);
@@ -49,6 +50,10 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	DefeatDialog = CreateWidget<UDefeatUI>(controller, DefeatHUDClass);
 	DefeatDialog->AddToPlayerScreen();
 	DefeatDialog->SetVisibility(ESlateVisibility::Hidden);
+
+	ScoreboardDialog = CreateWidget<UScoreboardUI>(controller, ScoreboardHUDClass);
+	ScoreboardDialog->AddToPlayerScreen(1);
+	ScoreboardDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
@@ -67,6 +72,17 @@ void UMainUI::ToggleVisibilityPauseUi()
 		PauseDialog->SetVisibility(ESlateVisibility::Hidden);
 	else
 		PauseDialog->ShowPopup();
+}
+
+void UMainUI::ToggleVisibilityScoreboardUi()
+{
+	if (ScoreboardDialog->IsVisible())
+		ScoreboardDialog->SetVisibility(ESlateVisibility::Hidden);
+	else
+	{
+		ScoreboardDialog->ShowScoreboard();
+	}
+	
 }
 
 void UMainUI::ShowVictoryUi()
