@@ -9,20 +9,6 @@
 #include "Character/BaseCharacter.h"
 #include "Region.h"
 
-FPlayerInformationData* CreatePlayerInformation(ATurnManager* turnManager, ABaseCharacter* character)
-{
-	FPlayerInformationData* playerInfo = new FPlayerInformationData;
-	for (ARegion* region : character->RegionsOwned)
-	{
-		playerInfo->UnitsAmountOwned += region->GetUnits();
-	}
-	playerInfo->RegionAmountOwned = character->RegionsOwned.Num();
-	playerInfo->DeploymentAmount = turnManager->GetsNumberOfUnitsToDeploy(character);
-	playerInfo->IsDead = character->CharacterDead;
-
-	return playerInfo;
-}
-
 void UScoreboardUI::ShowScoreboard()
 {
 	if (!isInitialized)
@@ -51,18 +37,16 @@ void UScoreboardUI::InitializeGrid()
 	{
 		auto widget = CreateWidget<UPlayerInformationUI>(controller, PlayerInformationClass);
 
-		FPlayerInformationData* playerInfo = CreatePlayerInformation(turnManager, allPlayers[i]);
+		FPlayerInformationData playerInfo = FPlayerInformationData(turnManager, allPlayers[i]);
 
 		widget->InitializeData(
 			allPlayers[i]->ColorIdentity,
-			playerInfo);
+			&playerInfo);
 
 		if (i % 3 == 0 && i != 0)
 			++row;
 
 		ScoreboardGrid->AddChildToUniformGrid(widget, row, i % 3);
-
-		
 	}
 }
 
@@ -77,8 +61,8 @@ void UScoreboardUI::UpdateGridInformation()
 		UPlayerInformationUI* playerInfoWidget = Cast<UPlayerInformationUI>(ScoreboardGrid->GetChildAt(i));
 		if (!playerInfoWidget->IsPlayerDead())
 		{
-			FPlayerInformationData* playerInfo = CreatePlayerInformation(turnManager, allPlayers[i]);
-			playerInfoWidget->UpdateInformation(playerInfo);
+			FPlayerInformationData playerInfo = FPlayerInformationData(turnManager, allPlayers[i]);
+			playerInfoWidget->UpdateInformation(&playerInfo);
 		}
 	}
 }

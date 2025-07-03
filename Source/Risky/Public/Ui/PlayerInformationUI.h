@@ -23,6 +23,10 @@ struct FPlayerInformationData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsDead = false;
+
+	FPlayerInformationData();
+
+	FPlayerInformationData(class ATurnManager* turnManager, class ABaseCharacter* character);
 };
 
 UCLASS()

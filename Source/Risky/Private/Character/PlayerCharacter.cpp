@@ -177,6 +177,10 @@ void APlayerCharacter::DeployUnitsToSelectedRegion(int32 unitsToDeploy)
 		{
 			FinishedCurrentPhase();
 		}
+		else 
+		{
+			TurnManager->UpdateTurnTrackerUI(this, CurrentUnitsToDeploy);
+		}
 	}
 }
 
@@ -192,6 +196,7 @@ int32 APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 	if (FirstSelectedRegion && SecondSelectedRegion)
 	{
 		Super::ExecuteAttack(FirstSelectedRegion, SecondSelectedRegion, results);
+		TurnManager->UpdateTurnTrackerUI(this);
 		if (SecondSelectedRegion->GetUnits() == 0)
 		{
 			auto niagara = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), CaptureEffectNiagara, 

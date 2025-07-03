@@ -44,6 +44,8 @@ public:
 	TArray<ABaseCharacter*> GetTurnOrderFrom(ABaseCharacter* character);
 
 	bool InSimulation;
+
+	void UpdateTurnTrackerUI(ABaseCharacter* character, int32 remainingUnits = 0);
 		 
 private:	
 

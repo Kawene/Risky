@@ -7,6 +7,7 @@
 #include "Character/BaseCharacter.h"
 #include "Risky/RiskyPlayerController.h"
 #include "UI/TurnTrackerUI.h"
+#include "Ui/PlayerInformationUI.h"
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
 #include "Province.h"
@@ -58,18 +59,14 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 void ATurnManager::StartTurn()
 {
 	CurrentPhase = EGamePhase::DeploymentPhase;
-	Characters[CurrentCharacterIndex]->
-		StartDeploymentPhase();
+	Characters[CurrentCharacterIndex]->StartDeploymentPhase();
 
-	FLinearColor LinearColor = FLinearColor(
-		Characters[CurrentCharacterIndex]->ColorIdentity.R / 255.0f,
-		Characters[CurrentCharacterIndex]->ColorIdentity.G / 255.0f,
-		Characters[CurrentCharacterIndex]->ColorIdentity.B / 255.0f
-	); 
-
-	TurnTrackerUI->PlayerTracker->SetBrushColor(LinearColor);
-
-
+	FPlayerInformationData playerInformation = FPlayerInformationData(this, Characters[CurrentCharacterIndex]);
+	TurnTrackerUI->PlayerInformation->InitializeData(Characters[CurrentCharacterIndex]->ColorIdentity, &playerInformation);
+	if (CurrentCharacterIndex > 0)
+		TurnTrackerUI->DeploymentInformation(0);
+	else
+		TurnTrackerUI->DeploymentInformation(GetsNumberOfUnitsToDeploy(Characters[CurrentCharacterIndex]));
 }
 
 void ATurnManager::ProceedToNextPhase()
@@ -78,21 +75,23 @@ void ATurnManager::ProceedToNextPhase()
 	{
 	case EGamePhase::DeploymentPhase:
 		CurrentPhase = EGamePhase::AttackPhase;
-		TurnTrackerUI->PhaseTracker->SetText(FText::FromString("A"));
+		TurnTrackerUI->AttackInformation();
+
 		Characters[CurrentCharacterIndex]->StartAttackPhase();
 		break;
 	case EGamePhase::AttackPhase:
 		CurrentPhase = EGamePhase::FortificationPhase;
-		TurnTrackerUI->PhaseTracker->SetText(FText::FromString("F"));
+		TurnTrackerUI->FortificationInformation();
+
 		Characters[CurrentCharacterIndex]->StartFortificationPhase();
 		break;
 	case EGamePhase::FortificationPhase:
-		TurnTrackerUI->PhaseTracker->SetText(FText::FromString("D"));
 		EndTurn();
 		break;
 	default:
 		break;
 	}
+	UpdateTurnTrackerUI(Characters[CurrentCharacterIndex]);
 }
 
 void ATurnManager::CharacterDied(ABaseCharacter* corpse)
@@ -194,6 +193,17 @@ TArray<ABaseCharacter*> ATurnManager::GetTurnOrderFrom(ABaseCharacter* character
 	}
 
 	return orderedList;
+}
+
+void ATurnManager::UpdateTurnTrackerUI(ABaseCharacter* character, int32 remainingUnits)
+{
+	FPlayerInformationData playerInformation = FPlayerInformationData(this, character);
+	TurnTrackerUI->PlayerInformation->UpdateInformation(&playerInformation);
+
+	if (CurrentPhase == EGamePhase::DeploymentPhase && remainingUnits > 0)
+	{
+		TurnTrackerUI->DeploymentInformation(remainingUnits);
+	}
 }
 
 void ATurnManager::WriteTotalTime()

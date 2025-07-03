@@ -4,6 +4,9 @@
 #include "Ui/PlayerInformationUI.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Manager/TurnManager.h"
+#include "Character/BaseCharacter.h"
+#include "Region.h"
 
 void UPlayerInformationUI::InitializeData(FColor color, FPlayerInformationData* playerInformation)
 {
@@ -13,7 +16,7 @@ void UPlayerInformationUI::InitializeData(FColor color, FPlayerInformationData* 
 	UpdateInformation(playerInformation);
 
 	DeathSign->SetVisibility(ESlateVisibility::Hidden);
-	DeathSign->SetVisibility(ESlateVisibility::Collapsed);
+	//DeathSign->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UPlayerInformationUI::UpdateInformation(FPlayerInformationData* playerInformation)
@@ -39,4 +42,19 @@ void UPlayerInformationUI::PlayerDied()
 	UnitsAmountOwned->SetText(FText::FromString("0"));
 	RegionAmountOwned->SetText(FText::FromString("0"));
 	DeploymentAmount->SetText(FText::FromString("0"));
+}
+
+FPlayerInformationData::FPlayerInformationData()
+{
+}
+
+FPlayerInformationData::FPlayerInformationData(ATurnManager* turnManager, ABaseCharacter* character)
+{	
+	for (auto region : character->RegionsOwned)
+	{
+		UnitsAmountOwned += region->GetUnits();
+	}
+	RegionAmountOwned = character->RegionsOwned.Num();
+	DeploymentAmount = turnManager->GetsNumberOfUnitsToDeploy(character);
+	IsDead = character->CharacterDead;	
 }
