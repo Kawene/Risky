@@ -297,10 +297,9 @@ void APlayerCharacter::IsCharacterDead()
 
 void APlayerCharacter::SetUiOpen(bool isOpen)
 {
-	IsUiOpen = isOpen;
-
 	if (!isOpen)
 	{
+		PlayerHUD->UiHasClosed();
 		switch (CurrentPhase)
 		{
 		case EGamePhase::DeploymentPhase:
@@ -369,7 +368,7 @@ void APlayerCharacter::ShowDefeatScreen()
 
 void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 {
-	if (IsUiOpen)
+	if (PlayerHUD->IsUiOpen())
 	{
 		return;
 	}
@@ -452,22 +451,9 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 
 void APlayerCharacter::EscapeAction()
 {
-	if (IsUiOpen)
+	if (PlayerHUD->IsUiOpen())
 	{
-		switch (CurrentPhase)
-		{
-		case EGamePhase::DeploymentPhase:
-			PlayerHUD->CloseUnitsUi();
-			break;
-		case EGamePhase::AttackPhase:
-			PlayerHUD->CloseAttackUi();
-			break;
-		case EGamePhase::FortificationPhase:
-			PlayerHUD->CloseUnitsUi();
-			break;
-		case EGamePhase::NotCurrentTurn:
-			break;
-		}
+		PlayerHUD->CloseCurrentUi();
 	}
 	else 
 	{

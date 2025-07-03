@@ -76,6 +76,11 @@ public:
 
 	void ShowDefeatScreen();
 
+protected:
+
+	UPROPERTY(BlueprintReadOnly)
+	class UMainUI* PlayerHUD;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -97,17 +102,11 @@ private:
 
 	float PreviousCameraTargetArmLength;
 
-
-	bool IsUiOpen;
-
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	class UNiagaraSystem* CaptureEffectNiagara;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UMainUI> PlayerHUDClass;
-
-	UPROPERTY()
-	class UMainUI* PlayerHUD;
 
 	UPROPERTY()
 	class ARegion* FirstSelectedRegion;

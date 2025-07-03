@@ -34,7 +34,16 @@ public:
 
 	void CloseAttackUi();
 
+	void CloseCurrentUi();
+
+	void UiHasClosed();
+
 	void ButtonVisibility(bool visible);
+
+
+	UFUNCTION(BlueprintCallable)
+	bool IsUiOpen() const { return UiOpen; };
+
 
 private:
 
@@ -84,4 +93,6 @@ private:
 
 	UPROPERTY()
 	class UScoreboardUI* ScoreboardDialog;
+
+	bool UiOpen = false;
 };

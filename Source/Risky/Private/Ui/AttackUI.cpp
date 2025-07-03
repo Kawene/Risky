@@ -177,7 +177,6 @@ void UAttackUI::ClosePopup()
 	if (AttackInProgress)
 		return;
 
-	
 	if (TransferSection->IsVisible())	
 		Player->TransferAmount(AttackingRegion->GetUnits() - 1);
 	

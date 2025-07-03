@@ -16,7 +16,6 @@ void UPlayerInformationUI::InitializeData(FColor color, FPlayerInformationData* 
 	UpdateInformation(playerInformation);
 
 	DeathSign->SetVisibility(ESlateVisibility::Hidden);
-	//DeathSign->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UPlayerInformationUI::UpdateInformation(FPlayerInformationData* playerInformation)

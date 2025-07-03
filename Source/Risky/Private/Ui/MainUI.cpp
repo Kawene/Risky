@@ -58,51 +58,96 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
 {
-	UnitsDialog->ShowPopup(maxUnit, textButton.ToString());
+	if (!UiOpen)
+	{
+		UiOpen = true;
+		UnitsDialog->ShowPopup(maxUnit, textButton.ToString());
+	}
 }
 
 void UMainUI::ShowAttackUi(ARegion* region, int32 enemyCount, FColor enemyColor)
 {
-	AttackDialog->ShowPopup(region, enemyCount, enemyColor);
+	if (!UiOpen)
+	{
+		UiOpen = true;
+		AttackDialog->ShowPopup(region, enemyCount, enemyColor);
+	}
 }
 
 void UMainUI::ToggleVisibilityPauseUi()
 {
-	if (PauseDialog->IsVisible())	
-		PauseDialog->SetVisibility(ESlateVisibility::Hidden);
-	else
+	if (PauseDialog->IsVisible())
+	{
+		UiOpen = false;
+		PauseDialog->SetVisibility(ESlateVisibility::Hidden);		
+	}
+	else if (!UiOpen)
+	{
 		PauseDialog->ShowPopup();
+		UiOpen = true;
+	}
 }
 
 void UMainUI::ToggleVisibilityScoreboardUi()
 {
 	if (ScoreboardDialog->IsVisible())
-		ScoreboardDialog->SetVisibility(ESlateVisibility::Hidden);
-	else
 	{
+		UiOpen = false;
+		ScoreboardDialog->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else if(!UiOpen)
+	{
+		UiOpen = true;
 		ScoreboardDialog->ShowScoreboard();
 	}
-	
 }
 
 void UMainUI::ShowVictoryUi()
 {
-	VictoryDialog->ShowPopup();
+	UiOpen = true;
+	VictoryDialog->ShowPopup();	
 }
 
 void UMainUI::ShowDefeatUi()
 {
+	UiOpen = true;
 	DefeatDialog->ShowPopup();
 }
 
 void UMainUI::CloseUnitsUi()
 {
+	UiOpen = false;
 	UnitsDialog->ClosePopup();
 }
 
 void UMainUI::CloseAttackUi()
 {
+	UiOpen = false;
 	AttackDialog->ClosePopup();
+}
+
+void UMainUI::CloseCurrentUi()
+{
+	if (UnitsDialog->IsVisible())
+	{
+		CloseUnitsUi();
+	}
+	else if (AttackDialog->IsVisible()) {
+		CloseAttackUi();
+	}
+	else if (PauseDialog->IsVisible())
+	{
+		ToggleVisibilityPauseUi();
+	}
+	else if (ScoreboardDialog->IsVisible())
+	{
+		ToggleVisibilityScoreboardUi();
+	}
+}
+
+void UMainUI::UiHasClosed()
+{
+	UiOpen = false;
 }
 
 void UMainUI::ButtonVisibility(bool visible)
