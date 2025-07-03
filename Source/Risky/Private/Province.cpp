@@ -3,6 +3,16 @@
 
 #include "Province.h"
 #include "Region.h"
+#include "Components/TextRenderComponent.h"
+
+AProvince::AProvince()
+{
+	ProvinceSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("ProvinceSceneComponent"));
+	ProvinceSceneComponent->SetupAttachment(RootComponent);
+
+	BonusText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("BonusText"));
+	BonusText->SetupAttachment(ProvinceSceneComponent);
+}
 
 int32 AProvince::GetBonusIfOwner(ABaseCharacter* character)
 {

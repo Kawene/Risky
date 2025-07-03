@@ -20,8 +20,20 @@ class RISKY_API AProvince : public AActor
 
 	UPROPERTY(EditAnywhere)
 	int32 Bonus;
-	
+
+	UPROPERTY(EditAnywhere)
+	class USceneComponent* ProvinceSceneComponent;
+
+	UPROPERTY(EditAnywhere)
+	class UTextRenderComponent* BonusText;
+
 public:
+
+	AProvince();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<class AStaticMeshActor*> ProvinceMesh;
+
 	int32 GetBonusIfOwner(ABaseCharacter* character);
 
 	bool HasControlOverProvince(ABaseCharacter* character);
