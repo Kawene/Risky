@@ -27,6 +27,11 @@ class RISKY_API AProvince : public AActor
 	UPROPERTY(EditAnywhere)
 	class UTextRenderComponent* BonusText;
 
+	UPROPERTY(EditAnywhere)
+	class UTextRenderComponent* RegionOwnedRatioText;
+
+	void virtual BeginPlay() override;
+
 public:
 
 	AProvince();
@@ -41,4 +46,8 @@ public:
 	bool SomeoneHasControl();
 
 	bool IsRegionInProvince(ARegion* region);
+
+	void ViewDetails();
+
+	void HideDetails();
 };

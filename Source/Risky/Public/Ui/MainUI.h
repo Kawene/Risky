@@ -47,16 +47,26 @@ public:
 
 private:
 
+	TArray<class AProvince*> Provinces;
+
+	bool ProvincesDetails = false;
+
 	APlayerCharacter* Player;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UBaseButton* InteractButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* ProvinceButton;
 
 	UFUNCTION()
 	void OnButtonClick();
 
 	UFUNCTION()
 	void OnGamePhaseChange(EGamePhase gamePhase);
+
+	UFUNCTION()
+	void ToggleProvincesDetails();
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUnitsDialogUI> UnitsHUDClass;

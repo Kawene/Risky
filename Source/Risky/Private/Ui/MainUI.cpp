@@ -13,18 +13,30 @@
 #include "Kismet/GameplayStatics.h"
 #include "Manager/TurnManager.h"
 #include "Ui/BaseButton.h"
+#include "Province.h"
 
 void UMainUI::NativeConstruct()
 {
 	Super::NativeConstruct();
+
 	InteractButton->Button->OnClicked.AddDynamic(this, &UMainUI::OnButtonClick);
+
+	ProvinceButton->OnClicked.AddDynamic(this, &UMainUI::ToggleProvincesDetails);
 }
 
 void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* controller)
 {
 	Player = player;
 	AddToPlayerScreen();
-	SetVisibility(ESlateVisibility::Hidden);
+	ButtonVisibility(false);
+
+	TArray<AActor*> provincesActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AProvince::StaticClass(), provincesActors);
+
+	for (AActor* actor : provincesActors)
+	{
+		Provinces.Add(Cast<AProvince>(actor));
+	}
 
 	Player->ChangeGamePhase.BindUObject(this, &UMainUI::OnGamePhaseChange);
 
@@ -143,6 +155,9 @@ void UMainUI::CloseCurrentUi()
 	{
 		ToggleVisibilityScoreboardUi();
 	}
+	else if (ProvincesDetails) {
+		ToggleProvincesDetails();
+	}
 }
 
 void UMainUI::UiHasClosed()
@@ -168,10 +183,10 @@ void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
 	switch (gamePhase)
 	{
 	case EGamePhase::DeploymentPhase:	
-		SetVisibility(ESlateVisibility::Hidden);
+		ButtonVisibility(false);
 		break;
 	case EGamePhase::AttackPhase:
-		SetVisibility(ESlateVisibility::Visible);
+		ButtonVisibility(true);
 		InteractButton->SetButtonText("Fortification");
 		break;
 	case EGamePhase::FortificationPhase:
@@ -188,11 +203,35 @@ void UMainUI::OnGamePhaseChange(EGamePhase gamePhase)
 			InteractButton->SetButtonText("Next Turn");
 			break;
 		case EAiPhasesSteps::NoStop:
-			SetVisibility(ESlateVisibility::Hidden);
+			ButtonVisibility(false);
 			break;
 		default:
 			break;
 		}
 		break;
+	}
+}
+
+void UMainUI::ToggleProvincesDetails()
+{
+	if (ProvincesDetails)
+	{
+		for (AProvince* province : Provinces)
+		{
+			province->HideDetails();
+		}
+		ProvincesDetails = false;
+		UiOpen = false;
+		Player->DeZoomCamera();
+	}
+	else
+	{
+		for (AProvince* province : Provinces)
+		{
+			province->ViewDetails();
+		}
+		ProvincesDetails = true;
+		UiOpen = true;
+		Player->SetCameraToSeeMap();
 	}
 }

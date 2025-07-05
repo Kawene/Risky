@@ -51,7 +51,7 @@ void ARiskyPlayerController::SetupInputComponent()
 void ARiskyPlayerController::Move(const FInputActionValue& Value)
 {
 
-	if (Player->IsCameraMoving())
+	if (Player->IsCameraControlled())
 	{
 		return;
 	}

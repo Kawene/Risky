@@ -68,13 +68,17 @@ public:
 
 	virtual void TurnManagerRef(ATurnManager* tManager) override;
 
-	bool IsCameraMoving() const {
-		return CameraMoving;
+	bool IsCameraControlled() const {
+		return CameraMoving || CameraZoomedIn;
 	};
 
 	void ShowVictoryScreen();
 
 	void ShowDefeatScreen();
+
+	void SetCameraToSeeMap();
+
+	void DeZoomCamera();
 
 protected:
 
@@ -126,10 +130,6 @@ private:
 	void MoveCameraToRegion(ARegion* regionSelected);
 
 	void MoveCameraToPosition(FVector position);
-
-	void DeZoomCamera();
-
-
 
 protected:
 

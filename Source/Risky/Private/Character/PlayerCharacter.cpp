@@ -366,6 +366,15 @@ void APlayerCharacter::ShowDefeatScreen()
 	PlayerHUD->ShowDefeatUi();
 }
 
+void APlayerCharacter::SetCameraToSeeMap()
+{
+	//Center of the BigMap
+	MoveCameraToPosition(FVector(6000, 2000, 1000));
+	CameraZoomedIn = true;
+	PreviousCameraTargetArmLength = CameraBoom->TargetArmLength;
+	CameraTargetArmLength = 13000;
+}
+
 void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 {
 	if (PlayerHUD->IsUiOpen())
@@ -428,11 +437,11 @@ void APlayerCharacter::OnClickRegion(ARegion* regionSelected)
 		{
 			DeselectRegion(&SecondSelectedRegion);
 		}
-		else if (!FirstSelectedRegion)
+		else if (!FirstSelectedRegion && regionSelected->GetUnits() > 1)
 		{
 			SelectRegion(&FirstSelectedRegion, regionSelected);
 		}
-		else
+		else if(FirstSelectedRegion)
 		{
 			DeselectRegion(&SecondSelectedRegion);
 
