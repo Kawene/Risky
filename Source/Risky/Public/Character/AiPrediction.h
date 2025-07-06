@@ -22,7 +22,7 @@ public:
 	UPROPERTY()
 	class AAiCharacter* Ai;
 
-	void PredictDeployment();
+	void PredictDeployment(EAiDifficulty aiDifficulty);
 
-	void PredictFortification(class ARegion* regionToTransfer);
+	void PredictFortification(class ARegion* regionToTransfer, EAiDifficulty aiDifficulty);
 };

@@ -7,6 +7,13 @@
 
 class ARegion;
 
+UENUM(BlueprintType)
+enum class EAiDifficulty : uint8 {
+	Easy = 0,
+	Medium = 1,
+	Hard = 2
+};
+
 UCLASS()
 class RISKY_API AAiCharacter : public ABaseCharacter
 {

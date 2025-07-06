@@ -47,16 +47,13 @@ class RISKY_API URegionEvaluator : public UObject
 
 	void EvaluateRegionForAttacking(ARegion* region);
 
-	void FilterRegionWithNoPoints(TMap<ARegion*, double> map);
-
-
 public:
 
 	URegionEvaluator();
 
 	class AAiCharacter* Ai;
 	
-	void FilterForDeployment();
+	void FilterForDeployment(EAiDifficulty aiDifficulty);
 
 	ARegion* GetRegionToTransferForFortification();
 

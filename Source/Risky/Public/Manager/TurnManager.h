@@ -46,8 +46,13 @@ public:
 	bool InSimulation;
 
 	void UpdateTurnTrackerUI(ABaseCharacter* character, int32 remainingUnits = 0);
+
+	EAiDifficulty GetAiDifficulty() const { return AiDifficulty; }
 		 
 private:	
+
+	UPROPERTY()
+	EAiDifficulty AiDifficulty = EAiDifficulty::Hard;
 
 	int32 CurrentCharacterIndex;
 

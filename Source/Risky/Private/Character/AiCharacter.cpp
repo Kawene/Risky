@@ -29,15 +29,16 @@ void AAiCharacter::StartDeploymentPhase()
 {
 	Statistic->Tick();
 
-	RegionEvaluator->FilterForDeployment();
+	RegionEvaluator->FilterForDeployment(TurnManager->GetAiDifficulty());
 
-	if (!TurnManager->InSimulation)
+	if ( !TurnManager->InSimulation)
 	{
 		TurnManager->InSimulation = true;
-		Prediction->PredictDeployment();
+		Prediction->PredictDeployment(TurnManager->GetAiDifficulty());
 		TurnManager->InSimulation = false;
 	}
-	else {
+	else
+	{
 		DeployUnits(TurnManager->GetsNumberOfUnitsToDeploy(this));
 	}
 
@@ -113,7 +114,7 @@ void AAiCharacter::StartFortificationPhase()
 			if (!TurnManager->InSimulation)
 			{
 				TurnManager->InSimulation = true;
-				Prediction->PredictFortification(regionToTransferWith);
+				Prediction->PredictFortification(regionToTransferWith, TurnManager->GetAiDifficulty());
 				TurnManager->InSimulation = false;
 			}
 			else {

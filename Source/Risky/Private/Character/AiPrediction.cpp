@@ -47,17 +47,33 @@ struct FGameStateSnapshot
 };
 
 
-void UAiPrediction::PredictDeployment()
+void UAiPrediction::PredictDeployment(EAiDifficulty aiDifficulty)
 {
 	FGameStateSnapshot snapshot {};
 	snapshot.SaveState(GetWorld());
 
 	ARegion* bestRegion = nullptr;
-	int32 bestScore = INT_MIN;
 
 	auto bestList = Ai->RegionEvaluator->GetTopResults(EMapType::Own);
 
-	int32 regionToPredict = FMath::Min(5, bestList.Num());
+	int maxRegionToPredict = 0;
+
+	switch (aiDifficulty)
+	{
+	case EAiDifficulty::Easy:
+		maxRegionToPredict = 10;
+		break;
+	case EAiDifficulty::Medium:
+		maxRegionToPredict = 8;
+		break;
+	case EAiDifficulty::Hard:
+		maxRegionToPredict = 5;
+		break;
+	}
+
+	int32 regionToPredict = FMath::Min(maxRegionToPredict, bestList.Num());
+
+	TArray<TPair<ARegion*, double>> predictions;
 
 	for (size_t i = 0; i < regionToPredict; i++)
 	{
@@ -69,11 +85,24 @@ void UAiPrediction::PredictDeployment()
 
 		snapshot.RestoreState();
 
-		if (predictedScore >= bestScore)
-		{
-			bestScore = predictedScore;
-			bestRegion = region;
-		}
+		predictions.Add({ region, predictedScore });
+	}
+
+	predictions.Sort([](const TPair<ARegion*, double>& a, const TPair<ARegion*, double>& b) {
+		return a.Value > b.Value;
+		});
+
+	switch (aiDifficulty)
+	{
+	case EAiDifficulty::Easy:
+		bestRegion = predictions[predictions.Num() - 1].Key;
+		break;
+	case EAiDifficulty::Medium:
+		bestRegion = predictions[predictions.Num() / 2].Key;
+		break;
+	case EAiDifficulty::Hard:
+		bestRegion = predictions[0].Key;
+		break;
 	}
 
 	if (bestRegion)
@@ -82,15 +111,16 @@ void UAiPrediction::PredictDeployment()
 	}
 }
 
-void UAiPrediction::PredictFortification(ARegion* regionToTransfer)
+void UAiPrediction::PredictFortification(ARegion* regionToTransfer, EAiDifficulty aiDifficulty)
 {
 	FGameStateSnapshot snapshot;
 	snapshot.SaveState(GetWorld());
 
 	ARegion* bestRegion = nullptr;
-	int32 bestScore = INT_MIN;
 
 	auto bestList = Ai->RegionEvaluator->GetTopResults(EMapType::Own);
+
+	TArray<TPair<ARegion*, double>> predictions;
 
 	for (size_t i = 0; i < bestList.Num(); i++)
 	{
@@ -102,11 +132,24 @@ void UAiPrediction::PredictFortification(ARegion* regionToTransfer)
 
 		snapshot.RestoreState();
 
-		if (predictedScore > bestScore)
-		{
-			bestScore = predictedScore;
-			bestRegion = region;
-		}
+		predictions.Add({ region, predictedScore });
+	}
+
+	predictions.Sort([](const TPair<ARegion*, double>& a, const TPair<ARegion*, double>& b) {
+		return a.Value > b.Value;
+		});
+
+	switch (aiDifficulty)
+	{
+	case EAiDifficulty::Easy:
+		bestRegion = predictions[predictions.Num() - 1].Key;
+		break;
+	case EAiDifficulty::Medium:
+		bestRegion = predictions[predictions.Num() / 2].Key;
+		break;
+	case EAiDifficulty::Hard:
+		bestRegion = predictions[0].Key;
+		break;
 	}
 
 	if (bestRegion)
@@ -179,7 +222,7 @@ int32 UAiPrediction::MinimaxDeployment(int32 depth, bool isMaximizing, bool firs
 		else {
 
 			//Depth 3, 5, 7, 9...
-			Ai->RegionEvaluator->FilterForDeployment();
+			Ai->RegionEvaluator->FilterForDeployment(EAiDifficulty::Hard);
 			auto bestList = Ai->RegionEvaluator->GetTopResults(EMapType::Own);
 
 

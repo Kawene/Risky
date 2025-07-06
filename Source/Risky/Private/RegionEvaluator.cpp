@@ -13,17 +13,20 @@ URegionEvaluator::URegionEvaluator()
 	PrioritizedRegionsToAttack = TMap<ARegion*, double>();
 }
 
-void URegionEvaluator::FilterForDeployment()
+void URegionEvaluator::FilterForDeployment(EAiDifficulty aiDifficulty)
 {
 	InitMap();
 
 	FilterSafeRegion();
 
-	PrioritizeCloseRegions();
+	if (aiDifficulty != EAiDifficulty::Easy)
+	{
+		PrioritizeCloseRegions();
 
-	PrioritizePopulatedRegions();
+		PrioritizePopulatedRegions();
 
-	PrioritizeProvince();
+		PrioritizeProvince();
+	}
 }
 
 ARegion* URegionEvaluator::GetRegionToTransferForFortification()
@@ -273,16 +276,10 @@ void URegionEvaluator::InitMap()
 {
 	PrioritizedRegions = TMap<ARegion*, double>();
 
-
-	int test23a = 0;
-
 	if (!Ai)
 	{
-		int skibidi = 0;
 		return;
 	}
-
-	int test = 0;
 
 	for (ARegion* region : Ai->RegionsOwned)
 	{
@@ -301,7 +298,6 @@ void URegionEvaluator::InitAttackMap(ARegion* region)
 		}
 	}
 }
-
 
 
 void URegionEvaluator::EvaluateRegionForAttacking(ARegion* region)
@@ -350,15 +346,4 @@ void URegionEvaluator::EvaluateRegionForAttacking(ARegion* region)
 			neighboursPair.Value += 5;
 		}
 	}
-}
-
-
-void URegionEvaluator::FilterRegionWithNoPoints(TMap<ARegion*, double> map)
-{
-	auto hasOwnNeihbors = ([](const TPair<ARegion*, double>& pair) -> bool
-		{
-			return pair.Value > 0;
-		});
-
-	PrioritizedRegions = PrioritizedRegions.FilterByPredicate(hasOwnNeihbors);
 }
