@@ -27,6 +27,8 @@ struct FCard
 	UPROPERTY()
 	class ARegion* Region;
 
+	FCard(){}
+
 	FCard(ECardType cardType, ARegion* region)
 		: CardType(cardType), Region(region) {
 	}

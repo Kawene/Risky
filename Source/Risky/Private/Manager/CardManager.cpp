@@ -27,10 +27,6 @@ void ACardManager::GeneratePool()
 		CardPool.Add(ECardType::Joker);
 	}
 
-	CardPool.Sort([this](const int Item1, const int Item2) {
-		return FMath::FRand() < 0.5f;
-		});
-
 }
 
 FCard* ACardManager::GetCard()
