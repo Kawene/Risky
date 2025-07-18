@@ -41,4 +41,7 @@ public:
 	void StartAttackPhase() override;
 
 	void StartFortificationPhase() override;
+
+protected:
+	virtual void AddCard() override;
 };

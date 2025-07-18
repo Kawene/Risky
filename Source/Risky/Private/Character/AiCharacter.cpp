@@ -3,6 +3,8 @@
 
 #include "Character/AiCharacter.h"
 #include "Character/AiStats.h"
+#include "Character/CharacterCard.h"
+#include "Character/AiPrediction.h"
 #include "Manager/TurnManager.h"
 #include "Region.h"
 #include "Province.h"
@@ -11,12 +13,10 @@
 #include "HAL/PlatformFileManager.h"
 #include "HAL/FileManager.h"
 #include "Containers/Map.h"
-#include "Manager/TurnManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "RegionEvaluator.h"
-#include "Character/AiPrediction.h"
 
-AAiCharacter::AAiCharacter()
+AAiCharacter::AAiCharacter() : ABaseCharacter()
 {
 	Statistic =  CreateDefaultSubobject<UAiStats>(*this->GetName());
 	RegionEvaluator = CreateDefaultSubobject<URegionEvaluator>(TEXT("RegionEvaluator"));
@@ -34,6 +34,7 @@ void AAiCharacter::StartDeploymentPhase()
 	if ( !TurnManager->InSimulation)
 	{
 		TurnManager->InSimulation = true;
+		CharacterCard->ResetCounter();
 		Prediction->PredictDeployment(TurnManager->GetAiDifficulty());
 		TurnManager->InSimulation = false;
 	}
@@ -140,6 +141,11 @@ void AAiCharacter::StartFortificationPhase()
 
 }
 
+void AAiCharacter::AddCard()
+{
+	CharacterCard->AddCard();
+}
+
 void AAiCharacter::DeployUnits(int32 unitsToDeploy)
 {
 	auto bestList = RegionEvaluator->GetTopResults(EMapType::Own);
@@ -171,6 +177,7 @@ bool AAiCharacter::AttackValuableRegion(ARegion* ownRegion, ARegion* regionToAtt
 
 		if (result)
 		{
+			AddCard();
 			RegionEvaluator->AddRegionToMap(regionToAttack);
 			if (ownRegion->GetUnits() <= 4)
 			{

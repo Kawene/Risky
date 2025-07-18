@@ -30,6 +30,9 @@ public:
 
 	void ShowDefeatUi();
 
+	UFUNCTION()
+	void ShowCardsUi();
+
 	void CloseUnitsUi();
 
 	void CloseAttackUi();
@@ -39,6 +42,8 @@ public:
 	void UiHasClosed();
 
 	void ButtonVisibility(bool visible);
+
+	void AddCardToUi(struct FCard* card);
 
 
 	UFUNCTION(BlueprintCallable)
@@ -59,6 +64,9 @@ private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UButton* ProvinceButton;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* CardButton;
+
 	UFUNCTION()
 	void OnButtonClick();
 
@@ -67,6 +75,8 @@ private:
 
 	UFUNCTION()
 	void ToggleProvincesDetails();
+
+	void CloseCardsUi();
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUnitsDialogUI> UnitsHUDClass;
@@ -103,6 +113,12 @@ private:
 
 	UPROPERTY()
 	class UScoreboardUI* ScoreboardDialog;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UPlayerCardsUI> PlayerCardsHUDClass;
+
+	UPROPERTY()
+	class UPlayerCardsUI* PlayerCardsDialog;
 
 	bool UiOpen = false;
 };

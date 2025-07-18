@@ -108,7 +108,7 @@ void ALevelSetup::BeginPlay()
 void ALevelSetup::InitializeLevel()
 {
 	TArray<ABaseCharacter*> allPlayers { 
-		StaticCast<ABaseCharacter*>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)) 
+		Cast<ABaseCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)) 
 	};
 
 	UGI_LevelData* levelData = Cast<UGI_LevelData>(GetGameInstance());

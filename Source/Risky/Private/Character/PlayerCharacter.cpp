@@ -3,6 +3,7 @@
 
 #include "Character/PlayerCharacter.h"
 #include "Character/AiCharacter.h"
+#include "Character/CharacterCard.h"
 
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -82,7 +83,15 @@ void APlayerCharacter::DeZoomCamera()
 	}
 }
 
-APlayerCharacter::APlayerCharacter()
+void APlayerCharacter::AddCard()
+{
+	if (auto card = CharacterCard->AddCard())
+	{
+		PlayerHUD->AddCardToUi(card);
+	}	
+}
+
+APlayerCharacter::APlayerCharacter() : ABaseCharacter()
 {
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -207,6 +216,9 @@ int32 APlayerCharacter::ApplyAttackResults(FAttackResults* results)
 			niagara->SetVariableLinearColor(FName("User.Color"), ColorIdentity);
 
 			SecondSelectedRegion->ChangeOwnerShip(this, 0);
+
+			AddCard();
+
 			return 0;
 		}
 
@@ -488,6 +500,7 @@ void APlayerCharacter::StartDeploymentPhase()
 	CurrentPhase = EGamePhase::DeploymentPhase;
 	CurrentUnitsToDeploy = TurnManager->GetsNumberOfUnitsToDeploy(this);
 	ChangeGamePhase.Execute(CurrentPhase);
+	CharacterCard->ResetCounter();
 }
 
 void APlayerCharacter::StartAttackPhase()

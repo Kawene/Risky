@@ -6,12 +6,24 @@
 #include "Region.h"
 #include "Math/UnrealMathUtility.h"
 #include "AttackResults.h"
+#include "Character/CharacterCard.h"
+#include "Manager/CardManager.h"
+#include <Kismet/GameplayStatics.h>
 
 
-// Called when the game starts or when spawned
+ABaseCharacter::ABaseCharacter()
+{
+	CharacterCard = CreateDefaultSubobject<UCharacterCard>(TEXT("CharacterCard"));
+
+	ACardManager* cardManager = Cast<ACardManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ACardManager::StaticClass()));
+		
+	CharacterCard->CardManager = cardManager;
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 bool ABaseCharacter::CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
@@ -36,6 +48,16 @@ bool ABaseCharacter::CombatRegion(ARegion* ownRegion, ARegion* enemyRegion, int3
 void ABaseCharacter::CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits)
 {
 	ExecuteAttack(ownRegion, enemyRegion, GetDiceResults(enemyRegion, attackingUnits));
+}
+
+void ABaseCharacter::ConsumeCards(FCard* card1, FCard* card2, FCard* card3)
+{
+	CurrentUnitsToDeploy += CharacterCard->ConsumeCards(card1, card2, card3);
+}
+
+
+void ABaseCharacter::AddCard()
+{
 }
 
 void ABaseCharacter::FinishedCurrentPhase()

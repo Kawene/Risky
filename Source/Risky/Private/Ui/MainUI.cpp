@@ -9,6 +9,7 @@
 #include "Ui/AttackUI.h"
 #include "Ui/PauseUI.h"
 #include "Ui/ScoreboardUI.h"
+#include "Ui/PlayerCardsUI.h"
 #include "Risky/RiskyPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Manager/TurnManager.h"
@@ -22,6 +23,8 @@ void UMainUI::NativeConstruct()
 	InteractButton->Button->OnClicked.AddDynamic(this, &UMainUI::OnButtonClick);
 
 	ProvinceButton->OnClicked.AddDynamic(this, &UMainUI::ToggleProvincesDetails);
+
+	CardButton->OnClicked.AddDynamic(this, &UMainUI::ShowCardsUi);
 }
 
 void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* controller)
@@ -66,6 +69,10 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	ScoreboardDialog = CreateWidget<UScoreboardUI>(controller, ScoreboardHUDClass);
 	ScoreboardDialog->AddToPlayerScreen(1);
 	ScoreboardDialog->SetVisibility(ESlateVisibility::Hidden);
+
+	PlayerCardsDialog = CreateWidget<UPlayerCardsUI>(controller, PlayerCardsHUDClass);
+	PlayerCardsDialog->AddToPlayerScreen(1);
+	PlayerCardsDialog->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
@@ -126,6 +133,15 @@ void UMainUI::ShowDefeatUi()
 	DefeatDialog->ShowPopup();
 }
 
+void UMainUI::ShowCardsUi()
+{
+	if (!UiOpen)
+	{
+		UiOpen = true;
+		PlayerCardsDialog->ShowCardsList();
+	}
+}
+
 void UMainUI::CloseUnitsUi()
 {
 	UiOpen = false;
@@ -157,7 +173,16 @@ void UMainUI::CloseCurrentUi()
 	}
 	else if (ProvincesDetails) {
 		ToggleProvincesDetails();
+	} 
+	else if (PlayerCardsDialog->IsVisible()) {
+		CloseCardsUi();
 	}
+}
+
+void UMainUI::CloseCardsUi()
+{
+	PlayerCardsDialog->HideCardsList();
+	UiOpen = false;	
 }
 
 void UMainUI::UiHasClosed()
@@ -171,6 +196,11 @@ void UMainUI::ButtonVisibility(bool visible)
 		InteractButton->SetVisibility(ESlateVisibility::Visible);
 	else
 		InteractButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UMainUI::AddCardToUi(FCard* card)
+{
+	PlayerCardsDialog->AddCard(card);	
 }
 
 void UMainUI::OnButtonClick()

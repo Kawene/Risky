@@ -31,7 +31,7 @@ struct FCard
 
 	FCard(ECardType cardType, ARegion* region)
 		: CardType(cardType), Region(region) {
-	}
+	} 
 };
 
 UCLASS()
@@ -41,11 +41,13 @@ class RISKY_API ACardManager : public AActor
 
 	TArray<ECardType> CardPool;
 
+	TArray<AActor*> Regions;
+
 	void GeneratePool();
 	
 public:	
 
-	FCard* GetCard();
+	FCard* GetCard(class UCharacterCard* characterCard);
 
 protected:
 	virtual void BeginPlay() override;

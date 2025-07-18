@@ -51,7 +51,10 @@ void ATurnManager::Initialize(TArray<ABaseCharacter*>* allPlayers)
 	FString saveSlotName = TEXT("SettingsSaveSlot");
 	int32 userIndex = 0;
 	USettingsSaved* settings = Cast<USettingsSaved>(UGameplayStatics::LoadGameFromSlot(saveSlotName, userIndex));
-	AiPhasesSteps = settings->GetPhasesSteps();
+	if (settings)
+	{
+		AiPhasesSteps = settings->GetPhasesSteps();
+	}
 
 	StartTurn();
 }

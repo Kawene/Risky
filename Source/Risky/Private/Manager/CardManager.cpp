@@ -3,10 +3,14 @@
 
 #include "Manager/CardManager.h"
 #include "Region.h"
-
+#include <Algo/RandomShuffle.h>
+#include <Kismet/GameplayStatics.h>
+#include "Math/UnrealMathUtility.h"
+#include "Character/CharacterCard.h"
 
 void ACardManager::GeneratePool()
 {
+
 	for (size_t i = 0; i < 35; i++)
 	{
 		CardPool.Add(ECardType::Infantry);
@@ -27,20 +31,23 @@ void ACardManager::GeneratePool()
 		CardPool.Add(ECardType::Joker);
 	}
 
+	Algo::RandomShuffle(CardPool);
 }
 
-FCard* ACardManager::GetCard()
+FCard* ACardManager::GetCard(UCharacterCard* characterCard)
 {
-	if (CardPool.Num() > 0)
-	{
-		ECardType cardType = CardPool.Pop();
-		ARegion* region = nullptr; // You would need to assign a valid region here
-		return new FCard(cardType, region);
-	}
-	else {
+	if (CardPool.Num() == 0)
+		GeneratePool();
 
-	}
-	return nullptr;
+	ECardType cardType = CardPool.Pop();
+	ARegion* region = nullptr;
+
+	do 
+	{
+		region = Cast<ARegion>(Regions[FMath::RandRange(0, Regions.Num() - 1)]);
+	} while (characterCard->AlreadyHasCardWithRegion(region));
+
+	return new FCard(cardType, region);
 }
 
 void ACardManager::BeginPlay()
@@ -48,6 +55,8 @@ void ACardManager::BeginPlay()
 	Super::BeginPlay();
 	
 	GeneratePool();
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARegion::StaticClass(), Regions);
 }
 
 

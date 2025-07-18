@@ -9,6 +9,8 @@
 
 class ATurnManager;
 class ARegion;
+class UCharacterCard;
+struct FCard;
 
 UCLASS()
 class RISKY_API ABaseCharacter : public ACharacter
@@ -24,6 +26,13 @@ protected:
 	void CombatRoll(ARegion* ownRegion, ARegion* enemyRegion, int32 attackingUnits);
 
 	int32 CurrentUnitsToDeploy;
+
+	UPROPERTY()
+	UCharacterCard* CharacterCard;
+
+	void virtual ConsumeCards(FCard* card1, FCard* card2, FCard* card3);
+
+	void virtual AddCard();
 
 public:	
 	ATurnManager* TurnManager;
@@ -45,6 +54,8 @@ public:
 	virtual void TurnManagerRef(ATurnManager* tManager);
 
 	virtual void IsCharacterDead();
+
+	ABaseCharacter();
 
 	TArray<ARegion*> RegionsOwned;
 
