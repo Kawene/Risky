@@ -16,6 +16,9 @@ ARegion::ARegion()
 	RegionText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("RegionText"));
 	RegionText->SetupAttachment(RegionSceneComponent);
 
+	RegionNameText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("RegionNameText"));
+	RegionNameText->SetupAttachment(RegionSceneComponent);
+
 	RegionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RegionMesh"));
 	RegionMesh->SetupAttachment(RegionSceneComponent);
 	RegionMesh->OnClicked.AddDynamic(this, &ARegion::OnSelectedRegion);
@@ -139,6 +142,11 @@ void ARegion::ToggleSelection(bool turnOff)
 	{
 		RegionMesh->CustomDepthStencilValue = 2;
 	}*/
+}
+
+FText ARegion::GetRegionName() const
+{
+	return RegionNameText->Text;
 }
 
 FVector ARegion::GetRegionScale()

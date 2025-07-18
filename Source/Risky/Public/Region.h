@@ -21,6 +21,9 @@ class RISKY_API ARegion : public AActor
 	UTextRenderComponent* RegionText;
 
 	UPROPERTY(EditAnywhere)
+	UTextRenderComponent* RegionNameText;
+
+	UPROPERTY(EditAnywhere)
 	USceneComponent* RegionSceneComponent;
 
 	UPROPERTY(EditAnywhere)
@@ -80,6 +83,8 @@ public:
 	bool CanFortifyThisRegion(ARegion* otherRegion);
 
 	void ToggleSelection(bool turnOff = false);
+
+	FText GetRegionName() const;
 
 	FVector GetRegionScale();
 };

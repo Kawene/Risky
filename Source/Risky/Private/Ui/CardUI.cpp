@@ -17,9 +17,10 @@ void UCardUI::NativeOnListItemObjectSet(UObject* listItemObject)
 	Region = cardData->Region;
 	CardType = cardData->CardType;
 
+	RegionName->SetText(Region->GetRegionName());
+
 	CardTypeIcon->SetBrushFromTexture(cardData->Icon);
 	UpdateColor();
-	RegionName->SetText(FText::FromString("Temp"));
 }
 
 void UCardUI::UpdateColor()
