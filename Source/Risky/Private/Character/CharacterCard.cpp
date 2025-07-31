@@ -74,7 +74,7 @@ bool UCharacterCard::CanConsumeCards(FCard* card1, FCard* card2, FCard* card3)
 
 FCard* UCharacterCard::AddCard()
 {
-	if (CurrentCardConsumed <= 0)
+	if (CurrentCardConsumed <= 10)
 	{
 		FCard* newCard = CardManager->GetCard(this);
 

@@ -4,6 +4,7 @@
 #include "Ui/DefeatUI.h"
 #include "Ui/BaseButton.h"
 #include "Components/Button.h"
+#include "Ui/MainUI.h"
 
 void UDefeatUI::NativeConstruct()
 {
@@ -18,5 +19,10 @@ void UDefeatUI::NativeConstruct()
 void UDefeatUI::ResumeGame()
 {
 	SetVisibility(ESlateVisibility::Hidden);
+
+	if (MainUIReference)
+	{
+		MainUIReference->UiHasClosed();
+	}
 }
 

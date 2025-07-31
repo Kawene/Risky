@@ -21,4 +21,6 @@ protected:
 
 public:
 	virtual void  NativeConstruct();
+
+	class UMainUI* MainUIReference;
 };

@@ -16,8 +16,21 @@ class RISKY_API UPlayerCardsUI : public UUserWidget
 	
 	void UpdateCardsUi();
 
+	UFUNCTION()
+	void ConsumeSelectedCards();
+
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	class UListView* CardsList;
+	class UHorizontalBox* CardsList;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UBaseButton* UseButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UBaseButton* CloseButton;
+
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UCardUI> CardClass;
 
 protected:
 
@@ -33,10 +46,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Icons")
 	class UTexture2D* JokerIcon;
 
+	virtual bool NativeOnDrop(const FGeometry& geometry, const FDragDropEvent& dragDropEvent, UDragDropOperation* operation) override;
+
+	virtual void  NativeConstruct();
+
 public:
+	class UMainUI* MainUIReference;
+
 	void AddCard(struct FCard* card);
+
+	void AddCard(class UUserWidget* widget);
 
 	void ShowCardsList();
 
+	UFUNCTION()
 	void HideCardsList();
 };

@@ -57,6 +57,7 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	PauseDialog = CreateWidget<UPauseUI>(controller, PauseHUDClass);
 	PauseDialog->AddToPlayerScreen(2);
 	PauseDialog->SetVisibility(ESlateVisibility::Hidden);
+	PauseDialog->MainUIReference = this;
 
 	VictoryDialog = CreateWidget<UVictoryUI>(controller, VictoryHUDClass);
 	VictoryDialog->AddToPlayerScreen();
@@ -73,6 +74,7 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	PlayerCardsDialog = CreateWidget<UPlayerCardsUI>(controller, PlayerCardsHUDClass);
 	PlayerCardsDialog->AddToPlayerScreen(1);
 	PlayerCardsDialog->SetVisibility(ESlateVisibility::Hidden);
+	PlayerCardsDialog->MainUIReference = this;
 }
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)
@@ -182,7 +184,6 @@ void UMainUI::CloseCurrentUi()
 void UMainUI::CloseCardsUi()
 {
 	PlayerCardsDialog->HideCardsList();
-	UiOpen = false;	
 }
 
 void UMainUI::UiHasClosed()

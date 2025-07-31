@@ -18,6 +18,10 @@ public class Risky : ModuleRules
 			"Niagara", 
 			"EnhancedInput",
 			"UMG",
-			"CommonUI"});
+			"CommonUI",});
+
+		PrivateDependencyModuleNames.AddRange(new string[] {
+			"Slate",
+			"SlateCore"});
     }
 }

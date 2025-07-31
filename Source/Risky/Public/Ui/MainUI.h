@@ -39,6 +39,9 @@ public:
 
 	void CloseCurrentUi();
 
+	UFUNCTION()
+	void CloseCardsUi();
+
 	void UiHasClosed();
 
 	void ButtonVisibility(bool visible);
@@ -75,8 +78,6 @@ private:
 
 	UFUNCTION()
 	void ToggleProvincesDetails();
-
-	void CloseCardsUi();
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUnitsDialogUI> UnitsHUDClass;
