@@ -18,6 +18,7 @@ ABaseCharacter::ABaseCharacter()
 	ACardManager* cardManager = Cast<ACardManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ACardManager::StaticClass()));
 		
 	CharacterCard->CardManager = cardManager;
+	CharacterCard->Character = this;
 }
 
 void ABaseCharacter::BeginPlay()

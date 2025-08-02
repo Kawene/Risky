@@ -75,6 +75,8 @@ void UMainUI::InitializeUI(APlayerCharacter* player, ARiskyPlayerController* con
 	PlayerCardsDialog->AddToPlayerScreen(1);
 	PlayerCardsDialog->SetVisibility(ESlateVisibility::Hidden);
 	PlayerCardsDialog->MainUIReference = this;
+	PlayerCardsDialog->CharacterCard = player->GetCharacterCard();
+	PlayerCardsDialog->Player = player;
 }
 
 void UMainUI::ShowUnitsUi(int32 maxUnit, FText textButton)

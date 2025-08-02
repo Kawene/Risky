@@ -32,6 +32,15 @@ class RISKY_API UPlayerCardsUI : public UUserWidget
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UCardUI> CardClass;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UDropReceptorUI* LeftCard;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UDropReceptorUI* RightCard;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UDropReceptorUI* CenterCard;
+
 protected:
 
 	UPROPERTY(EditAnywhere, Category = "Icons")
@@ -53,6 +62,10 @@ protected:
 public:
 	class UMainUI* MainUIReference;
 
+	class UCharacterCard* CharacterCard;
+
+	class APlayerCharacter* Player;
+
 	void AddCard(struct FCard* card);
 
 	void AddCard(class UUserWidget* widget);
@@ -61,4 +74,6 @@ public:
 
 	UFUNCTION()
 	void HideCardsList();
+
+	void Check3CardsSelected();
 };

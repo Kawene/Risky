@@ -83,6 +83,13 @@ void APlayerCharacter::DeZoomCamera()
 	}
 }
 
+void APlayerCharacter::IncreaseDeploymentUnits(int32 amount)
+{
+	CurrentUnitsToDeploy += amount;
+
+	TurnManager->UpdateTurnTrackerUI(this, CurrentUnitsToDeploy);
+}
+
 void APlayerCharacter::AddCard()
 {
 	if (auto card = CharacterCard->AddCard())

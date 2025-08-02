@@ -20,4 +20,14 @@ class RISKY_API UDropReceptorUI : public UUserWidget
 protected:
 	virtual bool NativeOnDrop(const FGeometry& geometry, const FDragDropEvent& dragDropEvent, UDragDropOperation* operation) override;
 
+public :
+	bool HasACard();
+
+	struct FCard* GetCardData();
+
+	void ClearCurrentCard();
+
+	UPROPERTY()
+	class UPlayerCardsUI* PlayerCards;
+
 };

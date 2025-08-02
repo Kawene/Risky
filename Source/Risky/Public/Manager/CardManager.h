@@ -32,6 +32,10 @@ struct FCard
 	FCard(ECardType cardType, ARegion* region)
 		: CardType(cardType), Region(region) {
 	} 
+
+	bool operator==(const FCard& other) const {
+		return CardType == other.CardType && Region == other.Region;
+	}
 };
 
 UCLASS()

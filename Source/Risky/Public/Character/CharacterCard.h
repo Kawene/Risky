@@ -25,7 +25,9 @@ class RISKY_API UCharacterCard : public UObject
 public:
 	class ACardManager* CardManager;
 
-	int32 ConsumeCards(FCard* card1, FCard* card2, FCard* card3);
+	class ABaseCharacter* Character;
+
+	int32 ConsumeCards(FCard* centerCard, FCard* leftCard, FCard* rightCard);
 
 	bool CanConsumeCards(FCard* card1, FCard* card2, FCard* card3);
 
@@ -34,5 +36,7 @@ public:
 	void ResetCounter();
 
 	bool AlreadyHasCardWithRegion(class ARegion* region);
+
+	void CheckRegionBonusCard(FCard* centerCard, FCard* leftCard, FCard* rightCard);
 
 };

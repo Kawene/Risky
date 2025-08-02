@@ -80,6 +80,16 @@ public:
 
 	void DeZoomCamera();
 
+	class UCharacterCard* GetCharacterCard() const{
+		return CharacterCard;
+	}
+
+	void IncreaseDeploymentUnits(int32 amount);
+
+	EGamePhase GetCurrentPhase() const {
+		return CurrentPhase;
+	}
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly)

@@ -3,6 +3,7 @@
 
 #include "Character/CharacterCard.h"
 #include "Manager/CardManager.h"
+#include "Region.h"
 
 
 bool UCharacterCard::AreCommonType(FCard* card1, FCard* card2, ECardType type)
@@ -12,42 +13,44 @@ bool UCharacterCard::AreCommonType(FCard* card1, FCard* card2, ECardType type)
 		card2->CardType == type && card1->CardType == ECardType::Joker;
 }
 
-int32 UCharacterCard::ConsumeCards(FCard* card1, FCard* card2, FCard* card3)
+int32 UCharacterCard::ConsumeCards(FCard* centerCard, FCard* leftCard, FCard* rightCard)
 {
-	Cards.Remove(card1);
-	Cards.Remove(card2);
-	Cards.Remove(card3);
+	Cards.Remove(centerCard);
+	Cards.Remove(leftCard);
+	Cards.Remove(rightCard);
 
-	switch (card1->CardType)
+	CheckRegionBonusCard(centerCard, leftCard, rightCard);
+
+	switch (centerCard->CardType)
 	{
 	case ECardType::Infantry:
-		if (AreCommonType(card2, card3, ECardType::Infantry))
+		if (AreCommonType(leftCard, rightCard, ECardType::Infantry))
 		{
 			return infantryValue;
 		}
 		break;
 	case ECardType::Cavalry:
-		if (AreCommonType(card2, card3, ECardType::Cavalry))
+		if (AreCommonType(leftCard, rightCard, ECardType::Cavalry))
 		{
 			return cavalryValue;
 		}
 		break;
 	case ECardType::Artillery:
-		if (AreCommonType(card2, card3, ECardType::Artillery))
+		if (AreCommonType(leftCard, rightCard, ECardType::Artillery))
 		{
 			return artilleryValue;
 		}
 		break;
 
 	case ECardType::Joker:
-		if (card2->CardType == ECardType::Infantry && card3->CardType == ECardType::Infantry)
+		if (leftCard->CardType == ECardType::Infantry && rightCard->CardType == ECardType::Infantry)
 		{
 			return infantryValue;
 		}
-		else if (card2->CardType == ECardType::Cavalry && card3->CardType == ECardType::Cavalry) {
+		else if (leftCard->CardType == ECardType::Cavalry && rightCard->CardType == ECardType::Cavalry) {
 			return cavalryValue;
 		}
-		else if (card2->CardType == ECardType::Artillery && card3->CardType == ECardType::Artillery) {
+		else if (leftCard->CardType == ECardType::Artillery && rightCard->CardType == ECardType::Artillery) {
 			return artilleryValue;
 		}
 	}
@@ -104,4 +107,20 @@ bool UCharacterCard::AlreadyHasCardWithRegion(ARegion* region)
 	}
 
 	return false;
+}
+
+void UCharacterCard::CheckRegionBonusCard(FCard* centerCard, FCard* leftCard, FCard* rightCard)
+{
+	if (Character == centerCard->Region->GetRegionOwner())
+	{
+		centerCard->Region->DeployUnits(2);
+	}
+	else if (Character == leftCard->Region->GetRegionOwner())
+	{
+		leftCard->Region->DeployUnits(2);
+	}
+	else if (Character == rightCard->Region->GetRegionOwner())
+	{
+		rightCard->Region->DeployUnits(2);
+	}
 }

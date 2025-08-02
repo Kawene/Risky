@@ -46,12 +46,11 @@ void UCardUI::NativeOnDragDetected(const FGeometry& geometry, const FPointerEven
 
 void UCardUI::Init(FCardDataUI* cardData)
 {
-	Region = cardData->Region;
 	Parent = cardData->Parent;
-	CardType = cardData->CardType;
+	CardData = cardData->Card;
 	IsInList = true;
 
-	RegionName->SetText(Region->GetRegionName());
+	RegionName->SetText(CardData->Region->GetRegionName());
 
 	CardTypeIcon->SetBrushFromTexture(cardData->Icon);
 	UpdateColor();
@@ -65,5 +64,5 @@ void UCardUI::ReplaceIntoList()
 
 void UCardUI::UpdateColor()
 {
-	RegionVisual->SetColorAndOpacity(Region->GetRegionOwner()->ColorIdentity.ReinterpretAsLinear());
+	RegionVisual->SetColorAndOpacity(CardData->Region->GetRegionOwner()->ColorIdentity.ReinterpretAsLinear());
 }

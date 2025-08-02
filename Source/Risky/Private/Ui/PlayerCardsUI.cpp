@@ -10,6 +10,8 @@
 #include "Ui/BaseButton.h"
 #include "Ui/MainUI.h"
 #include "Components/Button.h"
+#include "Character/CharacterCard.h"
+#include "Character/PlayerCharacter.h"
 
 
 void UPlayerCardsUI::NativeConstruct()
@@ -21,6 +23,10 @@ void UPlayerCardsUI::NativeConstruct()
 
 	CloseButton->SetButtonText("X");
 	CloseButton->Button->OnClicked.AddDynamic(this, &UPlayerCardsUI::HideCardsList);
+
+	LeftCard->PlayerCards = this;
+	RightCard->PlayerCards = this;
+	CenterCard->PlayerCards = this;
 }
 
 
@@ -31,7 +37,13 @@ void UPlayerCardsUI::UpdateCardsUi()
 
 void UPlayerCardsUI::ConsumeSelectedCards()
 {
+	int32 amount = CharacterCard->ConsumeCards(CenterCard->GetCardData(), LeftCard->GetCardData(), RightCard->GetCardData());
 
+	Player->IncreaseDeploymentUnits(amount);
+
+	LeftCard->ClearCurrentCard();
+	RightCard->ClearCurrentCard();
+	CenterCard->ClearCurrentCard();
 }
 
 bool UPlayerCardsUI::NativeOnDrop(const FGeometry& geometry, const FDragDropEvent& dragDropEvent, UDragDropOperation* operation)
@@ -69,7 +81,7 @@ void UPlayerCardsUI::AddCard(FCard* card)
 		break;
 	}
 
-	FCardDataUI* carddata = new FCardDataUI(icon, card->Region, card->CardType, this);
+	FCardDataUI* carddata = new FCardDataUI(icon, card, this);
 
 	auto cardUi = CreateWidget<UCardUI>(GetWorld(), CardClass);
 
@@ -87,6 +99,8 @@ void UPlayerCardsUI::AddCard(UUserWidget* widget)
 		slot->SetPadding(FMargin(0, 0, 16, 0)); 
 	}
 	widget->SetVisibility(ESlateVisibility::Visible);
+
+	Check3CardsSelected();
 }
 
 void UPlayerCardsUI::ShowCardsList()
@@ -100,10 +114,27 @@ void UPlayerCardsUI::ShowCardsList()
 			cardWidget->UpdateColor();
 		}
 	}
+
+	Check3CardsSelected();
 }
 
 void UPlayerCardsUI::HideCardsList()
 {
 	MainUIReference->UiHasClosed();
 	SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UPlayerCardsUI::Check3CardsSelected()
+{
+	if (Player->GetCurrentPhase() == EGamePhase::DeploymentPhase && LeftCard->HasACard() && RightCard->HasACard() && CenterCard->HasACard())
+	{
+		if (CharacterCard->CanConsumeCards(LeftCard->GetCardData(), RightCard->GetCardData(), CenterCard->GetCardData()))
+		{
+			UseButton->SetIsEnabled(true);
+		}
+	}
+	else
+	{
+		UseButton->SetIsEnabled(false);
+	}
 }

@@ -4,7 +4,8 @@
 #include "UI/DropReceptorUI.h"
 #include "UI/DragUI.h"
 #include "Components/Border.h"
-#include <Ui/CardUI.h>
+#include <UI/CardUI.h>
+#include "UI/PlayerCardsUI.h"
 
 bool UDropReceptorUI::NativeOnDrop(const FGeometry& geometry, const FDragDropEvent& dragDropEvent, UDragDropOperation* operation)
 {
@@ -16,12 +17,37 @@ bool UDropReceptorUI::NativeOnDrop(const FGeometry& geometry, const FDragDropEve
 		return false;
 	}
 
-	if (ReceptorBorder->HasAnyChildren())
+	if (HasACard())
 	{
 		Cast<UCardUI>(ReceptorBorder->GetAllChildren()[0])->ReplaceIntoList();
 	}
 
 	ReceptorBorder->AddChild(dragWidget->WidgetReference);
 	dragWidget->WidgetReference->SetVisibility(ESlateVisibility::Visible);
+
+	PlayerCards->Check3CardsSelected();
+
 	return true;
+}
+
+bool UDropReceptorUI::HasACard()
+{
+	return ReceptorBorder->HasAnyChildren();
+}
+
+FCard* UDropReceptorUI::GetCardData()
+{
+	if (ReceptorBorder->HasAnyChildren())
+	{
+		return Cast<UCardUI>(ReceptorBorder->GetAllChildren()[0])->GetCardData();
+	}
+	return nullptr;
+}
+
+void UDropReceptorUI::ClearCurrentCard()
+{
+	if (ReceptorBorder->HasAnyChildren())
+	{
+		ReceptorBorder->ClearChildren();
+	}
 }

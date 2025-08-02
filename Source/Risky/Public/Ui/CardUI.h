@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/IUserObjectListEntry.h"
 #include "Manager/CardManager.h"
+#include "DropReceptorUI.h"
 #include "CardUI.generated.h"
 
 
@@ -24,13 +25,9 @@ class RISKY_API UCardUI : public UUserWidget
 	class UTextBlock* RegionName;
 
 	UPROPERTY()
-	ECardType CardType;
-
-	UPROPERTY()
-	class ARegion* Region;
-
-	UPROPERTY()
 	class UPlayerCardsUI* Parent;
+
+	struct FCard* CardData;
 
 	bool IsInList;
 
@@ -50,6 +47,11 @@ public:
 
 	void ReplaceIntoList();
 
+	FCard* GetCardData()
+	{
+		return CardData;
+	}
+
 };
 
 USTRUCT()
@@ -59,18 +61,14 @@ struct RISKY_API FCardDataUI
 
 	FCardDataUI() {};
 
-	FCardDataUI(class UTexture2D* icon, class ARegion* region, ECardType cardType, class UPlayerCardsUI* parent) :
-	Icon(icon), Region(region), CardType(cardType), Parent(parent) {};
+	FCardDataUI(class UTexture2D* icon, struct FCard* card, class UPlayerCardsUI* parent) :
+	Icon(icon), Card(card), Parent(parent) { };
 
 
 	UPROPERTY()
 	class UTexture2D* Icon;
 
-	UPROPERTY()
-	ECardType CardType;
-
-	UPROPERTY()
-	class ARegion* Region;
+	struct FCard* Card;
 
 	UPROPERTY()
 	class UPlayerCardsUI* Parent;
